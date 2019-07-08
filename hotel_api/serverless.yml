@@ -1,8 +1,11 @@
 service: hotel_api
-
+app: hotelapi
+tenant: amanneox
 provider:
   name: aws
-  runtime: nodejs6.10
+  stage: dev
+  region: ap-south-1
+  runtime: nodejs8.10
 
 functions:
   createUser:
