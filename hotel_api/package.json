@@ -1,13 +1,13 @@
 {
   "name": "hotel_api",
   "version": "1.0.0",
-  "description": "Serverless REST API with MongoDB using Mongoose and Bluebird",
-  "main": "handler.js",
+  "description": "Serverless REST API for hotel_app",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "dotenv": "^8.0.0",
     "mongoose": "^4.9.6",
     "validator": "^7.0.0"
   },
-  "author": "Quentin Homareau <quentin.homareau@gmail.com>",
+  "author": "Aman Adhikari <amanadhikari2@gmail.com>",
   "license": "MIT"
 }

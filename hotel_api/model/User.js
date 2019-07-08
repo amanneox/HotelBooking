@@ -5,43 +5,52 @@ const model = mongoose.model('User', {
   name: {
     type: String,
     required: true,
-    validate: {
-      validator(name) {
-        return validator.isAlphanumeric(name);
-      },
-    },
-  },
-  firstname: {
-    type: String,
-    required: true,
-    validate: {
-      validator(firstname) {
-        return validator.isAlphanumeric(firstname);
-      },
-    },
-  },
-  birth: {
-    type: Date,
-    required: true,
   },
   city: {
     type: String,
-    required: true,
-    validate: {
-      validator(city) {
-        return validator.isAlphanumeric(city);
-      },
-    },
   },
-  ip: {
+  address:{
+    type:String
+  },
+  pincode:{
+    type:String
+  },
+  email: {
     type: String,
-    required: true,
-    validate: {
-      validator(ip) {
-        return validator.isIP(ip);
-      },
-    },
+    unique: true,
+    required:true
   },
+  username:{
+    type: String,
+    unique: true,
+  },
+  number:{
+    type:Number,
+    unique: true,
+    required:true
+  },
+  points:{
+    type:Number,
+  },
+  reviews:{
+    type:String,
+  },
+  orders: [{
+    type: String
+}],
+  password:{
+    type:String,
+    required:true
+  },
+  salt:{
+    type:String,
+    required:true
+  },
+  joinDate:{
+    type:Date,
+    default: Date.now
+  }
+
 });
 
 module.exports = model;
