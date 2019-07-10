@@ -12,6 +12,9 @@ const model = mongoose.model('User', {
   address:{
     type:String
   },
+  businessName:{
+    type:String
+  },
   pincode:{
     type:String
   },
@@ -29,15 +32,6 @@ const model = mongoose.model('User', {
     unique: true,
     required:true
   },
-  points:{
-    type:Number,
-  },
-  reviews:{
-    type:String,
-  },
-  orders: [{
-    type: String
-}],
   password:{
     type:String,
     required:true
