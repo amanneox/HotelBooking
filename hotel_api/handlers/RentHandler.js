@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
 const Promise = require('bluebird')
 const validator = require('validator')
-const UserModel = require('../model/User.js')
-const {token} = require('../lib/token.js')
-const {hash,unhash} = require('../lib/hash.js')
+const RentModel = require('../model/Rent.js')
+
 require('dotenv').config()
 mongoose.Promise = Promise;
 
@@ -26,103 +25,43 @@ function dbConnectAndExecute(dbUrl, fn) {
   }), fn);
 }
 
-module.exports.user = (event, context, callback) => {
+module.exports.rent = (event, context, callback) => {
   if (!validator.isAlphanumeric(event.pathParameters.id)) {
     callback(null, createErrorResponse(400, 'Incorrect id'));
     return;
   }
 
   dbConnectAndExecute(mongoString, () => (
-    UserModel
+    RentModel
     .find({
       _id: event.pathParameters.id
     })
-    .then(user => callback(null, {
+    .then(rent => callback(null, {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(rent)
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ))
 }
 
-module.exports.authenticate = (event, context, callback) => {
-  const data = JSON.parse(event.body)
-  const res = dbConnectAndExecute(mongoString, () => (
-    UserModel
-    .find({
-      email: data.email
-    })
-    .then(function(value) {
-      if (value != []) {
-        const userhash = unhash(data.password, value[0].salt)
-        console.log(userhash)
-        if (value[0].password == userhash.passwordHash) {
-          const jwttoken = token(value[0])
 
-          const obj = {
-            ...value[0],
-            token: jwttoken
-          }
-          callback(null, {
-            statusCode: 200,
-            headers: {
-              'Content-Type': 'application/json',
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": true
-            },
-            body: JSON.stringify(obj)
-          })
-        } else {
-          callback(null, {
-            statusCode: 401,
-            headers: {
-              'Content-Type': 'application/json',
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": true
-            },
-            body: JSON.stringify({
-              msg: 'Invalid Credentials'
-            })
-          })
-        }
-      } else {
-        callback(null, {
-          statusCode: 401,
-          headers: {
-            'Content-Type': 'application/json',
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
-          },
-          body: JSON.stringify({
-            msg: 'No Email Found'
-          })
-        })
-      }
-    })
-  ).catch(err => callback(null, createErrorResponse(err.statusCode, err.message))))
-}
-module.exports.createUser = (event, context, callback) => {
+module.exports.createRent = (event, context, callback) => {
   const data = JSON.parse(event.body)
-  const hashkey = hash(data.password)
-  const user = new UserModel({
-    name: data.name,
-    city: data.city,
-    email: data.email,
-    number: data.number,
-    username: data.username,
-    password: hashkey.passwordHash,
-    salt: hashkey.salt
+  const rent = new RentModel({
+
+    roomList: data.roomList,
+    amount: data.amount,
+
   })
 
-  console.log(user)
 
   dbConnectAndExecute(mongoString, () => (
-    user
+    rent
     .save()
     .then(() => callback(null, {
       statusCode: 200,
@@ -132,33 +71,38 @@ module.exports.createUser = (event, context, callback) => {
         "Access-Control-Allow-Credentials": true
       },
       body: JSON.stringify({
-        id: user.id
+        id: rent.id
       }),
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ));
 };
 
-module.exports.deleteUser = (event, context, callback) => {
+module.exports.deleteRent = (event, context, callback) => {
   if (!validator.isAlphanumeric(event.pathParameters.id)) {
     callback(null, createErrorResponse(400, 'Incorrect id'));
     return;
   }
 
   dbConnectAndExecute(mongoString, () => (
-    UserModel
+    RentModel
     .remove({
       _id: event.pathParameters.id
     })
     .then(() => callback(null, {
       statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true
+      },
       body: JSON.stringify('Ok')
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ));
 };
 
-module.exports.updateUser = (event, context, callback) => {
+module.exports.updateRent = (event, context, callback) => {
   const data = JSON.parse(event.body);
   const id = event.pathParameters.id;
 
@@ -167,22 +111,19 @@ module.exports.updateUser = (event, context, callback) => {
     return;
   }
 
-  const user = new UserModel({
+  const rent = new RentModel({
     _id: id,
-    name: data.name,
-    city: data.city,
-    email: data.email,
-    number: data.number,
-    username: data.username,
+    roomList: data.roomList,
+    amount: data.amount,
   });
 
-  if (user.validateSync()) {
+  if (rent.validateSync()) {
     callback(null, createErrorResponse(400, 'Incorrect parameter'));
     return;
   }
 
   dbConnectAndExecute(mongoString, () => (
-    UserModel.findByIdAndUpdate(id, user)
+    RentModel.findByIdAndUpdate(id, rent)
     .then(() => callback(null, {
       statusCode: 200,
       headers: {
