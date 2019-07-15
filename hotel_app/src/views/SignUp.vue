@@ -21,20 +21,23 @@
       </v-flex>
       <v-flex sm12 md4 style="background-color: white;">
         <v-container style="background-color: white;">
-          <v-card class="elevation-0">
-            <v-container style="background-color: white;">
-          <v-text-field class="elevation-0" outline v-model="email" v-validate="'required|email'" name="email" label="E-mail" required></v-text-field>.
+         <v-text-field v-model="user.name" outline v-validate="'required|alpha'" name="name" label="Name">
+         </v-text-field>
+         <span>{{ errors.first('name') }}</span>
+         <v-text-field v-model="user.number" outline v-validate="'required|digits:10'" name="number" label="Number" ></v-text-field>
+            <span>{{ errors.first('number') }}</span>
+         <v-text-field v-model="user.email" outline v-validate="'required|email'" name="email" label="E-mail"></v-text-field>
             <span>{{ errors.first('email') }}</span>
-          <v-text-field class="elevation-0" outline v-model="password" label="Password" v-validate="'required'" type="password" name="password" required></v-text-field>
-           <span>{{ errors.first('password') }}</span>
-           <br>
-          <v-btn @click.prevent="$_emitData()"  class="continue" :loading="loading" :disabled="loading" color="#5f2a8a"  @click.native="loader = 'loading'">
-            Continue
-          </v-btn>
-           <v-btn to="/signup" outline color="primary">Sign Up</v-btn>
-         </v-container>
-         </v-card>
-        </v-container>
+         <v-text-field v-model="user.password" outline v-validate="'required|alpha_num'" type="password" name="password" ref="password" label="Password"></v-text-field>
+            <span>{{ errors.first('password') }}</span>
+         <v-text-field v-validate="'required|alpha_num|confirmed:password'" outline type="password" name="confirm-password" label="Repeat Password" data-vv-as="password"></v-text-field>
+         <span>{{ errors.first('confirm-password') }}</span>
+         <br>
+         <v-btn class="continue" :loading="loading" :disabled="loading"  @click.prevent="$_emitData" color="#5f2a8a"  @click.native="loader = 'loading'">
+           Continue
+         </v-btn>
+          <v-btn to="/login" outline color="primary">Login</v-btn>
+       </v-container>
       </v-flex>
     </v-layout>
 
@@ -42,35 +45,18 @@
 </template>
 <script>
 /* eslint-disable */
-import { mapState, mapActions ,mapGetters} from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
-  computed: {
-     ...mapState({account:'account', status:['status'],alert:'alert'}),
- },
- mounted(){
-    this.$store.dispatch('alert/clear',{ root: true })
- },
- methods:{
-    ...mapActions('account', ['login', 'logout']),
-    $_emitData () {
-
-      const { email, password } = this
-
-      this.$validator.validateAll()
-        if (this.errors.any()) {
-          return
-        }
-        else {
-          if (email && password) {
-              console.log(email)
-              this.login({ email,password })
-          }
-        }
-  }
-},
+  $_veeValidate: {
+    validator: 'new'
+  },
   data: () => ({
-  email: '',
-  password: '',
+    user: {
+    name: '',
+    number: '',
+    email: '',
+    password: ''
+  },
   loader: null,
   loading: false,
   drawer: null
@@ -78,16 +64,32 @@ export default {
 props: {
   source: String
 },
+computed: {
+       ...mapState('account', ['status'])
+   },
 watch: {
      loader () {
        const l = this.loader
        this[l] = !this[l]
-
        setTimeout(() => (this[l] = false), 3000)
-
        this.loader = null
      }
+   },
+   methods:{
+      ...mapActions('account', ['register']),
+     $_emitData () {
+       this.register(this.user)
+       /*
+       this.$validator.validateAll()
+         if (this.errors.any()) {
+           return
+         }
+         else {
+            this.register(this.user);
+         }
+         */
    }
+ }
 }
 </script>
 <style lang="css">

@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const Promise = require('bluebird')
 const validator = require('validator')
 const UserModel = require('../model/User.js')
-const {token} = require('../lib/token.js')
-const {hash,unhash} = require('../lib/hash.js')
+const { token } = require('../lib/token.js')
+const { hash ,unhash } = require('../lib/hash.js')
 require('dotenv').config()
 mongoose.Promise = Promise;
 
@@ -49,6 +49,25 @@ module.exports.user = (event, context, callback) => {
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ))
 }
+
+module.exports.listUsers = (event, context, callback) => {
+
+  dbConnectAndExecute(mongoString, () => (
+    UserModel
+    .find()
+    .then(user => callback(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true
+      },
+      body: JSON.stringify(user)
+    }))
+    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
+  ))
+}
+
 
 module.exports.authenticate = (event, context, callback) => {
   const data = JSON.parse(event.body)
@@ -108,6 +127,7 @@ module.exports.authenticate = (event, context, callback) => {
 }
 module.exports.createUser = (event, context, callback) => {
   const data = JSON.parse(event.body)
+  console.log(data)
   const hashkey = hash(data.password)
   const user = new UserModel({
     name: data.name,
@@ -119,8 +139,6 @@ module.exports.createUser = (event, context, callback) => {
     salt: hashkey.salt
   })
 
-  console.log(user)
-
   dbConnectAndExecute(mongoString, () => (
     user
     .save()
@@ -131,9 +149,7 @@ module.exports.createUser = (event, context, callback) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true
       },
-      body: JSON.stringify({
-        id: user.id
-      }),
+      body: JSON.stringify({id: user.username}),
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ));

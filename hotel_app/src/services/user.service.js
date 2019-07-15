@@ -2,7 +2,7 @@
 /* eslint-disable */
 import axios from 'axios'
 const config = {
-  apiUrl:'https://puzw06g1kl.execute-api.ap-south-1.amazonaws.com/dev'
+  apiUrl:'https://yh4b5fbq62.execute-api.ap-southeast-1.amazonaws.com/dev'
 }
 export const userService = {
   login,

@@ -51,3 +51,10 @@ functions:
           path: user/{id}
           method: get
           cors: true
+  listUsers:
+    handler: handlers/UserHandler.listUsers
+    events:
+      - http:
+          path: user/list
+          method: get
+          cors: true
