@@ -1,14 +1,10 @@
 service: hotel-api
 app: hotelapi
 tenant: amanneox
-custom:
-  splitStacks:
-    perFunction: false
-    perType: true
 provider:
   name: aws
   stage: dev
-  region: ap-southeast-1
+  region: ap-south-1
   runtime: nodejs8.10
 
 functions:
@@ -51,6 +47,7 @@ functions:
           path: user/{id}
           method: get
           cors: true
+
   listUsers:
     handler: handlers/UserHandler.listUsers
     events:

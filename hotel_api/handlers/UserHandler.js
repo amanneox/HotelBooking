@@ -50,8 +50,7 @@ module.exports.user = (event, context, callback) => {
   ))
 }
 
-module.exports.listUsers = (event, context, callback) => {
-
+module.exports.listUsers = async (event, context, callback) => {
   dbConnectAndExecute(mongoString, () => (
     UserModel
     .find()
@@ -66,6 +65,7 @@ module.exports.listUsers = (event, context, callback) => {
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ))
+
 }
 
 
@@ -149,7 +149,7 @@ module.exports.createUser = (event, context, callback) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true
       },
-      body: JSON.stringify({id: user.username}),
+      body: JSON.stringify({id: user.id}),
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ));
