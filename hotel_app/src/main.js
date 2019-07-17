@@ -14,6 +14,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueClock from '@dangvanthanh/vue-clock'
 
 library.add(fas.faUserCircle, fas.faCompass, fas.faBoxOpen, fas.faQuestion, fas.faMobileAlt
   , fas.faMobile, fas.faArrowAltCircleRight, fab.faFacebook, fab.faInstagram, fab.faTwitter, fab.faGooglePlus, fab.faYoutube
@@ -24,11 +25,10 @@ library.add(fas.faUserCircle, fas.faCompass, fas.faBoxOpen, fas.faQuestion, fas.
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
+Vue.component('vue-clock', VueClock)
 Vue.use(Vuetify)
 Vue.use(VeeValidate)
 Vue.use(Vuex, VueAxios, axios)
-
 Vue.config.productionTip = false
 Vue.use(Vuetify, {
   theme: {

@@ -50,7 +50,7 @@ module.exports.user = (event, context, callback) => {
   ))
 }
 
-module.exports.listUsers = async (event, context, callback) => {
+module.exports.getUsers = (event, context, callback) => {
   dbConnectAndExecute(mongoString, () => (
     UserModel
     .find()

@@ -33,7 +33,7 @@
       <v-list class="pa-1 logo-head">
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
+            <img src="../assets/man.svg">
           </v-list-tile-avatar>
 
           <v-list-tile-content>

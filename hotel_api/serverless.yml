@@ -48,8 +48,8 @@ functions:
           method: get
           cors: true
 
-  listUsers:
-    handler: handlers/UserHandler.listUsers
+  getUsers:
+    handler: handlers/UserHandler.getUsers
     events:
       - http:
           path: user/list
