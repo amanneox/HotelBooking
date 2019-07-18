@@ -7,7 +7,7 @@ import { alert } from './alert.module'
 import { account } from './account.module'
 import { profile } from './profile.module'
 import { users } from './users.module'
-
+import { room } from './room.module'
 Vue.use(Vuex)
  const state = {
   // Current state of the application lies here.
@@ -37,6 +37,7 @@ Vue.use(Vuex)
       account,
       users,
       profile,
+      room,
 
   }
 })
