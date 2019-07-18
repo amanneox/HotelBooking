@@ -1,0 +1,15 @@
+{
+  "name": "hotel-api",
+  "version": "1.0.0",
+  "description": "Serverless REST API for hotel_app",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^4.9.6",
+    "validator": "^7.0.0"
+  },
+  "author": "Aman Adhikari <amanadhikari2@gmail.com>",
+  "license": "MIT"
+}

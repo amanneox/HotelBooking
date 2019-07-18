@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Promise = require('bluebird')
 const validator = require('validator')
-const RentModel = require('../model/Rent.js')
+const RoomModel = require('../model/Room.js')
 
 require('dotenv').config()
 mongoose.Promise = Promise;
@@ -24,44 +24,19 @@ function dbConnectAndExecute(dbUrl, fn) {
     useMongoClient: true
   }), fn);
 }
-
-module.exports.rent = (event, context, callback) => {
-  if (!validator.isAlphanumeric(event.pathParameters.id)) {
-    callback(null, createErrorResponse(400, 'Incorrect id'));
-    return;
-  }
-
-  dbConnectAndExecute(mongoString, () => (
-    RentModel
-    .find({
-      _id: event.pathParameters.id
-    })
-    .then(rent => callback(null, {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true
-      },
-      body: JSON.stringify(rent)
-    }))
-    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
-  ))
-}
-
-
-module.exports.createRent = (event, context, callback) => {
+module.exports.createRoom = (event, context, callback) => {
   const data = JSON.parse(event.body)
-  const rent = new RentModel({
-
-    roomList: data.roomList,
-    amount: data.amount,
-
+  const room = new RoomModel({
+    roomNo: data.roomNo,
+    rating: data.rating,
+    roomType: data.roomType,
+    description: data.description,
+    imageList: data.imageList
   })
 
 
   dbConnectAndExecute(mongoString, () => (
-    rent
+    room
     .save()
     .then(() => callback(null, {
       statusCode: 200,
@@ -71,21 +46,21 @@ module.exports.createRent = (event, context, callback) => {
         "Access-Control-Allow-Credentials": true
       },
       body: JSON.stringify({
-        id: rent.id
+        id: room.id
       }),
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ));
 };
 
-module.exports.deleteRent = (event, context, callback) => {
+module.exports.deleteRoom = (event, context, callback) => {
   if (!validator.isAlphanumeric(event.pathParameters.id)) {
     callback(null, createErrorResponse(400, 'Incorrect id'));
     return;
   }
 
   dbConnectAndExecute(mongoString, () => (
-    RentModel
+    RoomModel
     .remove({
       _id: event.pathParameters.id
     })
@@ -102,7 +77,7 @@ module.exports.deleteRent = (event, context, callback) => {
   ));
 };
 
-module.exports.updateRent = (event, context, callback) => {
+module.exports.updateRoom = (event, context, callback) => {
   const data = JSON.parse(event.body);
   const id = event.pathParameters.id;
 
@@ -111,19 +86,22 @@ module.exports.updateRent = (event, context, callback) => {
     return;
   }
 
-  const rent = new RentModel({
+  const room = new RoomModel({
     _id: id,
-    roomList: data.roomList,
-    amount: data.amount,
+    roomNo: data.roomNo,
+    rating: data.rating,
+    roomType: data.roomType,
+    description: data.description,
+    imageList: data.imageList
   });
 
-  if (rent.validateSync()) {
+  if (room.validateSync()) {
     callback(null, createErrorResponse(400, 'Incorrect parameter'));
     return;
   }
 
   dbConnectAndExecute(mongoString, () => (
-    RentModel.findByIdAndUpdate(id, rent)
+    RoomModel.findByIdAndUpdate(id, room)
     .then(() => callback(null, {
       statusCode: 200,
       headers: {

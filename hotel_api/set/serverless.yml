@@ -1,6 +1,10 @@
-service: hotel-api
-app: hotelapi
+service: hotel-api-set
+app: hotelapiset
 tenant: amanneox
+custom:
+  splitStacks:
+    perFunction: false
+    perType: true
 provider:
   name: aws
   stage: dev
@@ -13,6 +17,14 @@ functions:
     events:
       - http:
           path: user
+          method: post
+          cors: true
+
+  createRoomType:
+    handler: handlers/RoomTypeHandler.createRoomType
+    events:
+      - http:
+          path: roomType
           method: post
           cors: true
 
@@ -38,20 +50,4 @@ functions:
       - http:
           path: user/{id}
           method: delete
-          cors: true
-
-  user:
-    handler: handlers/UserHandler.user
-    events:
-      - http:
-          path: user/{id}
-          method: get
-          cors: true
-
-  getUsers:
-    handler: handlers/UserHandler.getUsers
-    events:
-      - http:
-          path: user/list
-          method: get
           cors: true

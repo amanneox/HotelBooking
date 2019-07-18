@@ -1,0 +1,37 @@
+service: hotel-api-get
+app: hotelapiget
+tenant: amanneox
+custom:
+  splitStacks:
+    perFunction: false
+    perType: true
+provider:
+  name: aws
+  stage: dev
+  region: ap-south-1
+  runtime: nodejs8.10
+
+functions:
+  user:
+    handler: handlers/UserHandler.user
+    events:
+      - http:
+          path: user/{id}
+          method: get
+          cors: true
+
+  getUsers:
+    handler: handlers/UserHandler.getUsers
+    events:
+      - http:
+          path: user/list
+          method: get
+          cors: true
+
+  getRoomTypes:
+    handler: handlers/RoomTypeHandler.getRoomTypes
+    events:
+      - http:
+          path: roomType/list
+          method: get
+          cors: true

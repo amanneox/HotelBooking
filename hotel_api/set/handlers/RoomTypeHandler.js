@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Promise = require('bluebird')
 const validator = require('validator')
-const CustomerModel = require('../model/Customer.js')
+const RoomTypeModel = require('../model/RoomType.js')
 
 require('dotenv').config()
 mongoose.Promise = Promise;
@@ -25,43 +25,37 @@ function dbConnectAndExecute(dbUrl, fn) {
   }), fn);
 }
 
-module.exports.customer = (event, context, callback) => {
-  if (!validator.isAlphanumeric(event.pathParameters.id)) {
-    callback(null, createErrorResponse(400, 'Incorrect id'));
-    return;
-  }
-
+module.exports.getRoomTypes = (event, context, callback) => {
   dbConnectAndExecute(mongoString, () => (
-    CustomerModel
-    .find({
-      _id: event.pathParameters.id
-    })
-    .then(customer => callback(null, {
+    RoomTypeModel
+    .find()
+    .then(roomType => callback(null, {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true
       },
-      body: JSON.stringify(customer)
+      body: JSON.stringify(roomType)
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ))
+
 }
 
-
-module.exports.createCustomer = (event, context, callback) => {
+module.exports.createRoomType = (event, context, callback) => {
   const data = JSON.parse(event.body)
-  const customer = new CustomerModel({
-    cName: data.name,
-    cEmail: data.email,
-    cNumber: data.number,
+  console.log(data)
+  const roomType = new RoomTypeModel({
+
+    roomType: data.roomType,
+    roomPrice: data.roomPrice,
 
   })
 
 
   dbConnectAndExecute(mongoString, () => (
-    customer
+    roomType
     .save()
     .then(() => callback(null, {
       statusCode: 200,
@@ -71,21 +65,21 @@ module.exports.createCustomer = (event, context, callback) => {
         "Access-Control-Allow-Credentials": true
       },
       body: JSON.stringify({
-        id: customer.id
+        id: roomType.id
       }),
     }))
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ));
 };
 
-module.exports.deleteCustomer = (event, context, callback) => {
+module.exports.deleteRoomType = (event, context, callback) => {
   if (!validator.isAlphanumeric(event.pathParameters.id)) {
     callback(null, createErrorResponse(400, 'Incorrect id'));
     return;
   }
 
   dbConnectAndExecute(mongoString, () => (
-    CustomerModel
+    RoomTypeModel
     .remove({
       _id: event.pathParameters.id
     })
@@ -102,7 +96,7 @@ module.exports.deleteCustomer = (event, context, callback) => {
   ));
 };
 
-module.exports.updateCustomer = (event, context, callback) => {
+module.exports.updateRoomType = (event, context, callback) => {
   const data = JSON.parse(event.body);
   const id = event.pathParameters.id;
 
@@ -111,20 +105,19 @@ module.exports.updateCustomer = (event, context, callback) => {
     return;
   }
 
-  const customer = new CustomerModel({
+  const roomType = new RoomTypeModel({
     _id: id,
-    cName: data.name,
-    cEmail: data.email,
-    cNumber: data.number,
+    roomType: data.roomType,
+    roomPrice: data.roomPrice,
   });
 
-  if (customer.validateSync()) {
+  if (roomType.validateSync()) {
     callback(null, createErrorResponse(400, 'Incorrect parameter'));
     return;
   }
 
   dbConnectAndExecute(mongoString, () => (
-    CustomerModel.findByIdAndUpdate(id, customer)
+    RoomTypeModel.findByIdAndUpdate(id, roomType)
     .then(() => callback(null, {
       statusCode: 200,
       headers: {
