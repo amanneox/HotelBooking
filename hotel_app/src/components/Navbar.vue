@@ -47,6 +47,7 @@
         <v-list-tile
           v-for="item in categories"
           :key="item.title"
+          :to="`${item.link}`"
           @click="">
 
           <v-list-tile-action>
@@ -104,15 +105,18 @@ export default {
       drawer: null,
       categories: [{
           title: 'Bookings',
-          icon: 'address-book'
+          icon: 'address-book',
+          link:'bookings'
         },
         {
           title: 'Customers',
-          icon: 'male'
+          icon: 'male',
+          link:'customers'
         },
         {
           title: 'Rooms',
-          icon: 'bed'
+          icon: 'bed',
+          link:'/rooms'
         },
         //  { title: 'Amenity', icon: 'tshirt' },
       ],

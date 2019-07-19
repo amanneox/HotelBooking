@@ -19,12 +19,35 @@ functions:
           path: user/{id}
           method: get
           cors: true
+  room:
+    handler: handlers/RoomHandler.room
+    events:
+      - http:
+          path: room/{id}
+          method: get
+          cors: true
 
   getUsers:
     handler: handlers/UserHandler.getUsers
     events:
       - http:
           path: user/list
+          method: get
+          cors: true
+
+  getRooms:
+    handler: handlers/RoomHandler.getRooms
+    events:
+      - http:
+          path: room/list
+          method: get
+          cors: true
+
+  deleteRoom:
+    handler: handlers/RoomHandler.deleteRoom
+    events:
+      - http:
+          path: room/delete/{id}
           method: get
           cors: true
 

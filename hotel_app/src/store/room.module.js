@@ -2,11 +2,17 @@
 import { roomService } from '../services'
 
 const state = {
-  all: {}
+  all: {},
+  current:{
+
+  },
+  types:{
+
+  }
 }
 
 const actions = {
-  getAll ({ commit }) {
+  get_All ({ commit }) {
     commit('getAllRequest')
 
     roomService.getAll()
@@ -15,21 +21,41 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
+  getById ({ commit },id) {
+  //  commit('getAllRequest')
+
+    roomService.getById(id)
+      .then(
+        room => commit('getCurrentSuccess', room),
+        error => commit('getCurrentFailure', error)
+      )
+  },
+  getRoomTypes ({ commit }) {
+  //  commit('getAllRequest')
+
+    roomService.getRoomTypes()
+      .then(
+        roomType => commit('getTypeSuccess', roomType),
+        error => commit('getTypeFailure', error)
+      )
+  },
   createType({commit},roomType){
     roomService.createType(roomType)
   },
-  delete ({ commit }, id) {
-    commit('deleteRequest', id)
+  create({commit},room){
+    roomService.create(room).then(
+      room => console.log(room),
+      error => console.log(error.toString())
+    )
+  },
+  _delete ({ commit }, id) {
+  //  commit('deleteRequest', id)
 
     roomService.delete(id)
       .then(
-        user => commit('deleteSuccess', id),
-        error => commit('deleteSuccess', { id, error: error.toString() })
+        room => commit('deleteRoomSuccess',id),
+        error => console.log(error),
       )
-
-    function request (id) { return { type: userConstants.DELETE_REQUEST, id } }
-    function success (id) { return { type: userConstants.DELETE_SUCCESS, id } }
-    function failure (id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
   }
 }
 
@@ -39,6 +65,18 @@ const mutations = {
   },
   getAllSuccess (state, room) {
     state.all = { items: room }
+  },
+  getTypeSuccess (state, roomType) {
+    state.types = { types: roomType }
+  },
+  getTypeFailure (state, error) {
+    state.all = { error }
+  },
+  getCurrentSuccess (state, room) {
+    state.current = { ...room }
+  },
+  getCurrentFailure (state, error) {
+    state.current = { error }
   },
   getAllFailure (state, error) {
     state.all = { error }
@@ -54,6 +92,10 @@ const mutations = {
   deleteSuccess (state, id) {
     // remove deleted user from state
     state.all.items = state.all.items.filter(user => user.id !== id)
+  },
+  deleteRoomSuccess (state, id) {
+    // remove deleted user from state
+    state.all.items = state.all.items.filter(room => room._id !== id)
   },
   deleteFailure (state, { id, error }) {
     // remove 'deleting:true' property and add 'deleteError:[error]' property to user

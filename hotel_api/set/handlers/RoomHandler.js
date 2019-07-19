@@ -53,29 +53,7 @@ module.exports.createRoom = (event, context, callback) => {
   ));
 };
 
-module.exports.deleteRoom = (event, context, callback) => {
-  if (!validator.isAlphanumeric(event.pathParameters.id)) {
-    callback(null, createErrorResponse(400, 'Incorrect id'));
-    return;
-  }
 
-  dbConnectAndExecute(mongoString, () => (
-    RoomModel
-    .remove({
-      _id: event.pathParameters.id
-    })
-    .then(() => callback(null, {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true
-      },
-      body: JSON.stringify('Ok')
-    }))
-    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
-  ));
-};
 
 module.exports.updateRoom = (event, context, callback) => {
   const data = JSON.parse(event.body);

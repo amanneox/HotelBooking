@@ -2,7 +2,8 @@
 /* eslint-disable */
 import axios from 'axios'
 const config = {
-  apiUrl:'https://ajp80vnp26.execute-api.ap-south-1.amazonaws.com/dev'
+  getUrl:'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev',
+  setUrl:'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.com/dev'
 }
 export const userService = {
   login,
@@ -27,7 +28,7 @@ async function login (email, password) {
    password
   }
 try {
-  const res = await axios.post(`${config.apiUrl}/user/authenticate`, requestOptions)
+  const res = await axios.post(`${config.setUrl}/user/authenticate`, requestOptions)
     .then(user => {
       // login successful if there's a jwt token in the response
       if (user.data.token) {
@@ -72,7 +73,7 @@ async function register (user) {
    ...payload
   }
   try {
-      const res = await axios.post(`${config.apiUrl}/user`,requestOptions)
+      const res = await axios.post(`${config.setUrl}/user`,requestOptions)
       console.log(res.data,'@@@')
       return res.data
   } catch (error) {
@@ -91,7 +92,7 @@ async function getById (id) {
    },
   }
 try {
-  const res = await axios.get(`${config.apiUrl}/user/${id}`, requestOptions)
+  const res = await axios.get(`${config.getUrl}/user/${id}`, requestOptions)
   console.log(res.data)
   return res.data
 } catch (error) {
@@ -106,7 +107,7 @@ function update (user) {
     body: JSON.stringify(user)
   }
 
-  return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse)
+  return fetch(`${config.setUrl}/users/${user.id}`, requestOptions).then(handleResponse)
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -116,7 +117,7 @@ function _delete (id) {
     headers: authHeader()
   }
 
-  return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse)
+  return fetch(`${config.setUrl}/users/${id}`, requestOptions).then(handleResponse)
 }
 
 async function handleResponse (response) {

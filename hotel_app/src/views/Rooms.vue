@@ -11,7 +11,7 @@
   <v-container>
     <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="room.all.items"
     class="elevation-1"
   >
     <template slot="headerCell" slot-scope="props">
@@ -27,13 +27,12 @@
       </v-tooltip>
     </template>
     <template v-slot:items="props">
-      <td>{{ props.item.name }}</td>
-      <td class="text-xs-right">{{ props.item.calories }}</td>
-      <td class="text-xs-right">{{ props.item.fat }}</td>
-      <td class="text-xs-right">{{ props.item.carbs }}</td>
-      <td class="text-xs-right">{{ props.item.protein }}</td>
-      <td class="text-xs-right">{{ props.item.iron }}</td>
-      <td @click="dialog = true" @click.prevent="$_editData(2)" class="text-xs-right"><v-btn depressed color="#5f2a8a"><span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn></td>
+      <td class="text-xs-left text-capitalize">{{ props.item.roomType }}</td>
+      <td class="text-xs-left text-capitalize">{{ props.item.rating }}</td>
+      <td class="text-xs-left text-capitalize">{{ props.item.roomNo }}</td>
+      <td class="text-xs-left text-capitalize">{{ getRoomPrice(props.item.roomType) }}</td>
+      <td class="text-xs-left text-capitalize">{{ props.item.isReserved }}</td>
+      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a"><span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn></td>
     </template>
   </v-data-table>
 </v-container>
@@ -43,22 +42,26 @@
          <span class="headline">Create Room</span>
        </v-card-title>
        <v-card-text>
+
          <v-container grid-list-md>
            <v-layout wrap>
              <v-flex xs12 md6>
-               <v-text-field outline label="Room No" required></v-text-field>
+               <v-text-field v-model="roomdata.roomNo" outline label="Room No" required></v-text-field>
+             </v-flex>
+             <v-flex xs8 md8>
+                 <v-select v-model="roomdata.roomType" :items="room.types.types" item-text="roomType" label="Room Type" required outline></v-select>
+             </v-flex>
+             <v-flex xs4 md4>
+               <v-btn depressed color="primary" @click.prevent="$_getTypes">Fetch</v-btn>
              </v-flex>
              <v-flex xs12 md6>
-                 <v-select :items="['1','2']" label="Room Type" required outline></v-select>
+               <v-text-field v-model="roomdata.rating" outline label="Room Rating" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field outline label="Room Rating" required></v-text-field>
-             </v-flex>
-             <v-flex xs12 md6>
-               <v-text-field outline label="Images" required></v-text-field>
+               <v-text-field v-model="roomdata.imageList.img_url" outline label="Images" required></v-text-field>
              </v-flex>
              <v-flex xs12>
-               <v-textarea outline label="Description" required></v-textarea>
+               <v-textarea v-model="roomdata.description" outline label="Description" required></v-textarea>
              </v-flex>
            </v-layout>
          </v-container>
@@ -66,7 +69,7 @@
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="createRoomDialoag = false">Close</v-btn>
-         <v-btn color="success"  depressed @click="createRoomDialoag = false">Save</v-btn>
+         <v-btn @click.prevent="$_createRoom" color="success"  depressed @click="createRoomDialoag = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -100,18 +103,19 @@
          <span class="headline">Edit Room</span>
        </v-card-title>
        <v-card-text>
-         <v-container grid-list-md>
+         <v-container v-if="room.current[0]" grid-list-md>
            <v-layout wrap>
              <v-flex xs12 sm6 md6>
-               <v-text-field outline label="Room No*" required></v-text-field>
+               <v-text-field :value="room.current[0].roomNo" outline label="Room No*" required></v-text-field>
              </v-flex>
              <v-flex xs12 sm6 md6>
-               <v-select :items="['true','false']" label="Room Status" required outline></v-select>
+               <v-text-field :value="room.current[0].rating" outline label="Rating*" required></v-text-field>
              </v-flex>
+
              <v-flex xs12>
-               <v-textarea label="Description*" outline required></v-textarea>
+               <v-textarea :value="room.current[0].description"  label="Description*" outline required></v-textarea>
              </v-flex>
-             <v-btn color="error" depressed>Delete</v-btn>
+             <v-btn color="error" @click="dialog = false" @click.prevent="$_deleteRoom(room.current[0]._id)" depressed>Delete</v-btn>
            </v-layout>
          </v-container>
        </v-card-text>
@@ -136,22 +140,40 @@ export default {
 
   },
   methods: {
-     ...mapActions('room', ['createType']),
-    $_editData(x){
-      console.log(x)
+     ...mapActions('room', ['createType','getRoomTypes','create','get_All','getById','_delete']),
+    $_editData(id){
+      this.getById(id)
     },
     $_createRoomType(){
       //console.log(this.roomType)
       this.createType(this.roomType)
-    }
+    },
+    $_createRoom(){
+    //  console.log(this.roomdata)
+     this.roomdata.rating = parseInt(this.roomdata.rating)
+     this.create(this.roomdata)
+    },
+    $_getTypes(){
+      this.getRoomTypes();
+    },
+    getRoomPrice(roomType){
+      const obj = this.room.types.types.find(o => o.roomType === roomType)
+      return obj.roomPrice
+   },
+   $_deleteRoom(id){
+       this._delete(id)
+   },
     //    ...mapActions('offers', ['get_All','get_All_Banner'])
   },
   mounted () {
-    //    this.get_All(),
+       this.get_All()
+       this.getRoomTypes();
     //    this.get_All_Banner()
   },
   computed: {
-    // ...mapState({ offers: 'offers' }),
+   ...mapState({ room: 'room' }),
+
+
 
   },
   data () {
@@ -160,22 +182,33 @@ export default {
           roomType:'',
           roomPrice:'',
         },
+        roomdata:{
+          roomNo:'',
+          description:'',
+          rating:'',
+          roomType:'',
+          imageList:[
+          {
+            img_url: ''
+          }
+          ],
+        },
         dialog: false,
         roomTypeDialog: false,
         createRoomDialoag:false,
         headers: [
           {
-            text: 'Dessert (100g serving)',
+            text: 'Room Type',
             align: 'left',
             sortable: false,
-            value: 'name'
+            value: 'roomType'
           },
-          { text: 'Calories', value: 'calories' },
-          { text: 'Fat (g)', value: 'fat' },
-          { text: 'Carbs (g)', value: 'carbs' },
-          { text: 'Protein (g)', value: 'protein' },
-          { text: 'Iron (%)', value: 'iron' }
+          { text: 'Rating', value: 'rating' },
+          { text: 'Room No', value: 'roomNo' },
+          { text: 'Room Price', value: 'roomPrice' },
+          { text: 'Reserved', value: 'isReserved' },
         ],
+        /*
         desserts: [
           {
             name: 'Frozen Yogurt',
@@ -258,6 +291,7 @@ export default {
             iron: '6%'
           }
         ]
+        */
       }
     }
 }

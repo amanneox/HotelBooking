@@ -20,6 +20,14 @@ functions:
           method: post
           cors: true
 
+  createRoom:
+    handler: handlers/RoomHandler.createRoom
+    events:
+      - http:
+          path: room
+          method: post
+          cors: true
+
   createRoomType:
     handler: handlers/RoomTypeHandler.createRoomType
     events:
