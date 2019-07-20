@@ -52,6 +52,14 @@ functions:
           method: put
           cors: true
 
+  updateRoom:
+    handler: handlers/RoomHandler.updateRoom
+    events:
+      - http:
+          path: room/{id}
+          method: put
+          cors: true
+          
   deleteUser:
     handler: handlers/UserHandler.deleteUser
     events:

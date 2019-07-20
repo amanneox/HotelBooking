@@ -42,6 +42,15 @@ const actions = {
   createType({commit},roomType){
     roomService.createType(roomType)
   },
+  update({commit},room){
+    roomService.update(room).then(
+      room => roomService.getAll().then(
+            room => commit('getAllSuccess', room),
+            error => commit('getAllFailure', error)
+          ),
+      error => console.log(error.toString())
+    )
+  },
   create({commit},room){
     roomService.create(room).then(
       room => roomService.getAll().then(

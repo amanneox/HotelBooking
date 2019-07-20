@@ -104,14 +104,23 @@ try {
 }
   }
 
-function update (user) {
+async function update (room) {
   const requestOptions = {
-    method: 'PUT',
-    headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(user)
+    headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Credentials" : true
+   },
+   ...room
   }
-
-  return fetch(`${config.setUrl}/room/${user.id}`, requestOptions).then(handleResponse)
+//  console.log(roomType,'@@@')
+  try {
+    const res = await axios.put(`${config.setUrl}/room/${room._id}`, requestOptions)
+  //  console.log(res.data)
+    return res.data
+  } catch (error) {
+      return Promise.reject(error)
+  }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -123,22 +132,4 @@ async function _delete (id) {
   } catch (error) {
       return Promise.reject(error)
   }
-}
-
-async function handleResponse (response) {
-  //console.log(response.data)
-  return await response.data.text().then(text => {
-    const data = text && JSON.parse(text)
-    if (!response.data) {
-      if (response.status !== 200) {
-        // auto logout if 401 response returned from api
-        logout()
-        location.reload(true)
-      }
-
-      const error = (data && data.message) || response.statusText
-      return Promise.reject(error)
-    }
-    return data
-  })
 }

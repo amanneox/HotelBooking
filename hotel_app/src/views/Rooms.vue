@@ -106,14 +106,14 @@
          <v-container v-if="room.current[0]" grid-list-md>
            <v-layout wrap>
              <v-flex xs12 sm6 md6>
-               <v-text-field :value="room.current[0].roomNo" outline label="Room No*" required></v-text-field>
+               <v-text-field v-model="room.current[0].roomNo" :value="room.current[0].roomNo" outline label="Room No*" required></v-text-field>
              </v-flex>
              <v-flex xs12 sm6 md6>
-               <v-text-field :value="room.current[0].rating" outline label="Rating*" required></v-text-field>
+               <v-text-field v-model="room.current[0].rating" :value="room.current[0].rating" outline label="Rating*" required></v-text-field>
              </v-flex>
 
              <v-flex xs12>
-               <v-textarea :value="room.current[0].description"  label="Description*" outline required></v-textarea>
+               <v-textarea v-model="room.current[0].description" :value="room.current[0].description"  label="Description*" outline required></v-textarea>
              </v-flex>
              <v-btn color="error" @click="dialog = false" @click.prevent="$_deleteRoom(room.current[0]._id)" depressed>Delete</v-btn>
            </v-layout>
@@ -123,7 +123,7 @@
          <v-spacer></v-spacer>
 
          <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-         <v-btn color="success"  depressed @click="dialog = false">Save</v-btn>
+         <v-btn color="success"  depressed @click.prevent="$_editDataRoom(room.current[0]._id)" @click="dialog = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -140,9 +140,14 @@ export default {
 
   },
   methods: {
-     ...mapActions('room', ['createType','getRoomTypes','create','get_All','getById','_delete']),
+     ...mapActions('room', ['createType','getRoomTypes','create','get_All','getById','_delete','update']),
     $_editData(id){
       this.getById(id)
+    },
+    $_editDataRoom(id){
+      //console.log(id)
+    //  console.log(this.room.current[0])
+    this.update(this.room.current[0])
     },
     $_createRoomType(){
       //console.log(this.roomType)
@@ -178,6 +183,11 @@ export default {
   },
   data () {
       return {
+        roomEdit:{
+          roomNo:'',
+          description:'',
+          rating:''
+        },
         roomType:{
           roomType:'',
           roomPrice:'',
