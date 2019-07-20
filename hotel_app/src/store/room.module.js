@@ -44,7 +44,10 @@ const actions = {
   },
   create({commit},room){
     roomService.create(room).then(
-      room => console.log(room),
+      room => roomService.getAll().then(
+            room => commit('getAllSuccess', room),
+            error => commit('getAllFailure', error)
+          ),
       error => console.log(error.toString())
     )
   },
