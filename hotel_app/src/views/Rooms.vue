@@ -32,7 +32,9 @@
       <td class="text-xs-left text-capitalize">{{ props.item.roomNo }}</td>
       <td class="text-xs-left text-capitalize">{{ getRoomPrice(props.item.roomType) }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.isReserved }}</td>
-      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a"><span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn></td>
+      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a">
+        <span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn>
+      </td>
     </template>
   </v-data-table>
 </v-container>
@@ -69,7 +71,7 @@
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="createRoomDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createRoom" color="success"  depressed @click="createRoomDialoag = false">Save</v-btn>
+         <v-btn @click.prevent="$_createRoom" color="success"  depressed @click="createRoomDialoag = false,snackbar = true">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -93,7 +95,7 @@
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="roomTypeDialog = false">Close</v-btn>
-         <v-btn color="success" depressed @click.prevent="$_createRoomType" @click="roomTypeDialog = false">Save</v-btn>
+         <v-btn color="success" depressed @click.prevent="$_createRoomType" @click="roomTypeDialog = false,snackbar = true">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -115,7 +117,7 @@
              <v-flex xs12>
                <v-textarea v-model="room.current[0].description" :value="room.current[0].description"  label="Description*" outline required></v-textarea>
              </v-flex>
-             <v-btn color="error" @click="dialog = false" @click.prevent="$_deleteRoom(room.current[0]._id)" depressed>Delete</v-btn>
+             <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteRoom(room.current[0]._id)" depressed>Delete</v-btn>
            </v-layout>
          </v-container>
        </v-card-text>
@@ -123,11 +125,24 @@
          <v-spacer></v-spacer>
 
          <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-         <v-btn color="success"  depressed @click.prevent="$_editDataRoom(room.current[0]._id)" @click="dialog = false">Save</v-btn>
+         <v-btn color="success" depressed @click.prevent="$_editDataRoom(room.current[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
-
+   <v-snackbar
+     v-model="snackbar"
+     bottom
+     color="#5f2a8a"
+     right>
+     {{room.msg}}
+     <v-btn
+       color="white"
+       flat
+       @click="snackbar = false"
+     >
+       Close
+     </v-btn>
+   </v-snackbar>
 </div>
 </template>
 <script>
@@ -183,6 +198,8 @@ export default {
   },
   data () {
       return {
+        snackbar: false,
+        timeout: 6000,
         roomEdit:{
           roomNo:'',
           description:'',

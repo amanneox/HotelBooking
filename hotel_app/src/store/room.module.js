@@ -7,8 +7,8 @@ const state = {
 
   },
   types:{
-
-  }
+  },
+  msg:''
 }
 
 const actions = {
@@ -40,7 +40,13 @@ const actions = {
       )
   },
   createType({commit},roomType){
-    roomService.createType(roomType)
+    roomService.createType(roomType).then(
+      roomService.getRoomTypes()
+        .then(
+          roomType => commit('getTypeSuccess', roomType),
+          error => commit('getTypeFailure', error)
+        )
+    )
   },
   update({commit},room){
     roomService.update(room).then(
@@ -76,9 +82,11 @@ const mutations = {
     state.all = { loading: true }
   },
   getAllSuccess (state, room) {
-    state.all = { items: room }
+    state.all = { items: room },
+    state.msg = "Request is successfull."
   },
   getTypeSuccess (state, roomType) {
+    state.msg = "Type is created.",
     state.types = { types: roomType }
   },
   getTypeFailure (state, error) {
@@ -91,7 +99,8 @@ const mutations = {
     state.current = { error }
   },
   getAllFailure (state, error) {
-    state.all = { error }
+    state.all = { error },
+    state.msg = "Request Failed."
   },
   deleteRequest (state, id) {
     // add 'deleting:true' property to user being deleted
@@ -107,6 +116,7 @@ const mutations = {
   },
   deleteRoomSuccess (state, id) {
     // remove deleted user from state
+    state.msg = "Room is Deleted.",
     state.all.items = state.all.items.filter(room => room._id !== id)
   },
   deleteFailure (state, { id, error }) {
