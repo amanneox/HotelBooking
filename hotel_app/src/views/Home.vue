@@ -54,62 +54,62 @@
       <p class="display-1 text-xs-left font-weight-medium text-capitalize">Hotel Overview</p>
     </v-layout>
     <v-layout row wrap py-4>
-      <v-flex md4 xs6>
+      <v-flex class="fade" md4 xs6>
         <v-container>
         <v-card color="#f6f5fa" style="elevation-0">
           <v-container>
             <p class="text-xs-left font-weight-medium text-capitalize">x</p>
-            <p class="text-xs-left font-weight-bold text-capitalize">Bookings <span style="float:right"><font-awesome-icon size="2x" class="" icon="address-book" /></span> </p>
+            <p class="text-xs-left font-weight-bold text-capitalize">Bookings <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="address-book" /></span> </p>
           </v-container>
         </v-card>
         </v-container>
       </v-flex>
-      <v-flex md4 xs6>
+      <v-flex class="fade"  md4 xs6>
         <v-container>
         <v-card color="#f6f5fa" style="elevation-0">
           <v-container>
             <p class="text-xs-left font-weight-medium text-capitalize">x</p>
-            <p class="text-xs-left font-weight-bold text-capitalize">Rooms <span style="float:right"><font-awesome-icon size="2x" class="" icon="bed" /></span></p>
+            <p class="text-xs-left font-weight-bold text-capitalize">Rooms <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="bed" /></span></p>
           </v-container>
         </v-card>
         </v-container>
       </v-flex>
-      <v-flex md4 xs6>
+      <v-flex class="fade" md4 xs6>
         <v-container>
         <v-card color="#f6f5fa" style="elevation-0">
           <v-container>
             <p class="text-xs-left font-weight-medium text-capitalize">x</p>
-            <p class="text-xs-left font-weight-bold text-capitalize">Customers <span style="float:right"><font-awesome-icon size="2x" class="" icon="male" /></span></p>
+            <p class="text-xs-left font-weight-bold text-capitalize">Customers <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="male" /></span></p>
           </v-container>
         </v-card>
         </v-container>
       </v-flex>
-      <v-flex md4 xs6>
+      <v-flex class="fade" md4 xs6>
         <v-container>
         <v-card color="#f6f5fa" style="elevation-0">
           <v-container>
             <p class="text-xs-left font-weight-medium text-capitalize">x</p>
-            <p class="text-xs-left font-weight-bold text-capitalize">Staff <span style="float:right"><font-awesome-icon size="2x" class="" icon="users" /></span></p>
+            <p class="text-xs-left font-weight-bold text-capitalize">Staff <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="users" /></span></p>
           </v-container>
         </v-card>
         </v-container>
       </v-flex>
-      <v-flex md4 xs6>
+      <v-flex class="fade" md4 xs6>
         <v-container>
         <v-card color="#f6f5fa" style="elevation-0">
           <v-container>
             <p class="text-xs-left font-weight-medium text-capitalize">x</p>
-            <p class="text-xs-left font-weight-bold text-capitalize">Amenity <span style="float:right"><font-awesome-icon size="2x" class="" icon="person-booth" /></span></p>
+            <p class="text-xs-left font-weight-bold text-capitalize">Amenity <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="person-booth" /></span></p>
           </v-container>
         </v-card>
         </v-container>
       </v-flex>
-      <v-flex md4 xs6>
+      <v-flex class="fade" md4 xs6>
         <v-container>
         <v-card color="#f6f5fa" style="elevation-0">
           <v-container>
             <p class="text-xs-left font-weight-medium text-capitalize">x</p>
-            <p class="text-xs-left font-weight-bold text-capitalize">Grocery <span style="float:right"><font-awesome-icon size="2x" class="" icon="shopping-basket" /></span></p>
+            <p class="text-xs-left font-weight-bold text-capitalize">Grocery <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="shopping-basket" /></span></p>
           </v-container>
         </v-card>
         </v-container>
@@ -163,3 +163,20 @@ export default {
 
 }
 </script>
+<style>
+
+
+.fade
+{
+        opacity:0.5;
+}
+.fade:hover
+{
+        opacity:1;
+
+}
+
+.overview-icon{
+    color:#5f2a8a;
+}
+</style>

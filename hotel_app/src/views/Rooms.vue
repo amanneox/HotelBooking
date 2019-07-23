@@ -8,10 +8,16 @@
       <v-btn @click="createRoomDialoag = true" depressed color="#492c9c"><span style="color:#FFF">Create Room</span><v-icon color="white">add</v-icon></v-btn>
     </v-flex>
   </v-layout>
-  <v-container>
+  <div v-if="room.rooms.Fetching">
+  <v-progress-circular
+  indeterminate
+  color="primary"
+></v-progress-circular>
+</div>
+  <v-container v-else>
     <v-data-table
     :headers="headers"
-    :items="room.all.items"
+    :items="room.rooms.data"
     class="elevation-1"
   >
     <template slot="headerCell" slot-scope="props">
@@ -51,7 +57,7 @@
                <v-text-field v-model="roomdata.roomNo" outline label="Room No" required></v-text-field>
              </v-flex>
              <v-flex xs8 md8>
-                 <v-select v-model="roomdata.roomType" :items="room.types.types" item-text="roomType" label="Room Type" required outline></v-select>
+                 <v-select v-model="roomdata.roomType" :items="room.types.data" item-text="roomType" label="Room Type" required outline></v-select>
              </v-flex>
              <v-flex xs4 md4>
                <v-btn depressed color="primary" @click.prevent="$_getTypes">Fetch</v-btn>
@@ -105,19 +111,25 @@
          <span class="headline">Edit Room</span>
        </v-card-title>
        <v-card-text>
-         <v-container v-if="room.current[0]" grid-list-md>
+         <div v-if="room.current.Fetching">
+         <v-progress-circular
+         indeterminate
+         color="primary"
+       ></v-progress-circular>
+       </div>
+         <v-container v-if="room.current.data" grid-list-md>
            <v-layout wrap>
              <v-flex xs12 sm6 md6>
-               <v-text-field v-model="room.current[0].roomNo" :value="room.current[0].roomNo" outline label="Room No*" required></v-text-field>
+               <v-text-field v-model="room.current.data[0].roomNo" :value="room.current.data[0].roomNo" outline label="Room No*" required></v-text-field>
              </v-flex>
              <v-flex xs12 sm6 md6>
-               <v-text-field v-model="room.current[0].rating" :value="room.current[0].rating" outline label="Rating*" required></v-text-field>
+               <v-text-field v-model="room.current.data[0].rating" :value="room.current.data[0].rating" outline label="Rating*" required></v-text-field>
              </v-flex>
 
              <v-flex xs12>
-               <v-textarea v-model="room.current[0].description" :value="room.current[0].description"  label="Description*" outline required></v-textarea>
+               <v-textarea v-model="room.current.data[0].description" :value="room.current.data[0].description"  label="Description*" outline required></v-textarea>
              </v-flex>
-             <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteRoom(room.current[0]._id)" depressed>Delete</v-btn>
+             <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteRoom(room.current.data[0]._id)" depressed>Delete</v-btn>
            </v-layout>
          </v-container>
        </v-card-text>
@@ -125,7 +137,7 @@
          <v-spacer></v-spacer>
 
          <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-         <v-btn color="success" depressed @click.prevent="$_editDataRoom(room.current[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+         <v-btn color="success" depressed @click.prevent="$_editDataRoom(room.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -162,7 +174,7 @@ export default {
     $_editDataRoom(id){
       //console.log(id)
     //  console.log(this.room.current[0])
-    this.update(this.room.current[0])
+    this.update(this.room.current.data[0])
     },
     $_createRoomType(){
       //console.log(this.roomType)
@@ -177,7 +189,7 @@ export default {
       this.getRoomTypes();
     },
     getRoomPrice(roomType){
-      const obj = this.room.types.types.find(o => o.roomType === roomType)
+      const obj = this.room.types.data.find(o => o.roomType === roomType)
       return obj.roomPrice
    },
    $_deleteRoom(id){
@@ -235,90 +247,7 @@ export default {
           { text: 'Room Price', value: 'roomPrice' },
           { text: 'Reserved', value: 'isReserved' },
         ],
-        /*
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%'
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: '1%'
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: '7%'
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: '8%'
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: '16%'
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: '0%'
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: '2%'
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: '45%'
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%'
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%'
-          }
-        ]
-        */
+    
       }
     }
 }

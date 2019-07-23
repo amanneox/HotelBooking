@@ -2,11 +2,17 @@
 import { roomService } from '../services'
 
 const state = {
-  all: {},
+  rooms: {
+    Fetching:'',
+    Fetched:'false',
+  },
   current:{
-
+    Fetching:'',
+    Fetched:'false',
   },
   types:{
+    Fetching:'',
+    Fetched:'false',
   },
   msg:''
 }
@@ -31,7 +37,7 @@ const actions = {
       )
   },
   getRoomTypes ({ commit }) {
-  //  commit('getAllRequest')
+    commit('getRoomRequest')
 
     roomService.getRoomTypes()
       .then(
@@ -79,28 +85,38 @@ const actions = {
 
 const mutations = {
   getAllRequest (state) {
-    state.all = { loading: true }
+    state.rooms.Fetched =  false,
+    state.rooms.Fetching =  true
+  },
+  getRoomRequest (state) {
+    state.current.Fetched =  false,
+    state.current.Fetching =  true
   },
   getAllSuccess (state, room) {
-    state.all = { items: room },
+    state.rooms = { data: room },
+    state.rooms.Fetched =  true,
+    state.rooms.Fetching = false,
     state.msg = "Request is successfull."
   },
   getTypeSuccess (state, roomType) {
     state.msg = "Type is created.",
-    state.types = { types: roomType }
+    state.types = { data: roomType },
+    state.types.Fetched = true,
+    state.types.Fetching = false
   },
   getTypeFailure (state, error) {
-    state.all = { error }
+    state.msg = { error }
   },
   getCurrentSuccess (state, room) {
-    state.current = { ...room }
+    state.current = { data:room },
+    state.current.Fetched = true,
+    state.current.Fetching = false
   },
   getCurrentFailure (state, error) {
-    state.current = { error }
+    state.msg = { error }
   },
   getAllFailure (state, error) {
-    state.all = { error },
-    state.msg = "Request Failed."
+    state.msg = { error }
   },
   deleteRequest (state, id) {
     // add 'deleting:true' property to user being deleted
@@ -117,21 +133,8 @@ const mutations = {
   deleteRoomSuccess (state, id) {
     // remove deleted user from state
     state.msg = "Room is Deleted.",
-    state.all.items = state.all.items.filter(room => room._id !== id)
+    state.rooms.data = state.rooms.data.filter(room => room._id !== id)
   },
-  deleteFailure (state, { id, error }) {
-    // remove 'deleting:true' property and add 'deleteError:[error]' property to user
-    state.all.items = state.items.map(user => {
-      if (user.id === id) {
-        // make copy of user without 'deleting:true' property
-        const { deleting, ...userCopy } = user
-        // return copy of user with 'deleteError:[error]' property
-        return { ...userCopy, deleteError: error }
-      }
-
-      return user
-    })
-  }
 }
 
 export const room = {

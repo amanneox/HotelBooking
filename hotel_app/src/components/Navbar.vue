@@ -103,15 +103,21 @@ export default {
   data() {
     return {
       drawer: null,
-      categories: [{
+      categories: [
+        {
+          title :'Home',
+          icon :'home',
+          link : '/'
+        },
+        {
           title: 'Bookings',
           icon: 'address-book',
-          link:'bookings'
+          link:'/bookings'
         },
         {
           title: 'Customers',
           icon: 'male',
-          link:'customers'
+          link:'/customers'
         },
         {
           title: 'Rooms',
