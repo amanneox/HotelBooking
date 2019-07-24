@@ -129,7 +129,7 @@ export default {
       items: [{
           title: 'Staff',
           icon: 'users',
-          link: '/cart'
+          link: '/staff'
         },
         {
           title: 'Grocery',

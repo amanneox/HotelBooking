@@ -56,7 +56,7 @@ const actions = {
 
     staffService.delete(id)
       .then(
-        staff => commit('deleteRoomSuccess',id),
+        staff => commit('deleteStaffSuccess',id),
         error => console.log(error),
       )
   },
@@ -88,7 +88,7 @@ const mutations = {
   getAllFailure (state, error) {
     state.msg = { error }
   },
-  deleteRoomSuccess (state, id) {
+  deleteStaffSuccess (state, id) {
     // remove deleted user from state
     state.msg = "Room is Deleted.",
     state.staffs.data = state.staffs.data.filter(staff => staff._id !== id)

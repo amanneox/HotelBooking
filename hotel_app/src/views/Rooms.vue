@@ -204,9 +204,6 @@ export default {
   },
   computed: {
    ...mapState({ room: 'room' }),
-
-
-
   },
   data () {
       return {
@@ -247,7 +244,7 @@ export default {
           { text: 'Room Price', value: 'roomPrice' },
           { text: 'Reserved', value: 'isReserved' },
         ],
-    
+
       }
     }
 }

@@ -26,6 +26,13 @@ functions:
           path: room/{id}
           method: get
           cors: true
+  staff:
+    handler: handlers/StaffHandler.staff
+    events:
+      - http:
+          path: staff/{id}
+          method: get
+          cors: true
 
   getUsers:
     handler: handlers/UserHandler.getUsers
@@ -43,6 +50,14 @@ functions:
           method: get
           cors: true
 
+  getStaffs:
+    handler: handlers/StaffHandler.getStaffs
+    events:
+      - http:
+          path: staff/list
+          method: get
+          cors: true
+
   deleteRoom:
     handler: handlers/RoomHandler.deleteRoom
     events:
@@ -51,6 +66,14 @@ functions:
           method: get
           cors: true
 
+  deleteStaff:
+    handler: handlers/StaffHandler.deleteStaff
+    events:
+      - http:
+          path: staff/delete/{id}
+          method: get
+          cors: true
+          
   getRoomTypes:
     handler: handlers/RoomTypeHandler.getRoomTypes
     events:

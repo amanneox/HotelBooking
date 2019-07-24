@@ -20,6 +20,14 @@ functions:
           method: post
           cors: true
 
+  createStaff:
+    handler: handlers/StaffHandler.createStaff
+    events:
+      - http:
+          path: staff
+          method: post
+          cors: true
+
   createRoom:
     handler: handlers/RoomHandler.createRoom
     events:
@@ -51,6 +59,14 @@ functions:
           path: user/{id}
           method: put
           cors: true
+          
+  updateStaff:
+    handler: handlers/StaffHandler.updateStaff
+    events:
+      - http:
+          path: staff/{id}
+          method: put
+          cors: true
 
   updateRoom:
     handler: handlers/RoomHandler.updateRoom
@@ -59,7 +75,7 @@ functions:
           path: room/{id}
           method: put
           cors: true
-          
+
   deleteUser:
     handler: handlers/UserHandler.deleteUser
     events:

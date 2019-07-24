@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import Account from '../views/Account.vue'
 import Rooms from '../views/Rooms.vue'
+import Staff from '../views/Staff.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -35,6 +36,11 @@ export default new Router({
       path: '/rooms',
       name: 'rooms',
       component: Rooms
+    },
+    {
+      path: '/staff',
+      name: 'staff',
+      component: Staff
     }
   ]
 })

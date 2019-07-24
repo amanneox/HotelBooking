@@ -36,9 +36,96 @@
       <td class="text-xs-left text-capitalize">{{ props.item.salary }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.number }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.isActive }}</td>
+      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a">
+        <span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn>
+      </td>
     </template>
   </v-data-table>
 </v-container>
+<v-dialog v-model="createStaffDialoag" persistent max-width="600px">
+     <v-card>
+       <v-card-title>
+         <span class="headline">Create Staff</span>
+       </v-card-title>
+       <v-card-text>
+
+         <v-container grid-list-md>
+           <v-layout wrap>
+             <v-flex xs12 md6>
+               <v-text-field v-model="staffdata.name" outline label="Name" required></v-text-field>
+             </v-flex>
+             <v-flex xs12 md6>
+               <v-text-field v-model="staffdata.job" outline label="Job" required></v-text-field>
+             </v-flex>
+             <v-flex xs12 md6>
+               <v-text-field v-model="staffdata.salary" outline label="Salary" required></v-text-field>
+             </v-flex>
+             <v-flex xs12 md6>
+               <v-text-field v-model="staffdata.number" outline label="Number" required></v-text-field>
+             </v-flex>
+           </v-layout>
+         </v-container>
+       </v-card-text>
+       <v-card-actions>
+         <v-spacer></v-spacer>
+         <v-btn color="error" depressed  @click="createStaffDialoag = false">Close</v-btn>
+         <v-btn @click.prevent="$_createStaff" color="success"  depressed @click="createStaffDialoag = false,snackbar = true">Save</v-btn>
+       </v-card-actions>
+     </v-card>
+   </v-dialog>
+   <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Edit Staff</span>
+          </v-card-title>
+          <v-card-text>
+            <div v-if="staff.current.Fetching">
+            <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+          </div>
+            <v-container v-if="staff.current.data" grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md6>
+                  <v-text-field v-model="staff.current.data[0].name" :value="staff.current.data[0].name" outline label="Name*" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-text-field v-model="staff.current.data[0].job" :value="staff.current.data[0].jon" outline label="Job*" required></v-text-field>
+                </v-flex>
+
+                <v-flex xs12 sm6 md6>
+                  <v-text-field v-model="staff.current.data[0].salary" :value="staff.current.data[0].salary" outline label="Salary*" required></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-text-field v-model="staff.current.data[0].number" :value="staff.current.data[0].number" outline label="Number*" required></v-text-field>
+                </v-flex>
+                <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteStaff(staff.current.data[0]._id)" depressed>Delete</v-btn>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
+            <v-btn color="success" depressed @click.prevent="$_editDataStaff(staff.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+   <v-snackbar
+     v-model="snackbar"
+     bottom
+     color="#5f2a8a"
+     right>
+     {{staff.msg}}
+     <v-btn
+       color="white"
+       flat
+       @click="snackbar = false"
+     >
+       Close
+     </v-btn>
+   </v-snackbar>
   </div>
 </template>
 <script>
@@ -50,12 +137,47 @@ export default {
     navbar
 
   },
+  methods: {
+     ...mapActions('staff', ['create','get_All','getById','_delete','update']),
+    $_editData(id){
+      this.getById(id)
+    },
+    $_editDataStaff(id){
+      //console.log(id)
+    //  console.log(this.staff.current[0])
+      this.update(this.staff.current.data[0])
+    },
+    $_createStaff(){
+    //  console.log(this.staffdata)
+  //   this.staffdata.rating = parseInt(this.staffdata.rating)
+     this.create(this.staffdata)
+    },
+
+   $_deleteStaff(id){
+      this._delete(id)
+   },
+    //    ...mapActions('offers', ['get_All','get_All_Banner'])
+  },
+  mounted () {
+       this.get_All()
+    //   this.getRoomTypes();
+
+  },
+  computed: {
+   ...mapState({ staff: 'staff' }),
+  },
   data() {
     return {
       snackbar: false,
       timeout: 6000,
       dialog: false,
       createStaffDialoag: false,
+      staffdata:{
+        name:'',
+        job:'',
+        salary:'',
+        number:'',
+      },
       headers: [
         {
           text: 'Staff Name',
