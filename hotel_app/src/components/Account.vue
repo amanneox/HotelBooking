@@ -2,12 +2,12 @@
 <template lang="html">
   <v-app>
     <navbar/>
-    <div v-for="item in user" :key="item" class="">
+    <div v-for="item in user" class="">
       <v-container>
         <v-layout>
           <v-flex md6>
             <v-container>
-            <v-card>
+            <v-card class="elevation-0">
             <div class="content-holder">
               <v-container>
                 <v-avatar
@@ -17,17 +17,19 @@
              <img class="avatar-img" src="../assets/man.svg" alt="avatar">
            </v-avatar>
            <v-container>
-             <p class="name title black--text">{{item.name}}</p>
+             <p class="name title black--text text-capitalize">{{item.name}}</p>
              <span class="number black--text">{{item.number}}</span>
              <p class="email black--text">{{item.email}}</p>
              <v-dialog style="float:right" v-model="dialog" persistent max-width="290">
-               <v-layout slot="activator" class="logout">
+               <v-layout slot="activator" class="logout" style="margin:-10px;">
                  <v-flex class="text-xs-left">
-                     <font-awesome-icon class="logout-icon" icon="sign-out-alt" />&nbsp;
-                     <span class="subheading text-capitalize logout-text">Logout</span>
+                   <v-btn color="error" depressed>
+                     <font-awesome-icon class="logout-icon mx-2" style="color:#fff;" icon="sign-out-alt" />
+                      <span class="logout-text">Logout</span>
+                    </v-btn>
                  </v-flex>
                </v-layout>
-              <v-card>
+              <v-card >
                 <v-card-title class="headline">Do you wish to logout?</v-card-title>
                 <v-card-text>Your session will terminate.</v-card-text>
                 <v-card-actions>
@@ -44,7 +46,7 @@
         </v-container>
           </v-flex>
           <v-flex md6>
-            <v-card v-for="item in account_list" :key="item.name" class="account-list-item">
+            <v-card v-for="item in account_list" class="account-list-item elevation-0">
               <v-container>
                 <v-layout row wrap>
                     <span class="subheading text-capitalize title-name text-xs-left">{{item.name}}</span>
@@ -73,7 +75,7 @@ import { mapState, mapActions } from 'vuex'
 import navbar from '@/components/Navbar.vue'
 export default {
   props:{
-    user: Object
+    user: Array
   },
   components:{
     navbar

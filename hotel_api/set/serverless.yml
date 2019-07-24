@@ -36,6 +36,22 @@ functions:
           method: post
           cors: true
 
+  createGrocery:
+    handler: handlers/GroceryHandler.createGrocery
+    events:
+      - http:
+          path: grocery
+          method: post
+          cors: true
+
+  createAmenity:
+    handler: handlers/AmenityHandler.createAmenity
+    events:
+      - http:
+          path: amenity
+          method: post
+          cors: true
+
   createRoomType:
     handler: handlers/RoomTypeHandler.createRoomType
     events:
@@ -59,7 +75,7 @@ functions:
           path: user/{id}
           method: put
           cors: true
-          
+
   updateStaff:
     handler: handlers/StaffHandler.updateStaff
     events:
@@ -76,6 +92,21 @@ functions:
           method: put
           cors: true
 
+  updateGrocery:
+    handler: handlers/GroceryHandler.updateGrocery
+    events:
+      - http:
+          path: grocery/{id}
+          method: put
+          cors: true
+
+  updateAmenity:
+    handler: handlers/AmenityHandler.updateAmenity
+    events:
+      - http:
+          path: amenity/{id}
+          method: put
+          cors: true
   deleteUser:
     handler: handlers/UserHandler.deleteUser
     events:

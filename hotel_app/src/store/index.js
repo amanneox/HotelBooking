@@ -9,6 +9,8 @@ import { profile } from './profile.module'
 import { users } from './users.module'
 import { room } from './room.module'
 import { staff } from './staff.module'
+import { grocery } from './grocery.module'
+import { amenity } from './amenity.module'
 Vue.use(Vuex)
  const state = {
   // Current state of the application lies here.
@@ -40,6 +42,8 @@ Vue.use(Vuex)
       profile,
       room,
       staff,
+      grocery,
+      amenity,
 
   }
 })

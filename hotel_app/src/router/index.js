@@ -6,6 +6,8 @@ import SignUp from '../views/SignUp.vue'
 import Account from '../views/Account.vue'
 import Rooms from '../views/Rooms.vue'
 import Staff from '../views/Staff.vue'
+import Grocery from '../views/Grocery.vue'
+import Amenity from '../views/Amenity.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -41,6 +43,16 @@ export default new Router({
       path: '/staff',
       name: 'staff',
       component: Staff
+    },
+    {
+      path: '/grocery',
+      name: 'grocery',
+      component: Grocery
+    },
+    {
+      path: '/amenity',
+      name: 'amenity',
+      component: Amenity
     }
   ]
 })

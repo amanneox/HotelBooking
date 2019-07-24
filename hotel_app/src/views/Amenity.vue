@@ -3,10 +3,10 @@
     <navbar/>
     <v-layout>
       <v-flex class="text-xs-right">
-        <v-btn @click="createStaffDialoag = true" depressed color="#492c9c"><span style="color:#FFF">Create Staff</span><v-icon color="white">add</v-icon></v-btn>
+        <v-btn @click="createAmenityDialoag = true" depressed color="#492c9c"><span style="color:#FFF">Create Amenity</span><v-icon color="white">add</v-icon></v-btn>
       </v-flex>
     </v-layout>
-    <div v-if="staff.staffs.Fetching">
+    <div v-if="amenity.amenitys.Fetching">
     <v-progress-circular
     indeterminate
     color="primary"
@@ -15,7 +15,7 @@
   <v-container v-else>
     <v-data-table
     :headers="headers"
-    :items="staff.staffs.data"
+    :items="amenity.amenitys.data"
     class="elevation-1"
   >
     <template slot="headerCell" slot-scope="props">
@@ -32,75 +32,67 @@
     </template>
     <template v-slot:items="props">
       <td class="text-xs-left text-capitalize">{{ props.item.name }}</td>
-      <td class="text-xs-left text-capitalize">{{ props.item.job }}</td>
-      <td class="text-xs-left text-capitalize">{{ props.item.salary }}</td>
-      <td class="text-xs-left text-capitalize">{{ props.item.number }}</td>
-      <td class="text-xs-left text-capitalize">{{ props.item.isActive }}</td>
+      <td class="text-xs-left text-capitalize">{{ props.item.quantity }}</td>
+      <td class="text-xs-left text-capitalize">{{ props.item.unit }}</td>
       <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a">
         <span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn>
       </td>
     </template>
   </v-data-table>
 </v-container>
-<v-dialog v-model="createStaffDialoag" persistent max-width="600px">
+<v-dialog v-model="createAmenityDialoag" persistent max-width="600px">
      <v-card>
        <v-card-title>
-         <span class="headline">Create Staff</span>
+         <span class="headline">Create Amenity</span>
        </v-card-title>
        <v-card-text>
 
          <v-container grid-list-md>
            <v-layout wrap>
              <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.name" outline label="Name" required></v-text-field>
+               <v-text-field v-model="amenitydata.name" outline label="Name" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.job" outline label="Job" required></v-text-field>
+               <v-text-field v-model="amenitydata.quantity" outline label="Quantity" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.salary" outline label="Salary" required></v-text-field>
-             </v-flex>
-             <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.number" outline label="Number" required></v-text-field>
+               <v-text-field v-model="amenitydata.unit" outline label="Unit" required></v-text-field>
              </v-flex>
            </v-layout>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
-         <v-btn color="error" depressed  @click="createStaffDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createStaff" color="success"  depressed @click="createStaffDialoag = false,snackbar = true">Save</v-btn>
+         <v-btn color="error" depressed  @click="createAmenityDialoag = false">Close</v-btn>
+         <v-btn @click.prevent="$_createAmenity" color="success"  depressed @click="createAmenityDialoag = false,snackbar = true">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
    <v-dialog v-model="dialog" persistent max-width="600px">
         <v-card>
           <v-card-title>
-            <span class="headline">Edit Staff</span>
+            <span class="headline">Edit Amenity</span>
           </v-card-title>
           <v-card-text>
-            <div v-if="staff.current.Fetching">
+            <div v-if="amenity.current.Fetching">
             <v-progress-circular
             indeterminate
             color="primary"
           ></v-progress-circular>
           </div>
-            <v-container v-if="staff.current.data" grid-list-md>
+            <v-container v-if="amenity.current.data" grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].name" :value="staff.current.data[0].name" outline label="Name*" required></v-text-field>
+                  <v-text-field v-model="amenity.current.data[0].name" :value="amenity.current.data[0].name" outline label="Name*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].job" :value="staff.current.data[0].job" outline label="Job*" required></v-text-field>
+                  <v-text-field v-model="amenity.current.data[0].quantity" :value="amenity.current.data[0].quantity" outline label="Quantity*" required></v-text-field>
                 </v-flex>
-
-                <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].salary" :value="staff.current.data[0].salary" outline label="Salary*" required></v-text-field>
+                <v-flex xs12 sm6 md>
+                  <v-text-field v-model="amenity.current.data[0].unit" :value="amenity.current.data[0].unit" outline label="Unit*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].number" :value="staff.current.data[0].number" outline label="Number*" required></v-text-field>
-                </v-flex>
-                <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteStaff(staff.current.data[0]._id)" depressed>Delete</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteAmenity(amenity.current.data[0]._id)" depressed>Delete</v-btn>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -108,7 +100,7 @@
             <v-spacer></v-spacer>
 
             <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-            <v-btn color="success" depressed @click.prevent="$_editDataStaff(staff.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+            <v-btn color="success" depressed @click.prevent="$_editDataAmenity(amenity.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -117,7 +109,7 @@
      bottom
      color="#5f2a8a"
      right>
-     {{staff.msg}}
+     {{amenity.msg}}
      <v-btn
        color="white"
        flat
@@ -138,22 +130,22 @@ export default {
 
   },
   methods: {
-     ...mapActions('staff', ['create','get_All','getById','_delete','update']),
+     ...mapActions('amenity', ['create','get_All','getById','_delete','update']),
     $_editData(id){
       this.getById(id)
     },
-    $_editDataStaff(id){
+    $_editDataAmenity(id){
       //console.log(id)
-    //  console.log(this.staff.current[0])
-      this.update(this.staff.current.data[0])
+    //  console.log(this.amenity.current[0])
+      this.update(this.amenity.current.data[0])
     },
-    $_createStaff(){
-    //  console.log(this.staffdata)
-  //   this.staffdata.rating = parseInt(this.staffdata.rating)
-     this.create(this.staffdata)
+    $_createAmenity(){
+    //  console.log(this.amenitydata)
+  //   this.amenitydata.rating = parseInt(this.amenitydata.rating)
+     this.create(this.amenitydata)
     },
 
-   $_deleteStaff(id){
+   $_deleteAmenity(id){
       this._delete(id)
    },
     //    ...mapActions('offers', ['get_All','get_All_Banner'])
@@ -164,15 +156,15 @@ export default {
 
   },
   computed: {
-   ...mapState({ staff: 'staff' }),
+   ...mapState({ amenity: 'amenity' }),
   },
   data() {
     return {
       snackbar: false,
       timeout: 6000,
       dialog: false,
-      createStaffDialoag: false,
-      staffdata:{
+      createAmenityDialoag: false,
+      amenitydata:{
         name:'',
         job:'',
         salary:'',
@@ -180,15 +172,14 @@ export default {
       },
       headers: [
         {
-          text: 'Staff Name',
+          text: 'Amenity Name',
           align: 'left',
           sortable: false,
           value: 'name'
         },
-        { text: 'Job', value: 'job' },
-        { text: 'Salary', value: 'salary' },
-        { text: 'Number', value: 'number' },
-        { text: 'isActive', value: 'isActive' },
+        { text: 'Quantity', value: 'quantity' },
+        { text: 'Unit', value: 'unit' },
+
       ],
     }
   }

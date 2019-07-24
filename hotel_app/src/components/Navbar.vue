@@ -134,12 +134,12 @@ export default {
         {
           title: 'Grocery',
           icon: 'shopping-basket',
-          link: '/account'
+          link: '/grocery'
         },
         {
           title: 'Amenity',
           icon: 'person-booth',
-          link: '/account'
+          link: '/amenity'
         },
         {
           title: 'My Account',

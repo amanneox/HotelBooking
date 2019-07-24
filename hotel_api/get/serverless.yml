@@ -33,7 +33,20 @@ functions:
           path: staff/{id}
           method: get
           cors: true
-
+  grocery:
+    handler: handlers/GroceryHandler.grocery
+    events:
+      - http:
+          path: grocery/{id}
+          method: get
+          cors: true
+  amenity:
+    handler: handlers/AmenityHandler.amenity
+    events:
+      - http:
+          path: amenity/{id}
+          method: get
+          cors: true
   getUsers:
     handler: handlers/UserHandler.getUsers
     events:
@@ -58,6 +71,21 @@ functions:
           method: get
           cors: true
 
+  getGrocerys:
+    handler: handlers/GroceryHandler.getGrocerys
+    events:
+      - http:
+          path: grocery/list
+          method: get
+          cors: true
+  getAmenitys:
+    handler: handlers/AmenityHandler.getAmenitys
+    events:
+      - http:
+          path: amenity/list
+          method: get
+          cors: true
+
   deleteRoom:
     handler: handlers/RoomHandler.deleteRoom
     events:
@@ -73,7 +101,15 @@ functions:
           path: staff/delete/{id}
           method: get
           cors: true
-          
+
+  deleteGrocery:
+    handler: handlers/GroceryHandler.deleteGrocery
+    events:
+      - http:
+          path: grocery/delete/{id}
+          method: get
+          cors: true
+
   getRoomTypes:
     handler: handlers/RoomTypeHandler.getRoomTypes
     events:

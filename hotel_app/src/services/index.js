@@ -1,3 +1,5 @@
 export * from './user.service.js'
 export * from './room.service.js'
 export * from './staff.service.js'
+export * from './grocery.service.js'
+export * from './amenity.service.js'
