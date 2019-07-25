@@ -46,17 +46,40 @@
         </v-container>
           </v-flex>
           <v-flex md6>
-            <v-card v-for="item in account_list" class="account-list-item elevation-0">
+            <v-card class="account-list-item elevation-0">
               <v-container>
                 <v-layout row wrap>
-                    <span class="subheading text-capitalize title-name text-xs-left">{{item.name}}</span>
+                    <span class="subheading text-capitalize title-name text-xs-left">Business Name</span>
                 </v-layout>
-                <v-divider></v-divider>
                 <v-layout wrap row>
-                  <v-flex class="text-xs-right">
-                    <span class="subheading blue--text title-des text-capitalize">{{item.subtitle}}</span>
+                  <v-flex class="text-xs-left">
+                    <v-text-field v-model="item.businessName" :value="item.businessName" outline label="Business Name" required></v-text-field>
                   </v-flex>
                 </v-layout>
+              </v-container>
+            </v-card>
+            <v-card class="account-list-item elevation-0">
+              <v-container grid-list-md>
+                <v-layout row wrap>
+                    <span class="subheading text-capitalize title-name text-xs-left">Address</span>
+                </v-layout>
+                <v-layout wrap>
+                  <v-flex xs12 md6>
+                     <v-text-field v-model="item.address" outline :value="item.address" label="Street Address" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 md6>
+                     <v-text-field v-model="item.city" outline label="City" :value="item.city" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 md6>
+                     <v-text-field v-model='item.pincode' :value="item.pincode" outline label="Pincode" required></v-text-field>
+                  </v-flex>
+
+                </v-layout>
+                <v-flex class="text-xs-right">
+                  <v-btn color="success" depressed @click.prevent="$_editUser()">
+                    Save
+                  </v-btn>
+                </v-flex>
               </v-container>
             </v-card>
           </v-flex>
@@ -84,17 +107,15 @@ export default {
     ...mapActions('account', ['login', 'logout']),
     $_logout(){
         this.logout()
+    },
+    $_editUser(){
+      console.log(this.user)
     }
   },
+
   data(){
     return {
       dialog: false,
-      account_list:[
-        {name:'My Reward Points',subtitle:'view Reward Points'},
-        {name:'My Orders',subtitle:'View All Orders'},
-        {name:'My Reviews',subtitle:'View All Reviews'},
-        {name:'My Address',subtitle:'View Address'}
-      ]
     }
   }
 }

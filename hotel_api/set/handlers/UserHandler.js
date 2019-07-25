@@ -147,6 +147,8 @@ module.exports.updateUser = (event, context, callback) => {
     email: data.email,
     number: data.number,
     username: data.username,
+    businessName: data.businessName,
+    pincode: data.pincode,
   });
 
   if (user.validateSync()) {

@@ -100,14 +100,23 @@ try {
 }
   }
 
-function update (user) {
+async function update (user) {
   const requestOptions = {
-    method: 'PUT',
-    headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(user)
+    headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Credentials" : true
+   },
+   ...user
   }
-
-  return fetch(`${config.setUrl}/users/${user.id}`, requestOptions).then(handleResponse)
+//  console.log(staffType,'@@@')
+  try {
+    const res = await axios.put(`${config.setUrl}/user/${user._id}`, requestOptions)
+  //  console.log(res.data)
+    return res.data
+  } catch (error) {
+      return Promise.reject(error)
+  }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript

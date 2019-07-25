@@ -13,7 +13,8 @@ const model = mongoose.model('User', {
     type:String
   },
   businessName:{
-    type:String
+    type:String,
+    default: 'mybusiness'
   },
   pincode:{
     type:String
