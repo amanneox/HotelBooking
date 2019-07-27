@@ -2,7 +2,12 @@
 import { userService } from '../services'
 
 const state = {
-  all: {}
+  all: {},
+  current:{
+    Fetching:'',
+    Fetched:'false',
+  },
+  msg:''
 }
 
 const actions = {
@@ -29,10 +34,41 @@ const actions = {
     function success (id) { return { type: userConstants.DELETE_SUCCESS, id } }
     function failure (id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
   },
+  getById({commit},id){
+    commit('getCurrentRequest')
+    userService.getById(id).then(
+      user => commit('getCurrentSuccess',user),
+      error => commit('getCurrentFailure',error)
+    )
+  },
+  update({commit},user){
+  //  console.log(user)
+    userService.update(user).then(
+      user =>commit('updateSuccess',user),
+      error =>commit('updateError',error)
+    )
+  }
 
 }
 
 const mutations = {
+  updateSuccess(state,user){
+    state.msg = 'Request is successful'
+  },
+  updateError(state,error){
+    state.msg  = 'Request Failed'
+  },
+  getCurrentSuccess (state, user) {
+    state.current = { data:user },
+    state.current.Fetched = true,
+    state.current.Fetching = false
+  },
+  getCurrentFailure (state, error) {
+    state.msg = { error }
+  },
+  getCurrentRequest(state){
+    state.current.Fetching = true
+  },
   getAllRequest (state) {
     state.all = { loading: true }
   },

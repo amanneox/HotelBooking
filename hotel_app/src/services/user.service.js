@@ -74,7 +74,7 @@ async function register (user) {
   }
   try {
       const res = await axios.post(`${config.setUrl}/user`,requestOptions)
-      console.log(res.data,'@@@')
+    //  console.log(res.data,'@@@')
       return res.data
   } catch (error) {
     return Promise.reject(error)
@@ -92,8 +92,8 @@ async function getById (id) {
    },
   }
 try {
-  const res = await axios.get(`${config.getUrl}/user/${id}`, requestOptions)
-  console.log(res.data)
+  const res = await axios.get(`${config.getUrl}/user/${id}`)
+//  console.log(res.data)
   return res.data
 } catch (error) {
     return Promise.reject(error)
@@ -101,6 +101,7 @@ try {
   }
 
 async function update (user) {
+//  console.log(user)
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',

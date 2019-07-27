@@ -144,17 +144,11 @@ module.exports.updateUser = (event, context, callback) => {
     _id: id,
     name: data.name,
     city: data.city,
-    email: data.email,
-    number: data.number,
-    username: data.username,
-    businessName: data.businessName,
     pincode: data.pincode,
+    address: data.address,
+    businessName: data.businessName,
   });
 
-  if (user.validateSync()) {
-    callback(null, createErrorResponse(400, 'Incorrect parameter'));
-    return;
-  }
 
   dbConnectAndExecute(mongoString, () => (
     UserModel.findByIdAndUpdate(id, user)

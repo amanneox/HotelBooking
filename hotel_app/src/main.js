@@ -21,7 +21,7 @@ library.add(fas.faUserCircle, fas.faCompass, fas.faBoxOpen, fas.faQuestion, fas.
   , fas.faHome, fas.faCaretSquareDown, fas.faBars, fas.faKey, fas.faHeart
   , fas.faUser, fas.faFileContract, fas.faQuestionCircle, fas.faTimes, fas.faFilter, fas.faSortAmountDown, fas.faSearch, fas.faArrowRight,
   fas.faShare, fas.faTrash, fas.faPlusSquare, fas.faMinusSquare, fas.faEdit, fas.faSignOutAlt, fas.faStar, fas.faArrowUp, fas.faArrowDown, fas.faClock, fas.faBell,
-  fas.faUsers, fas.faShoppingBasket, fas.faPersonBooth, fas.faBed, fas.faMale, fas.faAddressBook, fas.faDownload, fas.faBook, fab.faGithub, fas.faEdit
+  fas.faUsers, fas.faShoppingBasket, fas.faPersonBooth, fas.faBed, fas.faMale, fas.faAddressBook, fas.faDownload, fas.faBook, fab.faGithub, fas.faEdit, fas.faPowerOff
 )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
