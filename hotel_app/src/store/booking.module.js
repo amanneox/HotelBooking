@@ -1,8 +1,8 @@
 /* eslint-disable*/
-import { amenityService } from '../services'
+import { bookingService } from '../services'
 
 const state = {
-  amenitys: {
+  bookings: {
     Fetching:'',
     Fetched:'false',
   },
@@ -14,38 +14,38 @@ const state = {
 }
 
 const actions = {
-  get_All_Amenity ({ commit }) {
+  get_All_Booking ({ commit }) {
     commit('getAllRequest')
 
-    amenityService.getAll()
+    bookingService.getAll()
       .then(
-        amenity => commit('getAllSuccess', amenity),
+        booking => commit('getAllSuccess', booking),
         error => commit('getAllFailure', error)
       )
   },
   getById ({ commit },id) {
     commit('getStaffRequest')
 
-    amenityService.getById(id)
+    bookingService.getById(id)
       .then(
-        amenity => commit('getCurrentSuccess', amenity),
+        booking => commit('getCurrentSuccess', booking),
         error => commit('getCurrentFailure', error)
       )
   },
 
-  update({commit},amenity){
-    amenityService.update(amenity).then(
-      amenity => amenityService.getAll().then(
-            amenity => commit('getAllSuccess', amenity),
+  update({commit},booking){
+    bookingService.update(booking).then(
+      booking => bookingService.getAll().then(
+            booking => commit('getAllSuccess', booking),
             error => commit('getAllFailure', error)
           ),
       error => console.log(error.toString())
     )
   },
-  create({commit},amenity){
-    amenityService.create(amenity).then(
-      amenity => amenityService.getAll().then(
-            amenity => commit('getAllSuccess', amenity),
+  create({commit},booking){
+    bookingService.create(booking).then(
+      booking => bookingService.getAll().then(
+            booking => commit('getAllSuccess', booking),
             error => commit('getAllFailure', error)
           ),
       error => console.log(error.toString())
@@ -54,9 +54,9 @@ const actions = {
   _delete ({ commit }, id) {
   //  commit('deleteRequest', id)
 
-    amenityService.delete(id)
+    bookingService.delete(id)
       .then(
-        amenity => commit('deleteStaffSuccess',id),
+        booking => commit('deleteStaffSuccess',id),
         error => console.log(error),
       )
   },
@@ -64,21 +64,21 @@ const actions = {
 
 const mutations = {
   getAllRequest (state) {
-    state.amenitys.Fetched =  false,
-    state.amenitys.Fetching =  true
+    state.bookings.Fetched =  false,
+    state.bookings.Fetching =  true
   },
   getStaffRequest (state) {
     state.current.Fetched =  false,
     state.current.Fetching =  true
   },
-  getAllSuccess (state, amenity) {
-    state.amenitys = { data: amenity },
-    state.amenitys.Fetched =  true,
-    state.amenitys.Fetching = false,
+  getAllSuccess (state, booking) {
+    state.bookings = { data: booking },
+    state.bookings.Fetched =  true,
+    state.bookings.Fetching = false,
     state.msg = "Request is successfull."
   },
-  getCurrentSuccess (state, amenity) {
-    state.current = { data:amenity },
+  getCurrentSuccess (state, booking) {
+    state.current = { data:booking },
     state.current.Fetched = true,
     state.current.Fetching = false
   },
@@ -91,12 +91,12 @@ const mutations = {
   deleteStaffSuccess (state, id) {
     // remove deleted user from state
     state.msg = "Room is Deleted.",
-    state.amenitys.data = state.amenitys.data.filter(amenity => amenity._id !== id)
+    state.bookings.data = state.bookings.data.filter(booking => booking._id !== id)
   },
 
 }
 
-export const amenity = {
+export const booking = {
   namespaced: true,
   state,
   actions,

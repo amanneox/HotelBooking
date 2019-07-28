@@ -1,8 +1,8 @@
 /* eslint-disable*/
-import { amenityService } from '../services'
+import { customerService } from '../services'
 
 const state = {
-  amenitys: {
+  customers: {
     Fetching:'',
     Fetched:'false',
   },
@@ -14,38 +14,38 @@ const state = {
 }
 
 const actions = {
-  get_All_Amenity ({ commit }) {
+  get_All_Customer ({ commit }) {
     commit('getAllRequest')
 
-    amenityService.getAll()
+    customerService.getAll()
       .then(
-        amenity => commit('getAllSuccess', amenity),
+        customer => commit('getAllSuccess', customer),
         error => commit('getAllFailure', error)
       )
   },
   getById ({ commit },id) {
     commit('getStaffRequest')
 
-    amenityService.getById(id)
+    customerService.getById(id)
       .then(
-        amenity => commit('getCurrentSuccess', amenity),
+        customer => commit('getCurrentSuccess', customer),
         error => commit('getCurrentFailure', error)
       )
   },
 
-  update({commit},amenity){
-    amenityService.update(amenity).then(
-      amenity => amenityService.getAll().then(
-            amenity => commit('getAllSuccess', amenity),
+  update({commit},customer){
+    customerService.update(customer).then(
+      customer => customerService.getAll().then(
+            customer => commit('getAllSuccess', customer),
             error => commit('getAllFailure', error)
           ),
       error => console.log(error.toString())
     )
   },
-  create({commit},amenity){
-    amenityService.create(amenity).then(
-      amenity => amenityService.getAll().then(
-            amenity => commit('getAllSuccess', amenity),
+  create({commit},customer){
+    customerService.create(customer).then(
+      customer => customerService.getAll().then(
+            customer => commit('getAllSuccess', customer),
             error => commit('getAllFailure', error)
           ),
       error => console.log(error.toString())
@@ -54,9 +54,9 @@ const actions = {
   _delete ({ commit }, id) {
   //  commit('deleteRequest', id)
 
-    amenityService.delete(id)
+    customerService.delete(id)
       .then(
-        amenity => commit('deleteStaffSuccess',id),
+        customer => commit('deleteStaffSuccess',id),
         error => console.log(error),
       )
   },
@@ -64,21 +64,21 @@ const actions = {
 
 const mutations = {
   getAllRequest (state) {
-    state.amenitys.Fetched =  false,
-    state.amenitys.Fetching =  true
+    state.customers.Fetched =  false,
+    state.customers.Fetching =  true
   },
   getStaffRequest (state) {
     state.current.Fetched =  false,
     state.current.Fetching =  true
   },
-  getAllSuccess (state, amenity) {
-    state.amenitys = { data: amenity },
-    state.amenitys.Fetched =  true,
-    state.amenitys.Fetching = false,
+  getAllSuccess (state, customer) {
+    state.customers = { data: customer },
+    state.customers.Fetched =  true,
+    state.customers.Fetching = false,
     state.msg = "Request is successfull."
   },
-  getCurrentSuccess (state, amenity) {
-    state.current = { data:amenity },
+  getCurrentSuccess (state, customer) {
+    state.current = { data:customer },
     state.current.Fetched = true,
     state.current.Fetching = false
   },
@@ -91,12 +91,12 @@ const mutations = {
   deleteStaffSuccess (state, id) {
     // remove deleted user from state
     state.msg = "Room is Deleted.",
-    state.amenitys.data = state.amenitys.data.filter(amenity => amenity._id !== id)
+    state.customers.data = state.customers.data.filter(customer => customer._id !== id)
   },
 
 }
 
-export const amenity = {
+export const customer = {
   namespaced: true,
   state,
   actions,

@@ -14,7 +14,7 @@ const state = {
 }
 
 const actions = {
-  get_All ({ commit }) {
+  get_All_Grocery ({ commit }) {
     commit('getAllRequest')
 
     groceryService.getAll()

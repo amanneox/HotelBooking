@@ -3,15 +3,15 @@ const validator = require('validator');
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 const model = mongoose.model('Customer', {
-  cName:{
+  name:{
   type :String,
   required: true
 },
-cNumber:{
+number:{
   type: Number,
   required:true
 },
-cEmail:{
+email:{
   type:String,
   required:true
 }

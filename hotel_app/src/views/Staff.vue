@@ -138,7 +138,7 @@ export default {
 
   },
   methods: {
-     ...mapActions('staff', ['create','get_All','getById','_delete','update']),
+     ...mapActions('staff', ['create','get_All_Staff','getById','_delete','update']),
     $_editData(id){
       this.getById(id)
     },
@@ -156,10 +156,10 @@ export default {
    $_deleteStaff(id){
       this._delete(id)
    },
-    //    ...mapActions('offers', ['get_All','get_All_Banner'])
+    //    ...mapActions('offers', ['get_All_Staff','get_All_Staff_Banner'])
   },
   mounted () {
-       this.get_All()
+       this.get_All_Staff()
     //   this.getRoomTypes();
 
   },

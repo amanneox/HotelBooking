@@ -14,7 +14,7 @@ const state = {
 }
 
 const actions = {
-  get_All ({ commit }) {
+  get_All_Staff ({ commit }) {
     commit('getAllRequest')
 
     staffService.getAll()

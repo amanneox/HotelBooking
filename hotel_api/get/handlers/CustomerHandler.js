@@ -48,3 +48,45 @@ module.exports.customer = (event, context, callback) => {
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ))
 }
+
+module.exports.getCustomers = (event, context, callback) => {
+  dbConnectAndExecute(mongoString, () => (
+    CustomerModel
+    .find()
+    .then(customer => callback(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true
+      },
+      body: JSON.stringify(customer)
+    }))
+    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
+  ))
+
+}
+
+module.exports.deleteCustomer = (event, context, callback) => {
+  if (!validator.isAlphanumeric(event.pathParameters.id)) {
+    callback(null, createErrorResponse(400, 'Incorrect id'));
+    return;
+  }
+
+  dbConnectAndExecute(mongoString, () => (
+    CustomerModel
+    .remove({
+      _id: event.pathParameters.id
+    })
+    .then(() => callback(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true
+      },
+      body: JSON.stringify('Ok')
+    }))
+    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
+  ));
+};

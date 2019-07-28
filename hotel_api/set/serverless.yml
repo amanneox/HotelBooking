@@ -52,6 +52,14 @@ functions:
           method: post
           cors: true
 
+  createCustomer:
+    handler: handlers/CustomerHandler.createCustomer
+    events:
+      - http:
+          path: customer
+          method: post
+          cors: true
+
   createRoomType:
     handler: handlers/RoomTypeHandler.createRoomType
     events:
@@ -84,6 +92,14 @@ functions:
           method: put
           cors: true
 
+  updateCustomer:
+    handler: handlers/CustomerHandler.updateCustomer
+    events:
+      - http:
+          path: customer/{id}
+          method: put
+          cors: true
+
   updateRoom:
     handler: handlers/RoomHandler.updateRoom
     events:
@@ -106,11 +122,4 @@ functions:
       - http:
           path: amenity/{id}
           method: put
-          cors: true
-  deleteUser:
-    handler: handlers/UserHandler.deleteUser
-    events:
-      - http:
-          path: user/{id}
-          method: delete
           cors: true

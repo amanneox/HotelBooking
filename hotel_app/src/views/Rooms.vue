@@ -167,7 +167,7 @@ export default {
 
   },
   methods: {
-     ...mapActions('room', ['createType','getRoomTypes','create','get_All','getById','_delete','update']),
+     ...mapActions('room', ['createType','getRoomTypes','create','get_All_Room','getById','_delete','update']),
     $_editData(id){
       this.getById(id)
     },
@@ -195,12 +195,12 @@ export default {
    $_deleteRoom(id){
        this._delete(id)
    },
-    //    ...mapActions('offers', ['get_All','get_All_Banner'])
+    //    ...mapActions('offers', ['get_All_Room','get_All_Room_Banner'])
   },
   mounted () {
-       this.get_All()
+       this.get_All_Room()
        this.getRoomTypes();
-    //    this.get_All_Banner()
+    //    this.get_All_Room_Banner()
   },
   computed: {
    ...mapState({ room: 'room' }),

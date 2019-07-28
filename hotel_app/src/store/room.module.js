@@ -18,7 +18,7 @@ const state = {
 }
 
 const actions = {
-  get_All ({ commit }) {
+  get_All_Room ({ commit }) {
     commit('getAllRequest')
 
     roomService.getAll()

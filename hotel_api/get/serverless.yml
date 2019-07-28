@@ -47,6 +47,13 @@ functions:
           path: amenity/{id}
           method: get
           cors: true
+  customer:
+    handler: handlers/CustomerHandler.customer
+    events:
+      - http:
+          path: customer/{id}
+          method: get
+          cors: true
   getUsers:
     handler: handlers/UserHandler.getUsers
     events:
@@ -60,6 +67,14 @@ functions:
     events:
       - http:
           path: room/list
+          method: get
+          cors: true
+
+  getCustomers:
+    handler: handlers/CustomerHandler.getCustomers
+    events:
+      - http:
+          path: customer/list
           method: get
           cors: true
 
@@ -102,11 +117,25 @@ functions:
           method: get
           cors: true
 
+  deleteCustomer:
+    handler: handlers/CustomerHandler.deleteCustomer
+    events:
+      - http:
+          path: customer/delete/{id}
+          method: get
+          cors: true
   deleteGrocery:
     handler: handlers/GroceryHandler.deleteGrocery
     events:
       - http:
           path: grocery/delete/{id}
+          method: get
+          cors: true
+  deleteUser:
+    handler: handlers/UserHandler.deleteUser
+    events:
+      - http:
+          path: user/{id}
           method: get
           cors: true
 

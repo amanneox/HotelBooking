@@ -130,7 +130,7 @@ export default {
 
   },
   methods: {
-     ...mapActions('grocery', ['create','get_All','getById','_delete','update']),
+     ...mapActions('grocery', ['create','get_All_Grocery','getById','_delete','update']),
     $_editData(id){
       this.getById(id)
     },
@@ -148,10 +148,10 @@ export default {
    $_deleteGrocery(id){
       this._delete(id)
    },
-    //    ...mapActions('offers', ['get_All','get_All_Banner'])
+    //    ...mapActions('offers', ['get_All_Grocery','get_All_Grocery_Banner'])
   },
   mounted () {
-       this.get_All()
+       this.get_All_Grocery()
     //   this.getRoomTypes();
 
   },
