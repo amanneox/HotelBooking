@@ -15,6 +15,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueClock from '@dangvanthanh/vue-clock'
+import HotelDatePicker from 'vue-hotel-datepicker'
 
 library.add(fas.faUserCircle, fas.faCompass, fas.faBoxOpen, fas.faQuestion, fas.faMobileAlt
   , fas.faMobile, fas.faArrowAltCircleRight, fab.faFacebook, fab.faInstagram, fab.faTwitter, fab.faGooglePlus, fab.faYoutube
@@ -26,6 +27,7 @@ library.add(fas.faUserCircle, fas.faCompass, fas.faBoxOpen, fas.faQuestion, fas.
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('vue-clock', VueClock)
+Vue.component('HotelDatePicker', HotelDatePicker)
 Vue.use(Vuetify)
 Vue.use(VeeValidate)
 Vue.use(Vuex, VueAxios, axios)

@@ -27,7 +27,13 @@ functions:
           path: staff
           method: post
           cors: true
-
+  createBooking:
+    handler: handlers/BookingHandler.createBooking
+    events:
+      - http:
+          path: booking
+          method: post
+          cors: true
   createRoom:
     handler: handlers/RoomHandler.createRoom
     events:
@@ -89,6 +95,14 @@ functions:
     events:
       - http:
           path: staff/{id}
+          method: put
+          cors: true
+
+  updateBooking:
+    handler: handlers/BookingHandler.updateBooking
+    events:
+      - http:
+          path: booking/{id}
           method: put
           cors: true
 

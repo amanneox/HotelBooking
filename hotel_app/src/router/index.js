@@ -9,6 +9,7 @@ import Staff from '../views/Staff.vue'
 import Grocery from '../views/Grocery.vue'
 import Amenity from '../views/Amenity.vue'
 import Customer from '../views/Customer.vue'
+import Booking from '../views/Booking.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -59,6 +60,11 @@ export default new Router({
       path: '/customers',
       name: 'customer',
       component: Customer
+    },
+    {
+      path: '/bookings',
+      name: 'booking',
+      component: Booking
     }
   ]
 })

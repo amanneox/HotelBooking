@@ -33,6 +33,13 @@ functions:
           path: staff/{id}
           method: get
           cors: true
+  booking:
+    handler: handlers/BookingHandler.booking
+    events:
+      - http:
+          path: booking/{id}
+          method: get
+          cors: true
   grocery:
     handler: handlers/GroceryHandler.grocery
     events:
@@ -85,7 +92,13 @@ functions:
           path: staff/list
           method: get
           cors: true
-
+  getBookings:
+    handler: handlers/BookingHandler.getBookings
+    events:
+      - http:
+          path: booking/list
+          method: get
+          cors: true
   getGrocerys:
     handler: handlers/GroceryHandler.getGrocerys
     events:
@@ -117,6 +130,13 @@ functions:
           method: get
           cors: true
 
+  deleteBooking:
+    handler: handlers/BookingHandler.deleteBooking
+    events:
+      - http:
+          path: booking/delete/{id}
+          method: get
+          cors: true
   deleteCustomer:
     handler: handlers/CustomerHandler.deleteCustomer
     events:

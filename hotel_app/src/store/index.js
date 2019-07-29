@@ -12,6 +12,7 @@ import { staff } from './staff.module'
 import { grocery } from './grocery.module'
 import { amenity } from './amenity.module'
 import { customer } from './customer.module'
+import { booking } from './booking.module'
 Vue.use(Vuex)
  const state = {
   // Current state of the application lies here.
@@ -46,6 +47,7 @@ Vue.use(Vuex)
       grocery,
       amenity,
       customer,
+      booking,
 
   }
 })
