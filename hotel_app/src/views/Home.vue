@@ -16,6 +16,7 @@
             <v-flex md6>
               <v-container>
                 <p class="text-xs-left title text-capitalize">Hello, {{account.user.name}}</p>
+                <p class="text-xs-left subheading text-capitalize">Hotel Name - {{account.user.businessName}}</p>
               </v-container>
             </v-flex>
          </v-layout>
@@ -64,7 +65,7 @@
         <v-container>
         <v-card color="#f6f5fa" style="elevation-0">
           <v-container>
-            <p class="text-xs-left font-weight-medium text-capitalize">x</p>
+            <p v-if="booking.bookings.data" class="text-xs-left font-weight-medium text-capitalize">{{booking.bookings.data.length}}</p>
             <p class="text-xs-left font-weight-bold text-capitalize">Bookings <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="address-book" /></span> </p>
           </v-container>
         </v-card>
@@ -145,6 +146,7 @@ export default {
     ...mapActions('amenity', ['get_All_Amenity']),
     ...mapActions('staff', ['get_All_Staff']),
     ...mapActions('customer', ['get_All_Customer']),
+      ...mapActions('booking', ['get_All_Booking']),
     async randomJoke() {
      const res = await axios.get('https://official-joke-api.appspot.com/random_joke')
        //console.log(res.data)
@@ -165,6 +167,7 @@ export default {
       ...mapState({ amenity: 'amenity' }),
       ...mapState({ staff: 'staff' }),
         ...mapState({ customer: 'customer' }),
+                ...mapState({ booking: 'booking' }),
   },
   mounted () {
   //  console.log(this.grocery)
@@ -174,6 +177,7 @@ export default {
     this.get_All_Amenity()
     this.get_All_Staff()
     this.get_All_Customer()
+    this.get_All_Booking()
     this.randomJoke()
     //    this.get_All(),
     //    this.get_All_Banner()
@@ -196,10 +200,8 @@ export default {
 }
 .fade:hover
 {
-        opacity:1;
-
+  opacity:1;
 }
-
 .overview-icon{
     color:#5f2a8a;
 }

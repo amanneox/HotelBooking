@@ -13,8 +13,19 @@
   ></v-progress-circular>
   </div>
   <v-container v-else>
+    <v-flex xs12 offset-md8 py-3>
+    <v-text-field
+    v-model="search"
+    append-icon="search"
+    label="Search"
+    single-line
+    solo
+    hide-details>
+  </v-text-field>
+  </v-flex>
     <v-data-table
     :headers="headers"
+    :search="search"
     :items="customer.customers.data"
     class="elevation-1"
   >
@@ -34,8 +45,8 @@
       <td class="text-xs-left text-capitalize">{{ props.item.name }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.number }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.email }}</td>
-      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a">
-        <span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn>
+      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn icon depressed color="#fff">
+        <font-awesome-icon style="color:#5f2a8a" size="lg" icon="edit" /></v-btn>
       </td>
     </template>
   </v-data-table>
@@ -74,12 +85,8 @@
             <span class="headline">Edit Customer</span>
           </v-card-title>
           <v-card-text>
-            <div v-if="customer.current.Fetching">
-            <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-          </div>
+              <v-text-field v-if="customer.current.Fetching"  color="success" loading disabled></v-text-field>
+      
             <v-container v-if="customer.current.data" grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md6>
@@ -165,6 +172,7 @@ export default {
       snackbar: false,
       timeout: 6000,
       dialog: false,
+      search:'',
       createCustomerDialoag: false,
       customerdata:{
         name:'',

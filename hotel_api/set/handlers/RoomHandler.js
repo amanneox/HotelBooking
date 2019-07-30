@@ -92,3 +92,63 @@ module.exports.updateRoom = (event, context, callback) => {
     .catch(err => callback(err, createErrorResponse(err.statusCode, err.message)))
   ));
 };
+
+
+
+module.exports.bookRoom = (event, context, callback) => {
+  const data = JSON.parse(event.body);
+  const id = event.pathParameters.id;
+
+  if (!validator.isAlphanumeric(id)) {
+    callback(null, createErrorResponse(400, 'Incorrect id'));
+    return;
+  }
+
+  const room = new RoomModel({
+    _id: id,
+    isReserved: true
+  });
+
+  dbConnectAndExecute(mongoString, () => (
+    RoomModel.findByIdAndUpdate(id, room)
+    .then(() => callback(null, {
+      statusCode: 200,
+      headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Credentials" : true
+    },
+      body: JSON.stringify('Ok')
+    }))
+    .catch(err => callback(err, createErrorResponse(err.statusCode, err.message)))
+  ));
+};
+
+module.exports.unbookRoom = (event, context, callback) => {
+  const data = JSON.parse(event.body);
+  const id = event.pathParameters.id;
+
+  if (!validator.isAlphanumeric(id)) {
+    callback(null, createErrorResponse(400, 'Incorrect id'));
+    return;
+  }
+
+  const room = new RoomModel({
+    _id: id,
+    isReserved: false
+  });
+
+  dbConnectAndExecute(mongoString, () => (
+    RoomModel.findByIdAndUpdate(id, room)
+    .then(() => callback(null, {
+      statusCode: 200,
+      headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Credentials" : true
+    },
+      body: JSON.stringify('Ok')
+    }))
+    .catch(err => callback(err, createErrorResponse(err.statusCode, err.message)))
+  ));
+};

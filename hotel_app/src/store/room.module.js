@@ -18,6 +18,13 @@ const state = {
 }
 
 const actions = {
+  update_book_room({commit}, roomList){
+    //console.log(roomList)
+    commit('changeBookRooms',roomList)
+  },
+  update_unbook_room({commit}, roomList){
+    commit('changeUnbookRooms',roomList)
+  },
   get_All_Room ({ commit }) {
     commit('getAllRequest')
 
@@ -54,7 +61,7 @@ const actions = {
         )
     )
   },
-  update({commit},room){
+  updateRoom({commit},room){
     roomService.update(room).then(
       room => roomService.getAll().then(
             room => commit('getAllSuccess', room),
@@ -125,6 +132,16 @@ const mutations = {
         ? { ...user, deleting: true }
         : user
     )
+  },
+  changeBookRooms(state, roomList){
+  roomList.forEach(function(id){
+  state.rooms.data.map((room) => room._id == id ? room.isReserved = true : null)
+  })
+  },
+  changeUnbookRooms(state, roomList){
+  roomList.forEach(function(id){
+  state.rooms.data.map((room) => room._id == id ? room.isReserved = false : null)
+  })
   },
   deleteSuccess (state, id) {
     // remove deleted user from state

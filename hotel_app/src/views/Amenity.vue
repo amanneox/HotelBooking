@@ -13,8 +13,19 @@
   ></v-progress-circular>
   </div>
   <v-container v-else>
+    <v-flex xs12 offset-md8 py-3>
+    <v-text-field
+    v-model="search"
+    append-icon="search"
+    label="Search"
+    single-line
+    solo
+    hide-details>
+  </v-text-field>
+  </v-flex>
     <v-data-table
     :headers="headers"
+    :search="search"
     :items="amenity.amenitys.data"
     class="elevation-1"
   >
@@ -74,12 +85,7 @@
             <span class="headline">Edit Amenity</span>
           </v-card-title>
           <v-card-text>
-            <div v-if="amenity.current.Fetching">
-            <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-          </div>
+             <v-text-field v-if="amenity.current.Fetching"  color="success" loading disabled></v-text-field>
             <v-container v-if="amenity.current.data" grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md6>
@@ -163,6 +169,7 @@ export default {
       snackbar: false,
       timeout: 6000,
       dialog: false,
+      search:'',
       createAmenityDialoag: false,
       amenitydata:{
         name:'',

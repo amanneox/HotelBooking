@@ -14,6 +14,7 @@ const state = {
 }
 
 const actions = {
+
   get_All_Booking ({ commit }) {
     commit('getAllRequest')
 
@@ -49,16 +50,33 @@ const actions = {
             error => commit('getAllFailure', error)
           ),
       error => console.log(error.toString())
+    ).then(
+      booking.roomList.forEach(function(room){
+        //console.log(room)
+        bookingService.bookRoom(room).then(
+          room => console.log(room),
+          error => console.log(error)
+        )
+    })
     )
   },
-  _delete ({ commit }, id) {
+  _delete ({ commit }, data) {
   //  commit('deleteRequest', id)
-
-    bookingService.delete(id)
+  //  const id = data.id
+  //  console.log(JSON.stringify(data))
+    bookingService.delete(data)
       .then(
-        booking => commit('deleteStaffSuccess',id),
+        booking => commit('deleteBookingSuccess', data),
         error => console.log(error),
-      )
+      ).then(
+        data.roomList.forEach(function(room){
+          //console.log(room)
+          bookingService.unbookRoom(room).then(
+            room => console.log(room),
+            error => console.log(error)
+          )
+      })
+    )
   },
 }
 
@@ -88,10 +106,10 @@ const mutations = {
   getAllFailure (state, error) {
     state.msg = { error }
   },
-  deleteStaffSuccess (state, id) {
+  deleteBookingSuccess (state, data) {
     // remove deleted user from state
     state.msg = "Room is Deleted.",
-    state.bookings.data = state.bookings.data.filter(booking => booking._id !== id)
+    state.bookings.data = state.bookings.data.filter(booking => booking._id !== data.id)
   },
 
 }

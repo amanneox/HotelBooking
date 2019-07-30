@@ -20,7 +20,7 @@
                 class="avatar-holder"
                 size="76"
                 >
-             <img class="avatar-img" src="../assets/man.svg" alt="avatar">
+             <img class="avatar-img" src="https://api.adorable.io/avatars/120/abott@adorable.png" alt="avatar">
            </v-avatar>
            <v-container>
              <p class="name title black--text text-capitalize">{{user.current.data[0].name}}</p>
@@ -50,13 +50,13 @@
         </v-container>
           </v-flex>
           <v-flex md6 xs12>
-            <v-card class="account-list-item elevation-0">
+            <v-card v-if="user.current.data[0]" class="account-list-item elevation-0">
               <v-container>
                 <v-layout row wrap>
                     <span class="subheading text-capitalize title-name text-xs-left">Business Name</span>
                 </v-layout>
                 <v-layout wrap row>
-                  <v-flex class="text-xs-left">
+                  <v-flex md6 class="text-xs-left">
                     <v-text-field v-model="user.current.data[0].businessName" :value="user.current.data[0].businessName" outline label="Business Name" required></v-text-field>
                   </v-flex>
                 </v-layout>

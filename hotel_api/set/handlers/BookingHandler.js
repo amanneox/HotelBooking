@@ -30,7 +30,7 @@ module.exports.createBooking = (event, context, callback) => {
   const booking = new BookingModel({
     cID: data.cID,
     userID: data.userID,
-    cInData: data.cInData,
+    cInDate: data.cInDate,
     cOutDate: data.cOutDate,
     roomList: data.roomList,
   })
@@ -67,7 +67,7 @@ module.exports.updateBooking = (event, context, callback) => {
     _id: id,
     cID: data.cID,
     userID: data.userID,
-    cInData: data.cInData,
+    cInDate: data.cInDate,
     cOutDate: data.cOutDate,
     roomList: data.roomList,
   });

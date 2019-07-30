@@ -13,7 +13,7 @@ userID:{
 },
 roomList:[
   {
-    roomID: String
+    type: String
   }
 ],
 cInDate:{

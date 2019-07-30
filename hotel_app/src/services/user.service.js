@@ -93,7 +93,7 @@ async function getById (id) {
   }
 try {
   const res = await axios.get(`${config.getUrl}/user/${id}`)
-//  console.log(res.data)
+  console.log(res.data)
   return res.data
 } catch (error) {
     return Promise.reject(error)

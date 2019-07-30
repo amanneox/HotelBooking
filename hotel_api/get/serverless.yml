@@ -155,10 +155,9 @@ functions:
     handler: handlers/UserHandler.deleteUser
     events:
       - http:
-          path: user/{id}
+          path: user/delete/{id}
           method: get
           cors: true
-
   getRoomTypes:
     handler: handlers/RoomTypeHandler.getRoomTypes
     events:

@@ -33,7 +33,7 @@
       <v-list class="pa-1 logo-head">
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <img src="../assets/man.svg">
+            <img src="https://api.adorable.io/avatars/120/abott@adorable.png">
           </v-list-tile-avatar>
 
           <v-list-tile-content>

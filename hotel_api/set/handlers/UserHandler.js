@@ -112,24 +112,6 @@ module.exports.createUser = (event, context, callback) => {
   ));
 };
 
-module.exports.deleteUser = (event, context, callback) => {
-  if (!validator.isAlphanumeric(event.pathParameters.id)) {
-    callback(null, createErrorResponse(400, 'Incorrect id'));
-    return;
-  }
-
-  dbConnectAndExecute(mongoString, () => (
-    UserModel
-    .remove({
-      _id: event.pathParameters.id
-    })
-    .then(() => callback(null, {
-      statusCode: 200,
-      body: JSON.stringify('Ok')
-    }))
-    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
-  ));
-};
 
 module.exports.updateUser = (event, context, callback) => {
   const data = JSON.parse(event.body);

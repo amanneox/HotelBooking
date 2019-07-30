@@ -14,7 +14,7 @@
   </div>
   <v-container v-else>
 
-    <v-flex xs12 md4>
+    <v-flex xs12 offset-md8 py-3>
     <v-text-field
     v-model="search"
     append-icon="search"
@@ -50,23 +50,33 @@
       <td class="text-xs-left text-capitalize">{{ props.item.roomList }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.cInDate }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.cOutDate }}</td>
-      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a">
-        <span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn>
+      <td class="text-xs-right"><v-btn icon depressed color="#fff">
+        <font-awesome-icon style="color:#5f2a8a" size="lg" icon="eye" /></v-btn>
+      </td>
+      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn icon depressed color="#fff">
+        <font-awesome-icon style="color:#5f2a8a" size="lg" icon="trash-alt" /></v-btn>
       </td>
     </template>
   </v-data-table>
 </v-container>
 <v-dialog v-model="createBookingDialoag" persistent fullscreen hide-overlay transition="dialog-bottom-transition">
      <v-card>
-       <v-card-title>
-         <span class="headline">Create Booking</span>
-       </v-card-title>
+       <v-toolbar dark color="#5f2a8a">
+        <v-btn icon dark @click="createBookingDialoag = false">
+          <v-icon color="white">close</v-icon>
+        </v-btn>
+        <v-toolbar-title>Create Booking</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn depressed color="#5f2a8a" @click.prevent="$_createBooking"  text @click="createBookingDialoag = false,snackbar = true"><font-awesome-icon icon="save" />&nbsp;&nbsp;Save</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
        <v-card-text>
 
          <v-container grid-list-md>
            <v-layout wrap>
              <v-flex xs12 md4>
-               <HotelDatePicker @check-in-changed="logCheckout($event)" @check-out-changed="logCheckin($event)" format="DD/MM/YYYY">
+               <HotelDatePicker @check-in-changed="logCheckin($event)" @check-out-changed="logCheckout($event)" format="DD/MM/YYYY">
                </HotelDatePicker>
              </v-flex>
 
@@ -102,13 +112,8 @@
                   <td class="text-xs-left text-capitalize">{{ props.item.name }}</td>
                   <td class="text-xs-left text-capitalize">{{ props.item.number }}</td>
                   <td class="text-xs-left text-capitalize">{{ props.item.email }}</td>
-                  <td><v-checkbox
-                    v-model="ex4"
-                    label="select"
-                    color="success"
-                    value="success"
-                    hide-details>
-                  </v-checkbox>
+                  <td>
+                    <input type="radio" class="customer-radio" :value="`${props.item._id}`" v-model="bookingdata.cID">
                 </td>
 
                 </template>
@@ -134,11 +139,21 @@
                   <td class="text-xs-left text-capitalize">{{ props.item.roomNo }}</td>
                   <td class="text-xs-left text-capitalize">{{ getRoomPrice(props.item.roomType) }}</td>
                   <td class="text-xs-left text-capitalize">{{ props.item.isReserved }}</td>
-                  <td><v-checkbox
-                    v-model="ex4"
-                    label="select"
+                  <td v-if="props.item.isReserved == true">
+                    <v-checkbox
+                    v-model="checkedrooms"
+                    label="Booked"
+                    color="error"
+                    disabled
+                    hide-details>
+                  </v-checkbox>
+                </td>
+                  <td v-else>
+                    <v-checkbox
+                    v-model="checkedrooms"
+                    label="Select"
                     color="success"
-                    value="success"
+                    :value="`${props.item._id}`"
                     hide-details>
                   </v-checkbox>
                 </td>
@@ -148,36 +163,22 @@
           </v-layout>
          </v-container>
        </v-card-text>
-       <v-card-actions>
-         <v-spacer></v-spacer>
-         <v-btn color="error" depressed  @click="createBookingDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createBooking" color="success"  depressed @click="createBookingDialoag = false,snackbar = true">Save</v-btn>
-       </v-card-actions>
      </v-card>
    </v-dialog>
-   <v-dialog v-model="dialog" persistent max-width="600px">
+   <v-dialog v-model="dialog" persistent max-width="320">
         <v-card>
           <v-card-title>
-            <span class="headline">Edit Booking</span>
-          </v-card-title>
-          <v-card-text>
-            <div v-if="booking.current.Fetching">
-            <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-          </div>
-            <v-container v-if="booking.current.data" grid-list-md>
-              <v-layout wrap>
-                <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteBooking(booking.current.data[0]._id)" depressed>Delete</v-btn>
-              </v-layout>
-            </v-container>
+            <span class="headline">Delete Booking</span>
+                <v-text-field v-if="booking.current.Fetching"  color="success" loading disabled></v-text-field>
+            </v-card-title>
+          <v-card-text class="text-capitalize">
+            Are You Sure ? You want to delete this Booking
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-            <v-btn color="success" depressed @click.prevent="$_editDataBooking(booking.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+            <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
+            <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteBooking(booking.current.data[0]._id,booking.current.data[0].roomList)" depressed>Delete</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -219,8 +220,8 @@ export default {
 //    console.log(date);
   },
      ...mapActions('booking', ['create','get_All_Booking','getById','_delete','update']),
-        ...mapActions('room', ['createType','getRoomTypes','create','get_All_Room','getById','_delete','update']),
-        ...mapActions('customer', ['create','get_All_Customer','getById','_delete','update']),
+     ...mapActions('room', ['getRoomTypes','get_All_Room','updateRoom','update_book_room','update_unbook_room']),
+     ...mapActions('customer', ['get_All_Customer']),
     $_editData(id){
       this.getById(id)
     },
@@ -230,20 +231,29 @@ export default {
       this.update(this.booking.current.data[0])
     },
     $_createBooking(){
-    //  console.log(this.bookingdata)
-  //   this.bookingdata.rating = parseInt(this.bookingdata.rating)
-  //   this.create(this.bookingdata)
-  //console.log(this.mydate,'44')
+     this.bookingdata.roomList = this.checkedrooms
+     this.bookingdata.userID = this.account.user._id
+  //   console.log(this.bookingdata)
+     this.create(this.bookingdata)
+     this.update_book_room(this.bookingdata.roomList)
+  //   this.get_All_Room()
     },
 
-   $_deleteBooking(id){
-      this._delete(id)
+   $_deleteBooking(id,roomList){
+     const data = {
+       id,
+       roomList
+     }
+    // console.log(data)
+     this._delete(data)
+     this.update_unbook_room(roomList)
+    // this.get_All_Room()
    },
     //    ...mapActions('offers', ['get_All_Booking','get_All_Booking_Banner'])
   },
   mounted () {
        this.get_All_Customer()
-          this.getRoomTypes();
+        this.getRoomTypes();
         this.get_All_Room()
        this.get_All_Booking()
     //   this.getRoomTypes();
@@ -251,11 +261,13 @@ export default {
   },
   computed: {
    ...mapState({ booking: 'booking' }),
-      ...mapState({ room: 'room' }),
+   ...mapState({ room: 'room' }),
    ...mapState({ customer: 'customer' }),
+   ...mapState({account:'account'}),
   },
   data() {
     return {
+      checkedrooms:[],
       mydate: '',
       snackbar: false,
       timeout: 6000,
@@ -265,9 +277,14 @@ export default {
       createBookingDialoag: false,
       bookingdata:{
         cID:'',
+        userID:'',
         cInDate:'',
         cOutDate:'',
-        romList:[
+        roomList:[
+          {
+              roomID:''
+          }
+
         ],
       },
       customerheader: [

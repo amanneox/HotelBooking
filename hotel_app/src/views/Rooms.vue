@@ -15,8 +15,19 @@
 ></v-progress-circular>
 </div>
   <v-container v-else>
+    <v-flex xs12 offset-md8 py-3>
+    <v-text-field
+    v-model="search"
+    append-icon="search"
+    label="Search"
+    single-line
+    solo
+    hide-details>
+  </v-text-field>
+  </v-flex>
     <v-data-table
     :headers="headers"
+    :search="search"
     :items="room.rooms.data"
     class="elevation-1"
   >
@@ -38,8 +49,8 @@
       <td class="text-xs-left text-capitalize">{{ props.item.roomNo }}</td>
       <td class="text-xs-left text-capitalize">{{ getRoomPrice(props.item.roomType) }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.isReserved }}</td>
-      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn depressed color="#5f2a8a">
-        <span class="" style="color:#FFF">Edit</span><v-icon color="white" dark>edit</v-icon></v-btn>
+      <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn icon depressed color="#fff">
+          <font-awesome-icon style="color:#5f2a8a" size="lg" icon="edit" /></v-btn>
       </td>
     </template>
   </v-data-table>
@@ -111,12 +122,8 @@
          <span class="headline">Edit Room</span>
        </v-card-title>
        <v-card-text>
-         <div v-if="room.current.Fetching">
-         <v-progress-circular
-         indeterminate
-         color="primary"
-       ></v-progress-circular>
-       </div>
+           <v-text-field v-if="room.current.Fetching"  color="success" loading disabled></v-text-field>
+
          <v-container v-if="room.current.data" grid-list-md>
            <v-layout wrap>
              <v-flex xs12 sm6 md6>
@@ -167,14 +174,14 @@ export default {
 
   },
   methods: {
-     ...mapActions('room', ['createType','getRoomTypes','create','get_All_Room','getById','_delete','update']),
+     ...mapActions('room', ['createType','getRoomTypes','create','get_All_Room','getById','_delete','updateRoom']),
     $_editData(id){
       this.getById(id)
     },
     $_editDataRoom(id){
       //console.log(id)
     //  console.log(this.room.current[0])
-    this.update(this.room.current.data[0])
+    this.updateRoom(this.room.current.data[0])
     },
     $_createRoomType(){
       //console.log(this.roomType)
@@ -209,6 +216,7 @@ export default {
       return {
         snackbar: false,
         timeout: 6000,
+        search:'',
         roomEdit:{
           roomNo:'',
           description:'',

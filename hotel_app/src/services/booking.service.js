@@ -10,6 +10,8 @@ export const bookingService = {
   getAll,
   getById,
   update,
+  bookRoom,
+  unbookRoom,
   delete: _delete
 }
 
@@ -87,10 +89,44 @@ async function update (booking) {
   }
 }
 
-// prefixed function name with underscore because delete is a reserved word in javascript
-async function _delete (id) {
+async function bookRoom (room) {
+  const requestOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Credentials" : true
+   },
+  }
+//  console.log(bookingType,'@@@')
   try {
-    const res = await axios.get(`${config.getUrl}/booking/delete/${id}`)
+    const res = await axios.put(`${config.setUrl}/room/book/${room}`, requestOptions)
+  //  console.log(res.data)
+    return res.data
+  } catch (error) {
+      return Promise.reject(error)
+  }
+}
+async function unbookRoom (room) {
+  const requestOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Credentials" : true
+   },
+  }
+//  console.log(bookingType,'@@@')
+  try {
+    const res = await axios.put(`${config.setUrl}/room/unbook/${room}`, requestOptions)
+  //  console.log(res.data)
+    return res.data
+  } catch (error) {
+      return Promise.reject(error)
+  }
+}
+// prefixed function name with underscore because delete is a reserved word in javascript
+async function _delete (data) {
+  try {
+    const res = await axios.get(`${config.getUrl}/booking/delete/${data.id}`)
   //  console.log(res.data)
     return res.data
   } catch (error) {

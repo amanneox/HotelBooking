@@ -137,3 +137,18 @@ functions:
           path: amenity/{id}
           method: put
           cors: true
+
+  bookRoom:
+    handler: handlers/RoomHandler.bookRoom
+    events:
+      - http:
+          path: room/book/{id}
+          method: put
+          cors: true
+  unbookRoom:
+    handler: handlers/RoomHandler.unbookRoom
+    events:
+      - http:
+          path: room/unbook/{id}
+          method: put
+          cors: true
