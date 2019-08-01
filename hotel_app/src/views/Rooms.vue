@@ -63,32 +63,47 @@
        <v-card-text>
 
          <v-container grid-list-md>
+           <v-form data-vv-scope="createroom">
            <v-layout wrap>
              <v-flex xs12 md6>
-               <v-text-field v-model="roomdata.roomNo" outline label="Room No" required></v-text-field>
+               <v-text-field v-validate="'required|numeric'" name="roomno" v-model="roomdata.roomNo" outline label="Room No" required></v-text-field>
              </v-flex>
              <v-flex xs8 md8>
-                 <v-select v-model="roomdata.roomType" :items="room.types.data" item-text="roomType" label="Room Type" required outline></v-select>
+                 <v-select v-validate="'required'" name="roomtype" v-model="roomdata.roomType" :items="room.types.data" item-text="roomType" label="Room Type" required outline></v-select>
              </v-flex>
              <v-flex xs4 md4>
                <v-btn depressed color="primary" @click.prevent="$_getTypes">Fetch</v-btn>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="roomdata.rating" outline label="Room Rating" required></v-text-field>
+               <v-text-field v-validate="'required|numeric'" name="rating" v-model="roomdata.rating" outline label="Room Rating" required></v-text-field>
              </v-flex>
-             <v-flex xs12 md6>
-               <v-text-field v-model="roomdata.imageList.img_url" outline label="Images" required></v-text-field>
+             <v-flex xs12 md12>
+               <v-layout row wrap>
+             <v-flex xs6 md6>
+               <v-text-field v-model="img_url" outline label="Images" required></v-text-field>
              </v-flex>
-             <v-flex xs12>
-               <v-textarea v-model="roomdata.description" outline label="Description" required></v-textarea>
+             <v-flex>
+               <v-btn color="success" @click="addImage()">Add</v-btn>
+             </v-flex>
+             <v-flex>
+               <v-btn color="error" @click="clearImage()">Clear</v-btn>
              </v-flex>
            </v-layout>
+             </v-flex>
+
+                <span v-for=" url in roomdata.imageList">{{url}}</span>
+             <v-flex xs12>
+               <v-textarea v-validate="'required'" name="description" v-model="roomdata.description" outline label="Description" required></v-textarea>
+             </v-flex>
+           </v-layout>
+             <li class="error-list" style="color:red;" v-for="error in errors.all('createroom')">{{ error }}</li>
+         </v-form>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="createRoomDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createRoom" color="success"  depressed @click="createRoomDialoag = false,snackbar = true">Save</v-btn>
+         <v-btn :disabled="errors.any('createroom')" @click.prevent="$_createRoom" color="success"  depressed @click="createRoomDialoag = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -99,20 +114,23 @@
        </v-card-title>
        <v-card-text>
          <v-container grid-list-md>
+           <v-form data-vv-scope="createtype">
            <v-layout wrap>
              <v-flex xs12>
-               <v-text-field v-model="roomType.roomType" outline label="Room Type" required></v-text-field>
+               <v-text-field v-validate="'required'" name="roomtype" v-model="roomType.roomType" outline label="Room Type" required></v-text-field>
              </v-flex>
              <v-flex xs12>
-               <v-text-field v-model="roomType.roomPrice" outline label="Room Price" required></v-text-field>
+               <v-text-field v-validate="'required|numeric'" name="roomprice" v-model="roomType.roomPrice" outline label="Room Price" required></v-text-field>
              </v-flex>
            </v-layout>
+           <li class="error-list" style="color:red;" v-for="error in errors.all('createtype')">{{ error }}</li>
+         </v-form>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
-         <v-btn color="error" depressed  @click="roomTypeDialog = false">Close</v-btn>
-         <v-btn color="success" depressed @click.prevent="$_createRoomType" @click="roomTypeDialog = false,snackbar = true">Save</v-btn>
+         <v-btn color="error" depressed @click.prevent="cleardata"  @click="roomTypeDialog = false">Close</v-btn>
+         <v-btn :disabled="errors.any('createtype')" color="success" depressed @click.prevent="$_createRoomType" @click="roomTypeDialog = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -125,26 +143,30 @@
            <v-text-field v-if="room.current.Fetching"  color="success" loading disabled></v-text-field>
 
          <v-container v-if="room.current.data" grid-list-md>
+           <v-form data-vv-scope="editroom">
            <v-layout wrap>
              <v-flex xs12 sm6 md6>
-               <v-text-field v-model="room.current.data[0].roomNo" :value="room.current.data[0].roomNo" outline label="Room No*" required></v-text-field>
+               <v-text-field v-validate="'required|numeric'" name="roomno" v-model="room.current.data[0].roomNo" :value="room.current.data[0].roomNo" outline label="Room No*" required></v-text-field>
+
              </v-flex>
              <v-flex xs12 sm6 md6>
-               <v-text-field v-model="room.current.data[0].rating" :value="room.current.data[0].rating" outline label="Rating*" required></v-text-field>
+               <v-text-field v-validate="'required|numeric'" name="rating" v-model="room.current.data[0].rating" :value="room.current.data[0].rating" outline label="Rating*" required></v-text-field>
              </v-flex>
 
              <v-flex xs12>
-               <v-textarea v-model="room.current.data[0].description" :value="room.current.data[0].description"  label="Description*" outline required></v-textarea>
+               <v-textarea v-validate="'required'" name="description" v-model="room.current.data[0].description" :value="room.current.data[0].description"  label="Description*" outline required></v-textarea>
              </v-flex>
              <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteRoom(room.current.data[0]._id)" depressed>Delete</v-btn>
            </v-layout>
+            <li class="error-list" style="color:red;" v-for="error in errors.all('editroom')">{{ error }}</li>
+         </v-form>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
 
          <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-         <v-btn color="success" depressed @click.prevent="$_editDataRoom(room.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+         <v-btn :disabled="errors.any('editroom')" color="success" depressed @click.prevent="$_editDataRoom(room.current.data[0]._id)" @click="dialog = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -179,18 +201,51 @@ export default {
       this.getById(id)
     },
     $_editDataRoom(id){
+      this.$validator.validateAll('editroom').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+            this.updateRoom(this.room.current.data[0])
+          this.snackbar = true
+        }
+      })
       //console.log(id)
     //  console.log(this.room.current[0])
-    this.updateRoom(this.room.current.data[0])
+
     },
     $_createRoomType(){
+      this.$validator.validateAll('createtype').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+          this.createType(this.roomType)
+          this.snackbar = true
+        }
+      })
       //console.log(this.roomType)
-      this.createType(this.roomType)
+
     },
     $_createRoom(){
-    //  console.log(this.roomdata)
-     this.roomdata.rating = parseInt(this.roomdata.rating)
-     this.create(this.roomdata)
+      this.$validator.validateAll('createroom').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+        //  console.log(this.roomdata)
+          this.roomdata.rating = parseInt(this.roomdata.rating)
+          this.create(this.roomdata)
+          this.snackbar = true
+        }
+      })
+
     },
     $_getTypes(){
       this.getRoomTypes();
@@ -202,21 +257,37 @@ export default {
    $_deleteRoom(id){
        this._delete(id)
    },
+   addImage:function() {
+     this.roomdata.imageList.push(
+   {img_url: this.img_url}
+ )
+    this.img_url = ''
+  },
+  clearImage(){
+    this.roomdata.imageList = []
+  },
+  cleardata(){
+
+  }
     //    ...mapActions('offers', ['get_All_Room','get_All_Room_Banner'])
   },
   mounted () {
+       this.roomdata.imageList = []
        this.get_All_Room()
        this.getRoomTypes();
     //    this.get_All_Room_Banner()
   },
   computed: {
    ...mapState({ room: 'room' }),
+
+
   },
   data () {
       return {
         snackbar: false,
         timeout: 6000,
         search:'',
+        img_url:'',
         roomEdit:{
           roomNo:'',
           description:'',

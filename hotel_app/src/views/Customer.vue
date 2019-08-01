@@ -59,23 +59,29 @@
        <v-card-text>
 
          <v-container grid-list-md>
-           <v-layout wrap>
+           <v-form data-vv-scope="createcustomer">
+           <v-layout  wrap>
              <v-flex xs12 md6>
-               <v-text-field v-model="customerdata.name" outline label="Name" required></v-text-field>
+               <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="customerdata.name" outline label="Name" required></v-text-field>
+
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="customerdata.number" outline label="Number" required></v-text-field>
+               <v-text-field v-validate="'required|digits:10'" name="number" v-model="customerdata.number" outline label="Number" required></v-text-field>
+
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="customerdata.email" outline label="Email" required></v-text-field>
+               <v-text-field v-validate="'required|email'" name="email" v-model="customerdata.email" outline label="Email" required></v-text-field>
+
              </v-flex>
            </v-layout>
+            <li class="error-list" style="color:red;" v-for="error in errors.all('createcustomer')">{{ error }}</li>
+         </v-form>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="createCustomerDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createCustomer" color="success"  depressed @click="createCustomerDialoag = false,snackbar = true">Save</v-btn>
+         <v-btn :disabled="errors.any('createcustomer')" @click.prevent="$_createCustomer" color="success"  depressed @click="createCustomerDialoag = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -86,23 +92,25 @@
           </v-card-title>
           <v-card-text>
               <v-text-field v-if="customer.current.Fetching"  color="success" loading disabled></v-text-field>
-      
+
             <v-container v-if="customer.current.data" grid-list-md>
+              <v-form data-vv-scope="editcustomer">
               <v-layout wrap>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="customer.current.data[0].name" :value="customer.current.data[0].name" outline label="Name*" required></v-text-field>
+                  <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="customer.current.data[0].name" :value="customer.current.data[0].name" outline label="Name*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="customer.current.data[0].number" :value="customer.current.data[0].number" outline label="Number*" required></v-text-field>
+                  <v-text-field v-validate="'required|digits:10'" name="number" v-model="customer.current.data[0].number" :value="customer.current.data[0].number" outline label="Number*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="customer.current.data[0].email" :value="customer.current.data[0].email" outline label="Email*" required></v-text-field>
+                  <v-text-field v-validate="'required|email'" name="email" v-model="customer.current.data[0].email" :value="customer.current.data[0].email" outline label="Email*" required></v-text-field>
                 </v-flex>
                 <v-flex>
-                  <v-btn style="float:left" color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteCustomer(customer.current.data[0]._id)" depressed>Delete</v-btn>
+                  <v-btn :disabled="errors.any('editcustomer')" style="float:left" color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteCustomer(customer.current.data[0]._id)" depressed>Delete</v-btn>
                 </v-flex>
-
               </v-layout>
+                <li class="error-list" style="color:red;" v-for="eerror in errors.all('editcustomer')">{{ eerror }}</li>
+            </v-form>
             </v-container>
           </v-card-text>
           <v-card-actions>
@@ -144,14 +152,43 @@ export default {
       this.getById(id)
     },
     $_editDataCustomer(id){
+      this.$validator.validateAll('editcustomer').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+          this.update(this.customer.current.data[0])
+          this.snackbar = true
+        }
+      })
       //console.log(id)
     //  console.log(this.customer.current[0])
-      this.update(this.customer.current.data[0])
+
     },
+
     $_createCustomer(){
+
+      this.$validator.validateAll('createcustomer').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+          this.create(this.customerdata)
+          this.snackbar = true
+        }
+      })
+
+
+
+
+
     //  console.log(this.customerdata)
   //   this.customerdata.rating = parseInt(this.customerdata.rating)
-     this.create(this.customerdata)
+
     },
 
    $_deleteCustomer(id){

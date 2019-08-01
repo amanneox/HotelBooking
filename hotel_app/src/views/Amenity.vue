@@ -57,25 +57,27 @@
          <span class="headline">Create Amenity</span>
        </v-card-title>
        <v-card-text>
-
          <v-container grid-list-md>
+           <v-form data-vv-scope="createamenity">
            <v-layout wrap>
              <v-flex xs12 md6>
-               <v-text-field v-model="amenitydata.name" outline label="Name" required></v-text-field>
+               <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="amenitydata.name" outline label="Name" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="amenitydata.quantity" outline label="Quantity" required></v-text-field>
+               <v-text-field v-validate="'required'" name="quantity" v-model="amenitydata.quantity" outline label="Quantity" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="amenitydata.unit" outline label="Unit" required></v-text-field>
+               <v-text-field v-validate="'required'" name="unit" v-model="amenitydata.unit" outline label="Unit" required></v-text-field>
              </v-flex>
            </v-layout>
+             <li class="error-list" style="color:red;" v-for="error in errors.all('createamenity')">{{ error }}</li>
+         </v-form>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="createAmenityDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createAmenity" color="success"  depressed @click="createAmenityDialoag = false,snackbar = true">Save</v-btn>
+         <v-btn :disabled="errors.any('createamenity')" @click.prevent="$_createAmenity" color="success"  depressed @click="createAmenityDialoag = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -87,26 +89,29 @@
           <v-card-text>
              <v-text-field v-if="amenity.current.Fetching"  color="success" loading disabled></v-text-field>
             <v-container v-if="amenity.current.data" grid-list-md>
+              <v-form data-vv-scope="editamenity">
               <v-layout wrap>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="amenity.current.data[0].name" :value="amenity.current.data[0].name" outline label="Name*" required></v-text-field>
+                  <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="amenity.current.data[0].name" :value="amenity.current.data[0].name" outline label="Name*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="amenity.current.data[0].quantity" :value="amenity.current.data[0].quantity" outline label="Quantity*" required></v-text-field>
+                  <v-text-field v-validate="'required'" name="quantity" v-model="amenity.current.data[0].quantity" :value="amenity.current.data[0].quantity" outline label="Quantity*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md>
-                  <v-text-field v-model="amenity.current.data[0].unit" :value="amenity.current.data[0].unit" outline label="Unit*" required></v-text-field>
+                  <v-text-field v-validate="'required'" name="unit" v-model="amenity.current.data[0].unit" :value="amenity.current.data[0].unit" outline label="Unit*" required></v-text-field>
                 </v-flex>
                 <v-spacer></v-spacer>
-                <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteAmenity(amenity.current.data[0]._id)" depressed>Delete</v-btn>
+                <v-btn  color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteAmenity(amenity.current.data[0]._id)" depressed>Delete</v-btn>
               </v-layout>
+                 <li class="error-list" style="color:red;" v-for="error in errors.all('editamenity')">{{ error }}</li>
+            </v-form>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
 
             <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-            <v-btn color="success" depressed @click.prevent="$_editDataAmenity(amenity.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+            <v-btn :disabled="errors.any('editamenity')" color="success" depressed @click.prevent="$_editDataAmenity(amenity.current.data[0]._id)" @click="dialog = false">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -141,14 +146,36 @@ export default {
       this.getById(id)
     },
     $_editDataAmenity(id){
+      this.$validator.validateAll('editamenity').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+           this.update(this.amenity.current.data[0])
+          this.snackbar = true
+        }
+      })
       //console.log(id)
     //  console.log(this.amenity.current[0])
-      this.update(this.amenity.current.data[0])
+
     },
     $_createAmenity(){
+      this.$validator.validateAll('createamenity').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+         this.create(this.amenitydata)
+          this.snackbar = true
+        }
+      })
     //  console.log(this.amenitydata)
   //   this.amenitydata.rating = parseInt(this.amenitydata.rating)
-     this.create(this.amenitydata)
+
     },
 
    $_deleteAmenity(id){

@@ -7,9 +7,9 @@
     <v-toolbar-title class="black--text">Hotel Manager</v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <v-btn to="/cart" icon>
+    <v-btn to="/bookings" icon>
     <v-badge right color="red">
-      <span slot="badge" class="">{{itemsInCart}}</span>
+      <span slot="badge" class="">{{itemsInBooking}}</span>
       <font-awesome-icon size="lg" class="navbar-icon-top" icon="address-book" />
     </v-badge>
   </v-btn>
@@ -83,14 +83,19 @@
 <script>
 /* eslint-disable */
 
-
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     //  headbar
   },
   computed: {
-    itemsInCart() {
-      return 0
+      ...mapState({ booking: 'booking' }),
+    itemsInBooking() {
+      if(this.booking.bookings.data === 'undefined')
+      return 0;
+      
+      return this.booking.bookings.data.length
+
       // let cart = this.$store.getters.cartProducts;
       //return cart.reduce((accum, item) => accum + item.quantity, 0)
     },

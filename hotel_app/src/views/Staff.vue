@@ -61,26 +61,29 @@
        <v-card-text>
 
          <v-container grid-list-md>
+           <v-form data-vv-scope="createstaff">
            <v-layout wrap>
              <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.name" outline label="Name" required></v-text-field>
+               <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="staffdata.name" outline label="Name" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.job" outline label="Job" required></v-text-field>
+               <v-text-field v-validate="'required'" name="job" v-model="staffdata.job" outline label="Job" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.salary" outline label="Salary" required></v-text-field>
+               <v-text-field v-validate="'required|numeric'" name="salary" v-model="staffdata.salary" outline label="Salary" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="staffdata.number" outline label="Number" required></v-text-field>
+               <v-text-field v-validate="'required|digits:10'" name="number" v-model="staffdata.number" outline label="Number" required></v-text-field>
              </v-flex>
            </v-layout>
+           <li class="error-list" style="color:red;" v-for="error in errors.all('createstaff')">{{ error }}</li>
+         </v-form>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="createStaffDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createStaff" color="success"  depressed @click="createStaffDialoag = false,snackbar = true">Save</v-btn>
+         <v-btn :disabled="errors.any('createstaff')" @click.prevent="$_createStaff" color="success"  depressed @click="createStaffDialoag = false">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -92,29 +95,32 @@
           <v-card-text>
             <v-text-field v-if="staff.current.Fetching"  color="success" loading disabled></v-text-field>
             <v-container v-if="staff.current.data" grid-list-md>
+              <v-form data-vv-scope="editstaff" >
               <v-layout wrap>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].name" :value="staff.current.data[0].name" outline label="Name*" required></v-text-field>
+                  <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="staff.current.data[0].name" :value="staff.current.data[0].name" outline label="Name*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].job" :value="staff.current.data[0].job" outline label="Job*" required></v-text-field>
+                  <v-text-field v-validate="'required'" name="job" v-model="staff.current.data[0].job" :value="staff.current.data[0].job" outline label="Job*" required></v-text-field>
                 </v-flex>
 
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].salary" :value="staff.current.data[0].salary" outline label="Salary*" required></v-text-field>
+                  <v-text-field v-validate="'required|numeric'" name="salary" v-model="staff.current.data[0].salary" :value="staff.current.data[0].salary" outline label="Salary*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="staff.current.data[0].number" :value="staff.current.data[0].number" outline label="Number*" required></v-text-field>
+                  <v-text-field v-validate="'required|digits:10'" name="number" v-model="staff.current.data[0].number" :value="staff.current.data[0].number" outline label="Number*" required></v-text-field>
                 </v-flex>
-                <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteStaff(staff.current.data[0]._id)" depressed>Delete</v-btn>
+                <v-btn  color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteStaff(staff.current.data[0]._id)" depressed>Delete</v-btn>
               </v-layout>
+               <li class="error-list" style="color:red;" v-for="error in errors.all('editstaff')">{{ error }}</li>
+            </v-form>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
 
             <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-            <v-btn color="success" depressed @click.prevent="$_editDataStaff(staff.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+            <v-btn :disabled="errors.any('editstaff')" color="success" depressed @click.prevent="$_editDataStaff(staff.current.data[0]._id)" @click="dialog = false">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -149,14 +155,36 @@ export default {
       this.getById(id)
     },
     $_editDataStaff(id){
+      this.$validator.validateAll('editstaff').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+         this.update(this.staff.current.data[0])
+          this.snackbar = true
+        }
+      })
       //console.log(id)
     //  console.log(this.staff.current[0])
-      this.update(this.staff.current.data[0])
+
     },
     $_createStaff(){
+      this.$validator.validateAll('createstaff').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+         this.create(this.staffdata)
+          this.snackbar = true
+        }
+      })
     //  console.log(this.staffdata)
   //   this.staffdata.rating = parseInt(this.staffdata.rating)
-     this.create(this.staffdata)
+
     },
 
    $_deleteStaff(id){

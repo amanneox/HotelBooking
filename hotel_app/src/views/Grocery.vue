@@ -59,23 +59,26 @@
        <v-card-text>
 
          <v-container grid-list-md>
+           <v-form data-vv-scope="creategrocery">
            <v-layout wrap>
              <v-flex xs12 md6>
-               <v-text-field v-model="grocerydata.name" outline label="Name" required></v-text-field>
+               <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="grocerydata.name" outline label="Name" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="grocerydata.quantity" outline label="Quantity" required></v-text-field>
+               <v-text-field v-validate="'required'" name="quantity"  v-model="grocerydata.quantity" outline label="Quantity" required></v-text-field>
              </v-flex>
              <v-flex xs12 md6>
-               <v-text-field v-model="grocerydata.unit" outline label="Unit" required></v-text-field>
+               <v-text-field v-validate="'required'" name="unit" v-model="grocerydata.unit" outline label="Unit" required></v-text-field>
              </v-flex>
            </v-layout>
+            <li class="error-list" style="color:red;" v-for="error in errors.all('creategrocery')">{{ error }}</li>
+          </v-form>
          </v-container>
        </v-card-text>
        <v-card-actions>
          <v-spacer></v-spacer>
          <v-btn color="error" depressed  @click="createGroceryDialoag = false">Close</v-btn>
-         <v-btn @click.prevent="$_createGrocery" color="success"  depressed @click="createGroceryDialoag = false,snackbar = true">Save</v-btn>
+         <v-btn :disabled="errors.any('creategrocery')" @click.prevent="$_createGrocery" color="success"  depressed @click="createGroceryDialoag = false,snackbar = true">Save</v-btn>
        </v-card-actions>
      </v-card>
    </v-dialog>
@@ -87,26 +90,29 @@
           <v-card-text>
                <v-text-field v-if="grocery.current.Fetching"  color="success" loading disabled></v-text-field>
             <v-container v-if="grocery.current.data" grid-list-md>
+              <v-form data-vv-scope="editgrocery">
               <v-layout wrap>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="grocery.current.data[0].name" :value="grocery.current.data[0].name" outline label="Name*" required></v-text-field>
+                  <v-text-field v-validate="'required|alpha_spaces'" name="name" v-model="grocery.current.data[0].name" :value="grocery.current.data[0].name" outline label="Name*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="grocery.current.data[0].quantity" :value="grocery.current.data[0].quantity" outline label="Quantity*" required></v-text-field>
+                  <v-text-field v-validate="'required'" name="quantity" v-model="grocery.current.data[0].quantity" :value="grocery.current.data[0].quantity" outline label="Quantity*" required></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md>
-                  <v-text-field v-model="grocery.current.data[0].unit" :value="grocery.current.data[0].unit" outline label="Unit*" required></v-text-field>
+                  <v-text-field v-validate="'required'" name="unit" v-model="grocery.current.data[0].unit" :value="grocery.current.data[0].unit" outline label="Unit*" required></v-text-field>
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-btn color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteGrocery(grocery.current.data[0]._id)" depressed>Delete</v-btn>
               </v-layout>
+                <li class="error-list" style="color:red;" v-for="error in errors.all('editgrocery')">{{ error }}</li>
+              </v-form>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
 
             <v-btn color="error" depressed  @click="dialog = false">Close</v-btn>
-            <v-btn color="success" depressed @click.prevent="$_editDataGrocery(grocery.current.data[0]._id)" @click="dialog = false,snackbar = true">Save</v-btn>
+            <v-btn :disabled="errors.any('editgrocery')" color="success" depressed @click.prevent="$_editDataGrocery(grocery.current.data[0]._id)" @click="dialog = false">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -141,14 +147,36 @@ export default {
       this.getById(id)
     },
     $_editDataGrocery(id){
+      this.$validator.validateAll('editgrocery').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+          this.update(this.grocery.current.data[0])
+          this.snackbar = true
+        }
+      })
       //console.log(id)
     //  console.log(this.grocery.current[0])
-      this.update(this.grocery.current.data[0])
+
     },
     $_createGrocery(){
+      this.$validator.validateAll('creategrocery').then((result) => {
+        if(!result){
+      //    console.log("error")
+          return
+        }
+        else{
+        //  console.log("no error")
+         this.create(this.grocerydata)
+          this.snackbar = true
+        }
+      })
     //  console.log(this.grocerydata)
   //   this.grocerydata.rating = parseInt(this.grocerydata.rating)
-     this.create(this.grocerydata)
+
     },
 
    $_deleteGrocery(id){
