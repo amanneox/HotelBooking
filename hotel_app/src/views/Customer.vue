@@ -147,9 +147,9 @@ export default {
 
   },
   methods: {
-     ...mapActions('customer', ['create','get_All_Customer','getById','_delete','update']),
+     ...mapActions('customer', ['create','get_All_Customer','getById_Customer','_delete','update']),
     $_editData(id){
-      this.getById(id)
+      this.getById_Customer(id)
     },
     $_editDataCustomer(id){
       this.$validator.validateAll('editcustomer').then((result) => {

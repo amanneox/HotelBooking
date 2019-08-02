@@ -34,7 +34,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById ({ commit },id) {
+  getById_Room ({ commit },id) {
   //  commit('getAllRequest')
 
     roomService.getById(id)

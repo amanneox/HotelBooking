@@ -63,7 +63,7 @@
     <v-layout v-else row wrap py-4>
       <v-flex class="fade" md4 xs6>
         <v-container>
-        <v-card color="#f6f5fa" style="elevation-0">
+        <v-card to="/bookings" color="#f6f5fa" style="elevation-0">
           <v-container>
             <p v-if="booking.bookings.data" class="text-xs-left font-weight-medium text-capitalize">{{booking.bookings.data.length}}</p>
             <p class="text-xs-left font-weight-bold text-capitalize">Bookings <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="address-book" /></span> </p>
@@ -73,7 +73,7 @@
       </v-flex>
       <v-flex class="fade"  md4 xs6>
         <v-container>
-        <v-card color="#f6f5fa" style="elevation-0">
+        <v-card to="rooms" color="#f6f5fa" style="elevation-0">
           <v-container>
 
             <p v-if="this.room.rooms.data" class="text-xs-left font-weight-medium text-capitalize">{{room.rooms.data.length}}</p>
@@ -84,7 +84,7 @@
       </v-flex>
       <v-flex class="fade" md4 xs6>
         <v-container>
-        <v-card color="#f6f5fa" style="elevation-0">
+        <v-card to="customers" color="#f6f5fa" style="elevation-0">
           <v-container>
             <p v-if="this.customer.customers.data" class="text-xs-left font-weight-medium text-capitalize">{{customer.customers.data.length}}</p>
             <p class="text-xs-left font-weight-bold text-capitalize">Customers <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="male" /></span></p>
@@ -94,7 +94,7 @@
       </v-flex>
       <v-flex class="fade" md4 xs6>
         <v-container>
-        <v-card color="#f6f5fa" style="elevation-0">
+        <v-card to="staff" color="#f6f5fa" style="elevation-0">
           <v-container>
             <p v-if="this.staff.staffs.data" class="text-xs-left font-weight-medium text-capitalize">{{staff.staffs.data.length}}</p>
             <p class="text-xs-left font-weight-bold text-capitalize">Staff <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="users" /></span></p>
@@ -104,7 +104,7 @@
       </v-flex>
       <v-flex class="fade" md4 xs6>
         <v-container>
-        <v-card color="#f6f5fa" style="elevation-0">
+        <v-card to="amenity" color="#f6f5fa" style="elevation-0">
           <v-container>
             <p v-if="this.amenity.amenitys.data" class="text-xs-left font-weight-medium text-capitalize">{{amenity.amenitys.data.length}}</p>
             <p class="text-xs-left font-weight-bold text-capitalize">Amenity <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="person-booth" /></span></p>
@@ -114,7 +114,7 @@
       </v-flex>
       <v-flex class="fade" md4 xs6>
         <v-container>
-        <v-card color="#f6f5fa" style="elevation-0">
+        <v-card to="grocery" color="#f6f5fa" style="elevation-0">
           <v-container>
             <p v-if="grocery.grocerys.data" class="text-xs-left font-weight-medium text-capitalize">{{grocery.grocerys.data.length}}</p>
             <p class="text-xs-left font-weight-bold text-capitalize">Grocery <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="shopping-basket" /></span></p>

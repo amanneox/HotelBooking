@@ -23,7 +23,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById ({ commit },id) {
+  getById_Customer ({ commit },id) {
     commit('getStaffRequest')
 
     customerService.getById(id)

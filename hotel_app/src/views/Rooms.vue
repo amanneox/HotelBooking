@@ -196,9 +196,9 @@ export default {
 
   },
   methods: {
-     ...mapActions('room', ['createType','getRoomTypes','create','get_All_Room','getById','_delete','updateRoom']),
+     ...mapActions('room', ['createType','getRoomTypes','create','get_All_Room','getById_Room','_delete','updateRoom']),
     $_editData(id){
-      this.getById(id)
+      this.getById_Room(id)
     },
     $_editDataRoom(id){
       this.$validator.validateAll('editroom').then((result) => {

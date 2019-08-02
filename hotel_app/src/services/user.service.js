@@ -16,7 +16,7 @@ export const userService = {
 }
 
 async function login (email, password) {
-  console.log(email,password)
+//  console.log(email,password)
 
   const requestOptions = {
     headers: {
@@ -42,7 +42,7 @@ try {
   //  return res.data
   }
 catch (error) {
-      console.log(error)
+    //  console.log(error)
       return Promise.reject('Invalid Credentials')
     }
 }
@@ -93,7 +93,7 @@ async function getById (id) {
   }
 try {
   const res = await axios.get(`${config.getUrl}/user/${id}`)
-  console.log(res.data)
+//  console.log(res.data)
   return res.data
 } catch (error) {
     return Promise.reject(error)

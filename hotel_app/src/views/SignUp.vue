@@ -2,7 +2,7 @@
 <template lang="html">
   <v-app>
     <v-layout>
-      <v-flex class="hidden-sm-and-down" xs12>
+      <v-flex class="hidden-sm-and-down" xs12 style="background-color:#f6f5fa">
         <v-container style="margin-top:120px">
           <v-layout style="margin:12px;" align-center justify-center row fill-height>
             <span class="font-weight-bold display-2 text-capitalize">Welcome abord</span>
@@ -12,32 +12,35 @@
           </v-layout>
           <v-layout style="margin:12px;" align-center justify-center row fill-height>
             <v-flex>
-              <span>Documentation&nbsp;<font-awesome-icon icon="book" />&nbsp;</span> &nbsp;
-              <span>Download&nbsp;<font-awesome-icon icon="download" />&nbsp;</span> &nbsp;
-              <span>Github&nbsp;<font-awesome-icon :icon="['fab', 'github']" />&nbsp;</span> &nbsp;
+              <span class="px-1">Documentation<font-awesome-icon class="px-1" size="lg" icon="book" /></span>
+              <span class="px-1">Download<font-awesome-icon class="px-1" size="lg" icon="download" /></span>
+              <span class="px-1">Github<font-awesome-icon  class="px-1" size="lg" :icon="['fab', 'github']" /></span>
             </v-flex>
           </v-layout>
         </v-container>
       </v-flex>
-      <v-flex sm12 md4 style="background-color: white;">
+      <v-flex sm12 md4 style="background-color: white">
+        <v-form data-vv-scope="signup">
         <v-container style="background-color: white;">
-         <v-text-field v-model="user.name" outline v-validate="'required|alpha'" name="name" label="Name">
+        <p class="title">Sign Up Now!</p>
+         <v-text-field v-model="user.name" outline v-validate="'required|alpha_spaces'" name="name" label="Name">
          </v-text-field>
-         <span>{{ errors.first('name') }}</span>
          <v-text-field v-model="user.number" outline v-validate="'required|digits:10'" name="number" label="Number" ></v-text-field>
-            <span>{{ errors.first('number') }}</span>
+
          <v-text-field v-model="user.email" outline v-validate="'required|email'" name="email" label="E-mail"></v-text-field>
-            <span>{{ errors.first('email') }}</span>
+
          <v-text-field v-model="user.password" outline v-validate="'required|alpha_num'" type="password" name="password" ref="password" label="Password"></v-text-field>
-            <span>{{ errors.first('password') }}</span>
+
          <v-text-field v-validate="'required|alpha_num|confirmed:password'" outline type="password" name="confirm-password" label="Repeat Password" data-vv-as="password"></v-text-field>
-         <span>{{ errors.first('confirm-password') }}</span>
+
          <br>
-         <v-btn class="continue" :loading="loading" :disabled="loading"  @click.prevent="$_emitData" color="#5f2a8a"  @click.native="loader = 'loading'">
+         <v-btn class="continue" :loading="loading" :disabled="errors.any('signup'),loading"  @click.prevent="$_emitData" color="#5f2a8a"  @click.native="loader = 'loading'">
            Continue
          </v-btn>
           <v-btn to="/login" outline color="primary">Login</v-btn>
        </v-container>
+        <li class="error-list" style="color:red;" v-for="error in errors.all('signup')">{{ error }}</li>
+      </v-form>
       </v-flex>
     </v-layout>
 
@@ -78,16 +81,20 @@ watch: {
    methods:{
       ...mapActions('account', ['register']),
      $_emitData () {
-       this.register(this.user)
-       /*
-       this.$validator.validateAll()
-         if (this.errors.any()) {
-           return
-         }
-         else {
-            this.register(this.user);
-         }
-         */
+
+    //   this.register(this.user)
+      this.$validator.validateAll('signup').then((result) => {
+      if(!result){
+    //    console.log("error")
+        return
+      }
+      else{
+      //  console.log("no error")
+        this.register(this.user);
+      }
+    })
+
+
    }
  }
 }

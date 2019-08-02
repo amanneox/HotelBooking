@@ -10,6 +10,7 @@ import Grocery from '../views/Grocery.vue'
 import Amenity from '../views/Amenity.vue'
 import Customer from '../views/Customer.vue'
 import Booking from '../views/Booking.vue'
+import ViewBooking from '../views/ViewBooking.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -63,8 +64,13 @@ export default new Router({
     },
     {
       path: '/bookings',
-      name: 'booking',
+      name: 'bookings',
       component: Booking
+    },
+    {
+      path: '/booking/:id',
+      name: 'booking',
+      component: ViewBooking
     }
   ]
 })

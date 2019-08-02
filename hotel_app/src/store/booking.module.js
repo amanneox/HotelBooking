@@ -24,7 +24,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById ({ commit },id) {
+  getById_Booking ({ commit },id) {
     commit('getStaffRequest')
 
     bookingService.getById(id)

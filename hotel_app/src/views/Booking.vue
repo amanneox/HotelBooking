@@ -50,7 +50,8 @@
       <td class="text-xs-left text-capitalize">{{ props.item.roomList }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.cInDate }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.cOutDate }}</td>
-      <td class="text-xs-right"><v-btn icon depressed color="#fff">
+
+      <td class="text-xs-right"><v-btn :to="`/booking/${ props.item._id }`" icon depressed color="#fff">
         <font-awesome-icon style="color:#5f2a8a" size="lg" icon="eye" /></v-btn>
       </td>
       <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn icon depressed color="#fff">
@@ -68,7 +69,7 @@
         <v-toolbar-title>Create Booking</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn depressed color="#5f2a8a" @click.prevent="$_createBooking"  text @click="createBookingDialoag = false,snackbar = true"><font-awesome-icon icon="save" />&nbsp;&nbsp;Save</v-btn>
+          <v-btn depressed color="#5f2a8a" @click.prevent="$_createBooking"  text @click="createBookingDialoag = false"><font-awesome-icon icon="save" />&nbsp;&nbsp;Save</v-btn>
         </v-toolbar-items>
       </v-toolbar>
        <v-card-text>
@@ -219,11 +220,15 @@ export default {
      this.bookingdata.cOutDate = date
 //    console.log(date);
   },
-     ...mapActions('booking', ['create','get_All_Booking','getById','_delete','update']),
+     ...mapActions('booking', ['create','get_All_Booking','getById_Booking','_delete','update']),
      ...mapActions('room', ['getRoomTypes','get_All_Room','updateRoom','update_book_room','update_unbook_room']),
-     ...mapActions('customer', ['get_All_Customer']),
+     ...mapActions('customer', ['get_All_Customer','getById_Customer']),
     $_editData(id){
-      this.getById(id)
+      this.getById_Booking(id)
+    },
+    getCustomer(id){
+      this.getById_Customer(id)
+      return this.customer.current.data[0].name
     },
     $_editDataBooking(id){
       //console.log(id)
@@ -231,11 +236,23 @@ export default {
       this.update(this.booking.current.data[0])
     },
     $_createBooking(){
+
      this.bookingdata.roomList = this.checkedrooms
      this.bookingdata.userID = this.account.user._id
   //   console.log(this.bookingdata)
-     this.create(this.bookingdata)
-     this.update_book_room(this.bookingdata.roomList)
+      if(this.bookingdata.cID !=='' && this.checkedrooms.length >0 && this.bookingdata.cInDate !=='' && this.bookingdata.cOutDate !==''){
+        this.create(this.bookingdata)
+        this.update_book_room(this.bookingdata.roomList)
+        this.checkedrooms = []
+        this.bookingdata.cID = ''
+        this.bookingdata.cInDate = ''
+        this.bookingdata.cOutDate = ''
+        this.snackbar = true
+      }
+      else{
+        this.booking.msg = "Failed"
+        this.snackbar = true
+      }
   //   this.get_All_Room()
     },
 
