@@ -26,6 +26,13 @@ functions:
           path: room/{id}
           method: get
           cors: true
+#  rent:
+#    handler: handlers/RentHandler.rent
+#    events:
+#      - http:
+#          path: rent/{id}
+#          method: get
+#          cors: true
   staff:
     handler: handlers/StaffHandler.staff
     events:
@@ -61,13 +68,21 @@ functions:
           path: customer/{id}
           method: get
           cors: true
-  getUsers:
-    handler: handlers/UserHandler.getUsers
+  roomType:
+    handler: handlers/RoomTypeHandler.roomType
     events:
       - http:
-          path: user/list
+          path: roomType/{id}
           method: get
           cors: true
+
+##  getUsers:
+#    handler: handlers/UserHandler.getUsers
+#    events:
+#      - http:
+#          path: user/list
+#          method: get
+#          cors: true
 
   getRooms:
     handler: handlers/RoomHandler.getRooms
@@ -76,7 +91,13 @@ functions:
           path: room/list
           method: get
           cors: true
-
+  getRents:
+    handler: handlers/RentHandler.getRents
+    events:
+      - http:
+          path: rent/list
+          method: get
+          cors: true
   getCustomers:
     handler: handlers/CustomerHandler.getCustomers
     events:
@@ -122,6 +143,14 @@ functions:
           method: get
           cors: true
 
+  deleteRent:
+    handler: handlers/RentHandler.deleteRent
+    events:
+      - http:
+          path: rent/delete/{id}
+          method: get
+          cors: true
+
   deleteStaff:
     handler: handlers/StaffHandler.deleteStaff
     events:
@@ -151,13 +180,13 @@ functions:
           path: grocery/delete/{id}
           method: get
           cors: true
-  deleteUser:
-    handler: handlers/UserHandler.deleteUser
-    events:
-      - http:
-          path: user/delete/{id}
-          method: get
-          cors: true
+#  deleteUser:
+#    handler: handlers/UserHandler.deleteUser
+#    events:
+#      - http:
+#          path: user/delete/{id}
+#          method: get
+#          cors: true
   getRoomTypes:
     handler: handlers/RoomTypeHandler.getRoomTypes
     events:

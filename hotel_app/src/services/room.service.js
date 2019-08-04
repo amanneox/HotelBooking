@@ -12,6 +12,7 @@ export const roomService = {
   getRoomTypes,
   getById,
   update,
+  getByIdType,
   delete: _delete
 }
 
@@ -103,7 +104,23 @@ try {
     return Promise.reject(error)
 }
   }
-
+  async function getByIdType (id) {
+  //  console.log(id)
+    const requestOptions = {
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin" : "*",
+        "Access-Control-Allow-Credentials" : true
+     },
+    }
+  try {
+    const res = await axios.get(`${config.getUrl}/roomType/${id}`)
+  //  console.log(res.data)
+    return res.data
+  } catch (error) {
+      return Promise.reject(error)
+  }
+    }
 async function update (room) {
   const requestOptions = {
     headers: {

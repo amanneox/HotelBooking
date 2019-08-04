@@ -45,6 +45,7 @@
       <td class="text-xs-left text-capitalize">{{ props.item.name }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.number }}</td>
       <td class="text-xs-left text-capitalize">{{ props.item.email }}</td>
+      <td class="text-xs-left text-capitalize">{{ getRent(props.item._id) }}</td>
       <td @click="dialog = true" @click.prevent="$_editData(props.item._id)" class="text-xs-right"><v-btn icon depressed color="#fff">
         <font-awesome-icon style="color:#5f2a8a" size="lg" icon="edit" /></v-btn>
       </td>
@@ -74,7 +75,7 @@
 
              </v-flex>
            </v-layout>
-            <li class="error-list" style="color:red;" v-for="error in errors.all('createcustomer')">{{ error }}</li>
+            <li class="error-list" style="color:red;" :key="error" v-for="error in errors.all('createcustomer')">{{ error }}</li>
          </v-form>
          </v-container>
        </v-card-text>
@@ -109,7 +110,7 @@
                   <v-btn :disabled="errors.any('editcustomer')" style="float:left" color="error" @click="dialog = false,snackbar = true" @click.prevent="$_deleteCustomer(customer.current.data[0]._id)" depressed>Delete</v-btn>
                 </v-flex>
               </v-layout>
-                <li class="error-list" style="color:red;" v-for="eerror in errors.all('editcustomer')">{{ eerror }}</li>
+                <li class="error-list" style="color:red;" :key="eerror" v-for="eerror in errors.all('editcustomer')">{{ eerror }}</li>
             </v-form>
             </v-container>
           </v-card-text>
@@ -148,8 +149,22 @@ export default {
   },
   methods: {
      ...mapActions('customer', ['create','get_All_Customer','getById_Customer','_delete','update']),
+     ...mapActions('rent',['getById_Rent','get_All_Rent']),
     $_editData(id){
       this.getById_Customer(id)
+    },
+    getRent(id){
+    //  console.log(this.rent.rents.data[0].cID)
+
+      if(typeof this.rent.rents.data === 'undefined')
+      return 'Booked'
+
+      const obj = this.rent.rents.data.find(o => o.cID === id)
+      if(typeof obj === 'undefined')
+      return 'No Rent Generated'
+
+      return obj.amount
+
     },
     $_editDataCustomer(id){
       this.$validator.validateAll('editcustomer').then((result) => {
@@ -182,10 +197,6 @@ export default {
         }
       })
 
-
-
-
-
     //  console.log(this.customerdata)
   //   this.customerdata.rating = parseInt(this.customerdata.rating)
 
@@ -198,11 +209,13 @@ export default {
   },
   mounted () {
        this.get_All_Customer()
+       this.get_All_Rent()
     //   this.getRoomTypes();
 
   },
   computed: {
    ...mapState({ customer: 'customer' }),
+    ...mapState({ rent: 'rent' }),
   },
   data() {
     return {
@@ -225,6 +238,7 @@ export default {
         },
         { text: 'Number', value: 'number' },
         { text: 'Email', value: 'email' },
+        { text: 'Rent', value:'rent' }
 
       ],
     }

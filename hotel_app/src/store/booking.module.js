@@ -3,10 +3,12 @@ import { bookingService } from '../services'
 
 const state = {
   bookings: {
+    data:{},
     Fetching:'',
     Fetched:'false',
   },
   current:{
+    data:{},
     Fetching:'',
     Fetched:'false',
   },
@@ -25,7 +27,7 @@ const actions = {
       )
   },
   getById_Booking ({ commit },id) {
-    commit('getStaffRequest')
+    commit('getBookingRequest')
 
     bookingService.getById(id)
       .then(
@@ -85,7 +87,7 @@ const mutations = {
     state.bookings.Fetched =  false,
     state.bookings.Fetching =  true
   },
-  getStaffRequest (state) {
+  getBookingRequest (state) {
     state.current.Fetched =  false,
     state.current.Fetching =  true
   },

@@ -6,7 +6,7 @@
         <v-btn @click="createBookingDialoag = true" depressed color="#492c9c"><span style="color:#FFF">Create Booking</span><v-icon color="white">add</v-icon></v-btn>
       </v-flex>
     </v-layout>
-    <div v-if="booking.bookings.Fetching">
+    <div v-if="this.booking.bookings.Fetching">
     <v-progress-circular
     indeterminate
     color="primary"
@@ -26,6 +26,7 @@
   </v-flex>
 
     <v-data-table
+    v-if="this.booking.bookings.data"
     :headers="headers"
     :search="search"
     :items="booking.bookings.data"
@@ -96,7 +97,7 @@
            </v-layout>
           <v-layout wrap row>
             <v-flex xs12 md6>
-              <v-data-table :search="searchuser" dense :headers="customerheader" :items="customer.customers.data" item-key="name" class="elevation-1">
+              <v-data-table v-if="this.customer.customers.data" :search="searchuser" dense :headers="customerheader" :items="customer.customers.data" item-key="name" class="elevation-1">
                 <template slot="headerCell" slot-scope="props">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -121,7 +122,7 @@
               </v-data-table>
             </v-flex>
             <v-flex>
-              <v-data-table dense :headers="roomheader" :items="room.rooms.data" item-key="roomNo" class="elevation-1">
+              <v-data-table v-if="this.room.rooms.data" dense :headers="roomheader" :items="room.rooms.data" item-key="roomNo" class="elevation-1">
                 <template slot="headerCell" slot-scope="props">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -170,7 +171,7 @@
         <v-card>
           <v-card-title>
             <span class="headline">Delete Booking</span>
-                <v-text-field v-if="booking.current.Fetching"  color="success" loading disabled></v-text-field>
+                <v-text-field v-if="this.booking.current.Fetching"  color="success" loading disabled></v-text-field>
             </v-card-title>
           <v-card-text class="text-capitalize">
             Are You Sure ? You want to delete this Booking
@@ -210,8 +211,11 @@ export default {
   },
   methods: {
     getRoomPrice(roomType){
+      if(typeof this.room.types.data === 'undefined')
+      return ''
       const obj = this.room.types.data.find(o => o.roomType === roomType)
       return obj.roomPrice
+
    },
     logCheckin(date) {
       this.bookingdata.cInDate = date

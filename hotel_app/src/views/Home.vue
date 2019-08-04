@@ -65,7 +65,7 @@
         <v-container>
         <v-card to="/bookings" color="#f6f5fa" style="elevation-0">
           <v-container>
-            <p v-if="booking.bookings.data" class="text-xs-left font-weight-medium text-capitalize">{{booking.bookings.data.length}}</p>
+            <p v-if="this.booking.bookings.data !='undefined'" class="text-xs-left font-weight-medium text-capitalize">{{booking.bookings.data.length}}</p>
             <p class="text-xs-left font-weight-bold text-capitalize">Bookings <span style="float:right"><font-awesome-icon size="2x" class="overview-icon" icon="address-book" /></span> </p>
           </v-container>
         </v-card>

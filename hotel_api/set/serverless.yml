@@ -42,6 +42,13 @@ functions:
           method: post
           cors: true
 
+  createRent:
+    handler: handlers/RentHandler.createRent
+    events:
+      - http:
+          path: rent
+          method: post
+          cors: true
   createGrocery:
     handler: handlers/GroceryHandler.createGrocery
     events:
@@ -121,7 +128,13 @@ functions:
           path: room/{id}
           method: put
           cors: true
-
+  updateRent:
+    handler: handlers/RentHandler.updateRent
+    events:
+      - http:
+          path: rent/{id}
+          method: put
+          cors: true
   updateGrocery:
     handler: handlers/GroceryHandler.updateGrocery
     events:

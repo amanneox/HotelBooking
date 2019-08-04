@@ -34,7 +34,7 @@ module.exports.rent = (event, context, callback) => {
   dbConnectAndExecute(mongoString, () => (
     RentModel
     .find({
-      _id: event.pathParameters.id
+      cID: event.pathParameters.id
     })
     .then(rent => callback(null, {
       statusCode: 200,
@@ -48,3 +48,43 @@ module.exports.rent = (event, context, callback) => {
     .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
   ))
 }
+module.exports.getRents = (event, context, callback) => {
+  dbConnectAndExecute(mongoString, () => (
+    RentModel
+    .find()
+    .then(rent => callback(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true
+      },
+      body: JSON.stringify(rent)
+    }))
+    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
+  ))
+
+}
+module.exports.deleteRent = (event, context, callback) => {
+  if (!validator.isAlphanumeric(event.pathParameters.id)) {
+    callback(null, createErrorResponse(400, 'Incorrect id'));
+    return;
+  }
+
+  dbConnectAndExecute(mongoString, () => (
+    RentModel
+    .remove({
+      _id: event.pathParameters.id
+    })
+    .then(() => callback(null, {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true
+      },
+      body: JSON.stringify('Ok')
+    }))
+    .catch(err => callback(null, createErrorResponse(err.statusCode, err.message)))
+  ));
+};

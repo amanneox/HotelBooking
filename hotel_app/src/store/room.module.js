@@ -14,6 +14,13 @@ const state = {
     Fetching:'',
     Fetched:'false',
   },
+  currentType:{
+    data:{
+      
+    },
+    Fetching:'',
+    Fetched:'false',
+  },
   msg:''
 }
 
@@ -36,11 +43,20 @@ const actions = {
   },
   getById_Room ({ commit },id) {
   //  commit('getAllRequest')
-
+  //  console.log(id)
     roomService.getById(id)
       .then(
         room => commit('getCurrentSuccess', room),
         error => commit('getCurrentFailure', error)
+      )
+  },
+  getById_RoomType ({ commit },id) {
+  //  commit('getAllRequest')
+  //  console.log(id)
+    roomService.getByIdType(id)
+      .then(
+        room => commit('getCurrentTypeSuccess', room),
+        error => commit('getCurrentTypeFailure', error)
       )
   },
   getRoomTypes ({ commit }) {
@@ -120,6 +136,14 @@ const mutations = {
     state.current.Fetching = false
   },
   getCurrentFailure (state, error) {
+    state.msg = { error }
+  },
+  getCurrentTypeSuccess (state, room) {
+    state.currentType = { data:room },
+    state.currentType.Fetched = true,
+    state.currentType.Fetching = false
+  },
+  getCurrentTypeFailure (state, error) {
     state.msg = { error }
   },
   getAllFailure (state, error) {

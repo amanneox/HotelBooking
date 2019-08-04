@@ -3,11 +3,10 @@ const validator = require('validator');
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 const model = mongoose.model('Rent', {
-roomList:[
-    {
-      type: String
-    }
-  ],
+cID:{
+  type: ObjectId,
+  required: true
+},
 amount:{
   type: String,
   required:true

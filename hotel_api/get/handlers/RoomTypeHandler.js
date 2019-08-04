@@ -26,15 +26,13 @@ function dbConnectAndExecute(dbUrl, fn) {
 }
 
 module.exports.roomType = (event, context, callback) => {
-  if (!validator.isAlphanumeric(event.pathParameters.id)) {
-    callback(null, createErrorResponse(400, 'Incorrect id'));
-    return;
-  }
 
+  const type = event.pathParameters.id
+  console.log(type,'$$$')
   dbConnectAndExecute(mongoString, () => (
     RoomTypeModel
     .find({
-      _id: event.pathParameters.id
+      roomType: type
     })
     .then(roomType => callback(null, {
       statusCode: 200,
