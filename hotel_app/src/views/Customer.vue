@@ -159,11 +159,17 @@ export default {
       if(typeof this.rent.rents.data === 'undefined')
       return 'Booked'
 
-      const obj = this.rent.rents.data.find(o => o.cID === id)
-      if(typeof obj === 'undefined')
+      const obj = this.rent.rents.data.filter(o => o.cID === id)
+      //console.log(obj)
+      let rentarr = []
+      obj.forEach(function(elem) {
+          rentarr.push(elem.amount)
+      })
+    //  console.log(rentarr)
+      if(typeof rentarr === 'undefined' || rentarr.length <= 0)
       return 'No Rent Generated'
 
-      return obj.amount
+      return rentarr
 
     },
     $_editDataCustomer(id){

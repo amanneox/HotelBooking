@@ -1,8 +1,10 @@
-# hotel_app
+# Hotel Inventory Application
 
 ## Project setup
 ```
 npm install
+or
+npm install --save
 ```
 
 ### Compiles and hot-reloads for development
@@ -32,3 +34,5 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+### Application URl
+http://hotel-booking-app.s3-website.ap-south-1.amazonaws.com/

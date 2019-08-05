@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "deploy": "aws s3 sync ./dist s3://hotel-booking-app",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

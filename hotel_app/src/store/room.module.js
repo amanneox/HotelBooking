@@ -16,7 +16,7 @@ const state = {
   },
   currentType:{
     data:{
-      
+
     },
     Fetching:'',
     Fetched:'false',
@@ -26,10 +26,10 @@ const state = {
 
 const actions = {
   update_book_room({commit}, roomList){
-    //console.log(roomList)
     commit('changeBookRooms',roomList)
   },
   update_unbook_room({commit}, roomList){
+//    console.log(roomList,'@@UNBOOK')
     commit('changeUnbookRooms',roomList)
   },
   get_All_Room ({ commit }) {
