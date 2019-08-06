@@ -1,5 +1,6 @@
 # CauseCode Challenge
 ## Hotel Inventory Application
+`[test url][3ae88e48]`
 ## Description
 This is a VueJS based web application that can be easily build and deployed to create your own Hotel Inventory Software.
 The Project is free to use and run on any mordern web browser.
@@ -9,6 +10,9 @@ The Project is free to use and run on any mordern web browser.
 - Nodejs
 - AWS Serverless
 - MongoDB
+
+  [7f47da05]: http://hotel-booking-app.s3-website.ap-south-1.amazonaws.com/ "test url"
+  [3ae88e48]: http://hotel-booking-app.s3-website.ap-south-1.amazonaws.com/ "test url"
 
 ### Vuejs Packages
 - Veevalidate
@@ -35,7 +39,7 @@ The Project is free to use and run on any mordern web browser.
 
 # Database Schema
 ![Database Design](images/2019/08/database_design.png)
-[Created by dbdiagrams.io][50990eb6]
+[Created at dbdiagrams.io][50990eb6]
 
   [50990eb6]: https://dbdiagram.io/ "Link"
 
@@ -58,3 +62,4 @@ Simple material besed theme, The UI can be customized as this project uses vueti
 ![Amenity](images/2019/08/amenity.png)
 ### Grocery
 ![Grocery](images/2019/08/grocery.png)
+Some components are not shown here.
