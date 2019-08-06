@@ -34,4 +34,4 @@ The Project is free to use and run on any mordern web browser.
 6. **Grocery Stock Managment** - Manager can handle grocery.
 
 # Databse Schema
-![Database Design](images/2019/08/Screenshot_2019-08-06 A Free Database Designer for Developers and Analysts.png)
+![Database Design](images/2019/08/database_design.png)
