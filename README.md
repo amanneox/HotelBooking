@@ -16,8 +16,6 @@ The Project is free to use and runs on any mordern web browser.
 - AWS Serverless
 - MongoDB
 
-  [7f47da05]: http://hotel-booking-app.s3-website.ap-south-1.amazonaws.com/ "test url"
-  [3ae88e48]: http://hotel-booking-app.s3-website.ap-south-1.amazonaws.com/ "test url"
   [797556c7]: http://hotel-booking-app.s3-website.ap-south-1.amazonaws.com/ "test url"
 
 ### Vuejs Packages

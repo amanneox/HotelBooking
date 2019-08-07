@@ -5,6 +5,8 @@
 npm install
 or
 npm install --save
+
+update config in /services/config.js with your api endpoints
 ```
 
 ### Compiles and hot-reloads for development

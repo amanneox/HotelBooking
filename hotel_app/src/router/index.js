@@ -11,6 +11,7 @@ import Amenity from '../views/Amenity.vue'
 import Customer from '../views/Customer.vue'
 import Booking from '../views/Booking.vue'
 import ViewBooking from '../views/ViewBooking.vue'
+import NotFound from '../views/404.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -21,6 +22,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '*',
+      name: 'notfound',
+      component: NotFound
     },
     {
       path: '/login',
