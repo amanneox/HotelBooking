@@ -1,9 +1,14 @@
 # CauseCode Challenge
 ## Hotel Inventory Application
+[![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
+[![npm version](https://badge.fury.io/js/serverless.svg)](https://badge.fury.io/js/serverless)
+[![license](https://img.shields.io/npm/l/serverless.svg)](https://www.npmjs.com/package/serverless)
+
 [Test URL][797556c7]
+
 ## Description
 This is a VueJS based web application that can be easily build and deployed to create your own Hotel Inventory Software.
-The Project is free to use and run on any mordern web browser.
+The Project is free to use and runs on any mordern web browser.
 ## Technologies/Framework
 - VueJS
 - Vuetify
@@ -69,3 +74,7 @@ Some components are not shown here.
 1. Notification Support
 2. Mangage Bills
 3. UI Improvements
+
+# Software Used
+- Atom IDE
+- Postman
