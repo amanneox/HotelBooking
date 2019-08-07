@@ -63,4 +63,9 @@ Simple material besed theme, The UI can be customized as this project uses vueti
 ![Amenity](images/2019/08/amenity.png)
 ### Grocery
 ![Grocery](images/2019/08/grocery.png)
+
 Some components are not shown here.
+# Upcoming Features
+1. Notification Support
+2. Mangage Bills
+3. UI Improvements
