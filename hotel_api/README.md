@@ -36,13 +36,13 @@ MONGO_URI= your mongo uri.....
 SECRET= abcdef......
 
 ```
-**Create and update has been added to set service and all list, getById and delete has been added to get service**
+**CREATE and UPDATE has been added to 'set' service and all LIST, READ and DELETE has been added to 'get' service**
 ## User
 *Create*
 
 ```bash
 curl -X POST \
-  https://ajp80vnp26.execute-api.ap-south-1.amazonaws.com/dev/user \
+  'https://2c8cx5whk0.execute-api.us-east-1.amazonaws.com/dev/user' \
   -H 'Content-Type: application/json' \
   -H 'Postman-Token: e6933c2b-f71a-4a5d-ae5b-e75d1789bd1c' \
   -H 'cache-control: no-cache' \
@@ -181,13 +181,28 @@ curl --request POST --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.c
   email:"aman@email.com"
 }'
 ```
+```json
+{"id": "590b52ff086041000142cedgf"}
+```
 *READ*
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/customer/{id}'
 ```
+*UPDATE*
+```bash
+curl --request PUT  --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.com/dev/customer/{id}' \
+-d '{
+  name:"Aman",
+  number:989848449,
+  email:"aman@email.com"
+}'
+```
 *DELETE*
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/customer/delete/{id}'
+```
+```json
+"ok"
 ```
 ## Room
 *List*
@@ -232,6 +247,16 @@ curl --request POST --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.c
 *READ*
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/room/{id}'
+```
+*UPDATE*
+```bash
+curl --request PUT --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.com/dev/room/{id}' \
+-d '{
+  "roomNo": "123",
+  "rating": 3,
+  "roomType": "single",
+  "description": "Best",
+}'
 ```
 *DELETE*
 ```bash
@@ -279,6 +304,16 @@ curl --request POST --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.c
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/staff/{id}'
 ```
+*UPDATE*
+```bash
+curl --request PUT --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.com/dev/staff/{id}' \
+-d '{
+  "name": "Ramesh",
+  "job": "Waiter",
+  "number": 1234567890,
+  "salary": "5000",
+}'
+```
 *DELETE*
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/staff/delete/{id}'
@@ -312,6 +347,15 @@ curl --request POST --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.c
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/grocery/{id}'
 ```
+*UPDATE*
+```bash
+curl --request PUT  --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.com/dev/grocery/{id}' \
+-d '{
+  "name": "Flour",
+  "quantity": 50,
+  "unit": "Kg",
+}'
+```
 *DELETE*
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/grocery/delete/{id}'
@@ -344,6 +388,15 @@ curl --request POST --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.c
 *READ*
 ```bash
 curl --request GET --url 'https://w8hvzw7rj7.execute-api.ap-south-1.amazonaws.com/dev/amenity/{id}'
+```
+*UPDATE*
+```bash
+curl --request PUT  --url 'https://0h36d9fv5f.execute-api.ap-south-1.amazonaws.com/dev/amenity/{id}' \
+-d '{
+  "name": "Flour",
+  "quantity": 50,
+  "unit": "Kg",
+}'
 ```
 *DELETE*
 ```bash

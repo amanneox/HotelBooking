@@ -72,6 +72,7 @@ Some components are not shown here.
 1. Notification Support
 2. Mangage Bills
 3. UI Improvements
+4. Multi User Support
 
 # Software Used
 - Atom IDE
