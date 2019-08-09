@@ -1,7 +1,5 @@
-// import config from 'config'
-/* eslint-disable */
 import axios from 'axios'
-import {config} from './config.js'
+import { config } from './config.js'
 export const roomService = {
   create,
   createType,
@@ -13,127 +11,97 @@ export const roomService = {
   delete: _delete
 }
 
-async function getAll(){
-  const requestOptions = {
-    headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-  }
-try {
-  const res = await axios.get(`${config.getUrl}/room/list`)
-//  console.log(res.data)
-  return res.data
-} catch (error) {
+async function getAll () {
+  try {
+    const res = await axios.get(`${config.getUrl}/room/list`)
+    //  console.log(res.data)
+    return res.data
+  } catch (error) {
     return Promise.reject(error)
-}
-}
-async function getRoomTypes() {
-  const requestOptions = {
-    headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
   }
-try {
-  const res = await axios.get(`${config.getUrl}/roomType/list`)
-//  console.log(res.data)
-  return res.data
-} catch (error) {
+}
+async function getRoomTypes () {
+  try {
+    const res = await axios.get(`${config.getUrl}/roomType/list`)
+    //  console.log(res.data)
+    return res.data
+  } catch (error) {
     return Promise.reject(error)
+  }
 }
-}
-async function create(room) {
+async function create (room) {
 //  console.log(room,'@@@')
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-   ...room
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    ...room
   }
-//  console.log(roomType,'@@@')
+  //  console.log(roomType,'@@@')
   try {
     const res = await axios.post(`${config.setUrl}/room`, requestOptions)
-//    console.log(res.data)
+    //    console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
 }
 
-async function createType(roomType){
+async function createType (roomType) {
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-   ...roomType
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    ...roomType
   }
-//  console.log(roomType,'@@@')
+  //  console.log(roomType,'@@@')
   try {
     const res = await axios.post(`${config.setUrl}/roomType`, requestOptions)
-  //  console.log(res.data)
+    //  console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
 }
 
 async function getById (id) {
-//  console.log(id)
-  const requestOptions = {
-    headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-  }
-try {
-  const res = await axios.get(`${config.getUrl}/room/${id}`)
-//  console.log(res.data)
-  return res.data
-} catch (error) {
-    return Promise.reject(error)
-}
-  }
-  async function getByIdType (id) {
-  //  console.log(id)
-    const requestOptions = {
-      headers: {
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Credentials" : true
-     },
-    }
   try {
-    const res = await axios.get(`${config.getUrl}/roomType/${id}`)
-  //  console.log(res.data)
+    const res = await axios.get(`${config.getUrl}/room/${id}`)
+    //  console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
-    }
+}
+async function getByIdType (id) {
+  try {
+    const res = await axios.get(`${config.getUrl}/roomType/${id}`)
+    //  console.log(res.data)
+    return res.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
 async function update (room) {
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-   ...room
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    ...room
   }
-//  console.log(roomType,'@@@')
+  //  console.log(roomType,'@@@')
   try {
     const res = await axios.put(`${config.setUrl}/room/${room._id}`, requestOptions)
-  //  console.log(res.data)
+    //  console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
 }
 
@@ -141,9 +109,9 @@ async function update (room) {
 async function _delete (id) {
   try {
     const res = await axios.get(`${config.getUrl}/room/delete/${id}`)
-  //  console.log(res.data)
+    //  console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
 }

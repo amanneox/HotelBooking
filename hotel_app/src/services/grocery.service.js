@@ -1,7 +1,5 @@
-// import config from 'config'
-/* eslint-disable */
 import axios from 'axios'
-import {config} from './config.js'
+import { config } from './config.js'
 export const groceryService = {
   create,
   getAll,
@@ -10,77 +8,62 @@ export const groceryService = {
   delete: _delete
 }
 
-async function getAll(){
-  const requestOptions = {
-    headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-  }
-try {
-  const res = await axios.get(`${config.getUrl}/grocery/list`)
-//  console.log(res.data)
-  return res.data
-} catch (error) {
+async function getAll () {
+  try {
+    const res = await axios.get(`${config.getUrl}/grocery/list`)
+    //  console.log(res.data)
+    return res.data
+  } catch (error) {
     return Promise.reject(error)
-}
+  }
 }
 
-async function create(grocery) {
+async function create (grocery) {
 //  console.log(grocery,'@@@')
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-   ...grocery
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    ...grocery
   }
-//  console.log(groceryType,'@@@')
+  //  console.log(groceryType,'@@@')
   try {
     const res = await axios.post(`${config.setUrl}/grocery`, requestOptions)
-//    console.log(res.data)
+    //    console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
 }
 
 async function getById (id) {
-//  console.log(id)
-  const requestOptions = {
-    headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-  }
-try {
-  const res = await axios.get(`${config.getUrl}/grocery/${id}`)
-//  console.log(res.data)
-  return res.data
-} catch (error) {
+  try {
+    const res = await axios.get(`${config.getUrl}/grocery/${id}`)
+    //  console.log(res.data)
+    return res.data
+  } catch (error) {
     return Promise.reject(error)
-}
   }
+}
 
 async function update (grocery) {
   const requestOptions = {
     headers: {
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*",
-      "Access-Control-Allow-Credentials" : true
-   },
-   ...grocery
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    ...grocery
   }
-//  console.log(groceryType,'@@@')
+  //  console.log(groceryType,'@@@')
   try {
     const res = await axios.put(`${config.setUrl}/grocery/${grocery._id}`, requestOptions)
-  //  console.log(res.data)
+    //  console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
 }
 
@@ -88,9 +71,9 @@ async function update (grocery) {
 async function _delete (id) {
   try {
     const res = await axios.get(`${config.getUrl}/grocery/delete/${id}`)
-  //  console.log(res.data)
+    //  console.log(res.data)
     return res.data
   } catch (error) {
-      return Promise.reject(error)
+    return Promise.reject(error)
   }
 }

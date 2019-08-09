@@ -1,6 +1,5 @@
-/* eslint-disable */
 import { userService } from '../services'
-import  router  from '../router'
+import router from '../router'
 const user = JSON.parse(localStorage.getItem('user'))
 const state = user
   ? { status: { loggedIn: true }, user }
@@ -14,10 +13,9 @@ const actions = {
       .then(
         user => {
           const loggedIn = JSON.parse(localStorage.getItem('user'))
-          console.log(loggedIn)
           commit('loginSuccess', loggedIn)
           dispatch('alert/success', 'Login successful', { root: true })
-        //  dispatch('profile/insert', loggedIn._doc)
+          //  dispatch('profile/insert', loggedIn._doc)
           router.push('/')
         },
         error => {
@@ -31,15 +29,14 @@ const actions = {
     commit('logout')
     router.push('/')
   },
-   register ({ dispatch, commit }, user) {
+  register ({ dispatch, commit }, user) {
     commit('registerRequest', user)
-      userService.register(user)
+    userService.register(user)
       .then(
         user => {
           commit('registerSuccess', user)
-           router.push('/login')
-           dispatch('alert/success', 'Registration successful', { root: true })
-            console.log('###','dispatched')
+          router.push('/login')
+          dispatch('alert/success', 'Registration successful', { root: true })
         },
         error => {
           commit('registerFailure', error)

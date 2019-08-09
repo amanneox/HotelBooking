@@ -1,11 +1,10 @@
-<!-- eslint-disable -->
 <template lang="html">
   <v-app>
     <v-layout>
       <v-flex class="hidden-sm-and-down" xs12 style="background-color:#f6f5fa">
         <v-container style="margin-top:120px">
           <v-layout style="margin:12px;" align-center justify-center row fill-height>
-            <span class="font-weight-bold display-2 text-capitalize">Welcome abord</span>
+            <span class="font-weight-bold display-2 text-capitalize">Welcome aboard</span>
           </v-layout>
           <v-layout style="margin:12px;" align-center justify-center row fill-height>
             <img width="200px" src="../assets/main.png">
@@ -31,7 +30,7 @@
 
          <v-text-field v-model="user.password" outline v-validate="'required|alpha_num'" type="password" name="password" ref="password" label="Password"></v-text-field>
 
-         <v-text-field v-validate="'required|alpha_num|confirmed:password'" outline type="password" name="confirm-password" label="Repeat Password" data-vv-as="password"></v-text-field>
+         <v-text-field v-validate="'alpha_num|confirmed:password'" outline type="password" name="confirm-password" label="Repeat Password" data-vv-as="password"></v-text-field>
 
          <br>
          <v-btn class="continue" :loading="loading" :disabled="errors.any('signup'),loading"  @click.prevent="$_emitData" color="#5f2a8a"  @click.native="loader = 'loading'">
@@ -85,7 +84,7 @@ watch: {
     //   this.register(this.user)
       this.$validator.validateAll('signup').then((result) => {
       if(!result){
-    //    console.log("error")
+      console.log("error",this.user.password)
         return
       }
       else{

@@ -1,11 +1,10 @@
-<!-- eslint-disable -->
 <template lang="html">
   <v-app>
     <v-layout>
     <v-flex class="hidden-sm-and-down" xs12 style="background-color:#f6f5fa">
         <v-container style="margin-top:120px">
           <v-layout style="margin:12px;" align-center justify-center row fill-height>
-            <span class="font-weight-bold display-2 text-capitalize">Welcome abord</span>
+            <span class="font-weight-bold display-2 text-capitalize">Welcome aboard</span>
           </v-layout>
           <v-layout style="margin:12px;" align-center justify-center row fill-height>
             <img width="200px" src="../assets/main.png">
@@ -21,7 +20,7 @@
       </v-flex>
       <v-flex sm12 md4 style="background-color: white;">
         <v-container style="background-color: white;">
-            <p class="title">Login!</p>  
+            <p class="title">Login!</p>
           <v-card class="elevation-0">
             <v-form data-vv-scope="login">
             <v-container style="background-color: white;">
@@ -38,6 +37,7 @@
            <li class="error-list" style="color:red;" v-for="error in errors.all('login')">{{ error }}</li>
           </v-form>
          </v-card>
+       <p style="color:red" class="">{{alert.message}}</p>
         </v-container>
       </v-flex>
     </v-layout>
@@ -50,6 +50,7 @@ import { mapState, mapActions ,mapGetters} from 'vuex'
 export default {
   computed: {
      ...mapState({account:'account', status:['status'],alert:'alert'}),
+     ...mapState({alert:'alert'})
  },
  mounted(){
     this.$store.dispatch('alert/clear',{ root: true })

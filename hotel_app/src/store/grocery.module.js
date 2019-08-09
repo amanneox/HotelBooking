@@ -1,16 +1,16 @@
-/* eslint-disable*/
+
 import { groceryService } from '../services'
 
 const state = {
   grocerys: {
-    Fetching:'',
-    Fetched:'false',
+    Fetching: '',
+    Fetched: 'false'
   },
-  current:{
-    Fetching:'',
-    Fetched:'false',
+  current: {
+    Fetching: '',
+    Fetched: 'false'
   },
-  msg:''
+  msg: ''
 }
 
 const actions = {
@@ -23,7 +23,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById ({ commit },id) {
+  getById ({ commit }, id) {
     commit('getStaffRequest')
 
     groceryService.getById(id)
@@ -33,22 +33,22 @@ const actions = {
       )
   },
 
-  update({commit},grocery){
+  update ({ commit }, grocery) {
     groceryService.update(grocery).then(
       grocery => groceryService.getAll().then(
-            grocery => commit('getAllSuccess', grocery),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        grocery => commit('getAllSuccess', grocery),
+        error => commit('getAllFailure', error)
+      )
+      // error => console.log(error.toString())
     )
   },
-  create({commit},grocery){
+  create ({ commit }, grocery) {
     groceryService.create(grocery).then(
       grocery => groceryService.getAll().then(
-            grocery => commit('getAllSuccess', grocery),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        grocery => commit('getAllSuccess', grocery),
+        error => commit('getAllFailure', error)
+      )
+    //  error => console.log(error.toString())
     )
   },
   _delete ({ commit }, id) {
@@ -56,12 +56,12 @@ const actions = {
 
     groceryService.delete(id)
       .then(
-        grocery => commit('deleteStaffSuccess',id),
-        error => console.log(error),
+        grocery => commit('deleteStaffSuccess', id)
+        // error => console.log(error)
       )
-  },
+  }
 }
-
+/* eslint-disable*/
 const mutations = {
   getAllRequest (state) {
     state.grocerys.Fetched =  false,

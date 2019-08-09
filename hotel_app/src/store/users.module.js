@@ -1,13 +1,12 @@
-/* eslint-disable*/
 import { userService } from '../services'
 
 const state = {
   all: {},
-  current:{
-    Fetching:'',
-    Fetched:'false',
+  current: {
+    Fetching: '',
+    Fetched: 'false'
   },
-  msg:''
+  msg: ''
 }
 
 const actions = {
@@ -29,44 +28,40 @@ const actions = {
         user => commit('deleteSuccess', id),
         error => commit('deleteSuccess', { id, error: error.toString() })
       )
-
-    function request (id) { return { type: userConstants.DELETE_REQUEST, id } }
-    function success (id) { return { type: userConstants.DELETE_SUCCESS, id } }
-    function failure (id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
   },
-  getById({commit},id){
+  getById ({ commit }, id) {
     commit('getCurrentRequest')
     userService.getById(id).then(
-      user => commit('getCurrentSuccess',user),
-      error => commit('getCurrentFailure',error)
+      user => commit('getCurrentSuccess', user),
+      error => commit('getCurrentFailure', error)
     )
   },
-  update({commit},user){
+  update ({ commit }, user) {
   //  console.log(user)
     userService.update(user).then(
-      user =>commit('updateSuccess',user),
-      error =>commit('updateError',error)
+      user => commit('updateSuccess', user),
+      error => commit('updateError', error)
     )
   }
 
 }
-
+/* eslint-disable*/
 const mutations = {
-  updateSuccess(state,user){
+  updateSuccess (state, user) {
     state.msg = 'Request is successful'
   },
-  updateError(state,error){
-    state.msg  = 'Request Failed'
+  updateError (state, error) {
+    state.msg = 'Request Failed'
   },
   getCurrentSuccess (state, user) {
-    state.current = { data:user },
+    state.current = { data: user },
     state.current.Fetched = true,
     state.current.Fetching = false
   },
   getCurrentFailure (state, error) {
     state.msg = { error }
   },
-  getCurrentRequest(state){
+  getCurrentRequest (state) {
     state.current.Fetching = true
   },
   getAllRequest (state) {

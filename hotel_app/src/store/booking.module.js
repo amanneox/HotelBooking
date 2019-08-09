@@ -1,18 +1,17 @@
-/* eslint-disable*/
 import { bookingService } from '../services'
 
 const state = {
   bookings: {
-    data:{},
-    Fetching:'',
-    Fetched:'false',
+    data: {},
+    Fetching: '',
+    Fetched: 'false'
   },
-  current:{
-    data:{},
-    Fetching:'',
-    Fetched:'false',
+  current: {
+    data: {},
+    Fetching: '',
+    Fetched: 'false'
   },
-  msg:''
+  msg: ''
 }
 
 const actions = {
@@ -26,7 +25,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById_Booking ({ commit },id) {
+  getById_Booking ({ commit }, id) {
     commit('getBookingRequest')
 
     bookingService.getById(id)
@@ -36,30 +35,30 @@ const actions = {
       )
   },
 
-  update({commit},booking){
+  update ({ commit }, booking) {
     bookingService.update(booking).then(
       booking => bookingService.getAll().then(
-            booking => commit('getAllSuccess', booking),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        booking => commit('getAllSuccess', booking),
+        error => commit('getAllFailure', error)
+      )
+      // error => console.log(error.toString())
     )
   },
-  create({commit},booking){
+  create ({ commit }, booking) {
     bookingService.create(booking).then(
       booking => bookingService.getAll().then(
-            booking => commit('getAllSuccess', booking),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        booking => commit('getAllSuccess', booking),
+        error => commit('getAllFailure', error)
+      )
+    //  error => console.log(error.toString())
     ).then(
-      booking.roomList.forEach(function(room){
-        //console.log(room)
+      booking.roomList.forEach(function (room) {
+        // console.log(room)
         bookingService.bookRoom(room).then(
-          room => console.log(room),
-          error => console.log(error)
+        //  room => console.log(room)
+          //      error => console.log(error)
         )
-    })
+      })
     )
   },
   _delete ({ commit }, data) {
@@ -68,37 +67,37 @@ const actions = {
   //  console.log(JSON.stringify(data))
     bookingService.delete(data)
       .then(
-        booking => commit('deleteBookingSuccess', data),
-        error => console.log(error),
+        booking => commit('deleteBookingSuccess', data)
+      //  error => console.log(error)
       ).then(
-        data.roomList.forEach(function(room){
-          //console.log(room)
+        data.roomList.forEach(function (room) {
+          // console.log(room)
           bookingService.unbookRoom(room).then(
-            room => console.log(room),
-            error => console.log(error)
+            //      room => console.log(room),
+            //        error => console.log(error)
           )
-      })
-    )
-  },
+        })
+      )
+  }
 }
-
+/* eslint-disable */
 const mutations = {
   getAllRequest (state) {
-    state.bookings.Fetched =  false,
-    state.bookings.Fetching =  true
+    state.bookings.Fetched = false,
+    state.bookings.Fetching = true
   },
   getBookingRequest (state) {
-    state.current.Fetched =  false,
-    state.current.Fetching =  true
+    state.current.Fetched = false,
+    state.current.Fetching = true
   },
   getAllSuccess (state, booking) {
     state.bookings = { data: booking },
-    state.bookings.Fetched =  true,
+    state.bookings.Fetched = true,
     state.bookings.Fetching = false,
-    state.msg = "Request is successfull."
+    state.msg = 'Request is successfull.'
   },
   getCurrentSuccess (state, booking) {
-    state.current = { data:booking },
+    state.current = { data: booking },
     state.current.Fetched = true,
     state.current.Fetching = false
   },
@@ -110,9 +109,9 @@ const mutations = {
   },
   deleteBookingSuccess (state, data) {
     // remove deleted user from state
-    state.msg = "Room is Deleted.",
+    state.msg = 'Room is Deleted.',
     state.bookings.data = state.bookings.data.filter(booking => booking._id !== data.id)
-  },
+  }
 
 }
 

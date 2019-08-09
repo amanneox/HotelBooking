@@ -1,16 +1,16 @@
-/* eslint-disable*/
+
 import { staffService } from '../services'
 
 const state = {
   staffs: {
-    Fetching:'',
-    Fetched:'false',
+    Fetching: '',
+    Fetched: 'false'
   },
-  current:{
-    Fetching:'',
-    Fetched:'false',
+  current: {
+    Fetching: '',
+    Fetched: 'false'
   },
-  msg:''
+  msg: ''
 }
 
 const actions = {
@@ -23,7 +23,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById ({ commit },id) {
+  getById ({ commit }, id) {
     commit('getStaffRequest')
 
     staffService.getById(id)
@@ -33,22 +33,22 @@ const actions = {
       )
   },
 
-  update({commit},staff){
+  update ({ commit }, staff) {
     staffService.update(staff).then(
       staff => staffService.getAll().then(
-            staff => commit('getAllSuccess', staff),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        staff => commit('getAllSuccess', staff),
+        error => commit('getAllFailure', error)
+      )
+      // error => console.log(error.toString())
     )
   },
-  create({commit},staff){
+  create ({ commit }, staff) {
     staffService.create(staff).then(
       staff => staffService.getAll().then(
-            staff => commit('getAllSuccess', staff),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        staff => commit('getAllSuccess', staff),
+        error => commit('getAllFailure', error)
+      )
+    //  error => console.log(error.toString())
     )
   },
   _delete ({ commit }, id) {
@@ -56,12 +56,12 @@ const actions = {
 
     staffService.delete(id)
       .then(
-        staff => commit('deleteStaffSuccess',id),
-        error => console.log(error),
+        staff => commit('deleteStaffSuccess', id)
+      //  error => console.log(error)
       )
-  },
+  }
 }
-
+/* eslint-disable*/
 const mutations = {
   getAllRequest (state) {
     state.staffs.Fetched =  false,

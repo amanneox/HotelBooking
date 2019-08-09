@@ -1,16 +1,16 @@
-/* eslint-disable*/
+
 import { rentService } from '../services'
 
 const state = {
   rents: {
-    Fetching:'',
-    Fetched:'false',
+    Fetching: '',
+    Fetched: 'false'
   },
-  current:{
-    Fetching:'',
-    Fetched:'false',
+  current: {
+    Fetching: '',
+    Fetched: 'false'
   },
-  msg:''
+  msg: ''
 }
 
 const actions = {
@@ -23,7 +23,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById_Rent ({ commit },id) {
+  getById_Rent ({ commit }, id) {
     commit('getRentRequest')
 
     rentService.getById(id)
@@ -33,19 +33,19 @@ const actions = {
       )
   },
 
-  update({commit},rent){
+  update ({ commit }, rent) {
     rentService.update(rent).then(
       rent => rentService.getAll().then(
-            rent => commit('getAllSuccess', rent),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        rent => commit('getAllSuccess', rent),
+        error => commit('getAllFailure', error)
+      )
+    //  error => console.log(error.toString())
     )
   },
-  create_Rent({commit},rent){
+  create_Rent ({ commit }, rent) {
     rentService.create(rent).then(
-      rent => console.log(rent),
-      error => console.log(error.toString())
+    //  rent => console.log(rent)
+      // error => console.log(error.toString())
     )
   },
   _delete ({ commit }, id) {
@@ -53,12 +53,12 @@ const actions = {
 
     rentService.delete(id)
       .then(
-        rent => commit('deleteRentSuccess',id),
-        error => console.log(error),
+        rent => commit('deleteRentSuccess', id)
+        // error => console.log(error)
       )
-  },
+  }
 }
-
+/* eslint-disable*/
 const mutations = {
   getAllRequest (state) {
     state.rents.Fetched =  false,

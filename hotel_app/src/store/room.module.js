@@ -1,36 +1,36 @@
-/* eslint-disable*/
+
 import { roomService } from '../services'
 
 const state = {
   rooms: {
-    Fetching:'',
-    Fetched:'false',
+    Fetching: '',
+    Fetched: 'false'
   },
-  current:{
-    Fetching:'',
-    Fetched:'false',
+  current: {
+    Fetching: '',
+    Fetched: 'false'
   },
-  types:{
-    Fetching:'',
-    Fetched:'false',
+  types: {
+    Fetching: '',
+    Fetched: 'false'
   },
-  currentType:{
-    data:{
+  currentType: {
+    data: {
 
     },
-    Fetching:'',
-    Fetched:'false',
+    Fetching: '',
+    Fetched: 'false'
   },
-  msg:''
+  msg: ''
 }
 
 const actions = {
-  update_book_room({commit}, roomList){
-    commit('changeBookRooms',roomList)
+  update_book_room ({ commit }, roomList) {
+    commit('changeBookRooms', roomList)
   },
-  update_unbook_room({commit}, roomList){
-//    console.log(roomList,'@@UNBOOK')
-    commit('changeUnbookRooms',roomList)
+  update_unbook_room ({ commit }, roomList) {
+    //    console.log(roomList,'@@UNBOOK')
+    commit('changeUnbookRooms', roomList)
   },
   get_All_Room ({ commit }) {
     commit('getAllRequest')
@@ -41,7 +41,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById_Room ({ commit },id) {
+  getById_Room ({ commit }, id) {
   //  commit('getAllRequest')
   //  console.log(id)
     roomService.getById(id)
@@ -50,7 +50,7 @@ const actions = {
         error => commit('getCurrentFailure', error)
       )
   },
-  getById_RoomType ({ commit },id) {
+  getById_RoomType ({ commit }, id) {
   //  commit('getAllRequest')
   //  console.log(id)
     roomService.getByIdType(id)
@@ -68,7 +68,7 @@ const actions = {
         error => commit('getTypeFailure', error)
       )
   },
-  createType({commit},roomType){
+  createType ({ commit }, roomType) {
     roomService.createType(roomType).then(
       roomService.getRoomTypes()
         .then(
@@ -77,22 +77,22 @@ const actions = {
         )
     )
   },
-  updateRoom({commit},room){
+  updateRoom ({ commit }, room) {
     roomService.update(room).then(
       room => roomService.getAll().then(
-            room => commit('getAllSuccess', room),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        room => commit('getAllSuccess', room),
+        error => commit('getAllFailure', error)
+      )
+      // error => console.log(error.toString())
     )
   },
-  create({commit},room){
+  create ({ commit }, room) {
     roomService.create(room).then(
       room => roomService.getAll().then(
-            room => commit('getAllSuccess', room),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        room => commit('getAllSuccess', room),
+        error => commit('getAllFailure', error)
+      )
+      // error => console.log(error.toString())
     )
   },
   _delete ({ commit }, id) {
@@ -100,12 +100,12 @@ const actions = {
 
     roomService.delete(id)
       .then(
-        room => commit('deleteRoomSuccess',id),
-        error => console.log(error),
+        room => commit('deleteRoomSuccess', id)
+      //  error => console.log(error)
       )
   }
 }
-
+/* eslint-disable*/
 const mutations = {
   getAllRequest (state) {
     state.rooms.Fetched =  false,

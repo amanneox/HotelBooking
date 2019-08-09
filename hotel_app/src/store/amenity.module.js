@@ -1,16 +1,15 @@
-/* eslint-disable*/
 import { amenityService } from '../services'
 
 const state = {
   amenitys: {
-    Fetching:'',
-    Fetched:'false',
+    Fetching: '',
+    Fetched: 'false'
   },
-  current:{
-    Fetching:'',
-    Fetched:'false',
+  current: {
+    Fetching: '',
+    Fetched: 'false'
   },
-  msg:''
+  msg: ''
 }
 
 const actions = {
@@ -23,7 +22,7 @@ const actions = {
         error => commit('getAllFailure', error)
       )
   },
-  getById ({ commit },id) {
+  getById ({ commit }, id) {
     commit('getStaffRequest')
 
     amenityService.getById(id)
@@ -33,22 +32,22 @@ const actions = {
       )
   },
 
-  update({commit},amenity){
+  update ({ commit }, amenity) {
     amenityService.update(amenity).then(
       amenity => amenityService.getAll().then(
-            amenity => commit('getAllSuccess', amenity),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        amenity => commit('getAllSuccess', amenity),
+        error => commit('getAllFailure', error)
+      )
+      //    error => console.log(error.toString())
     )
   },
-  create({commit},amenity){
+  create ({ commit }, amenity) {
     amenityService.create(amenity).then(
       amenity => amenityService.getAll().then(
-            amenity => commit('getAllSuccess', amenity),
-            error => commit('getAllFailure', error)
-          ),
-      error => console.log(error.toString())
+        amenity => commit('getAllSuccess', amenity),
+        error => commit('getAllFailure', error)
+      )
+      //    error => console.log(error.toString())
     )
   },
   _delete ({ commit }, id) {
@@ -56,29 +55,29 @@ const actions = {
 
     amenityService.delete(id)
       .then(
-        amenity => commit('deleteStaffSuccess',id),
-        error => console.log(error),
+        amenity => commit('deleteStaffSuccess', id)
+        //    error => console.log(error)
       )
-  },
+  }
 }
-
+/* eslint-disable */
 const mutations = {
   getAllRequest (state) {
-    state.amenitys.Fetched =  false,
-    state.amenitys.Fetching =  true
+    state.amenitys.Fetched = false,
+    state.amenitys.Fetching = true
   },
   getStaffRequest (state) {
-    state.current.Fetched =  false,
-    state.current.Fetching =  true
+    state.current.Fetched = false,
+    state.current.Fetching = true
   },
   getAllSuccess (state, amenity) {
     state.amenitys = { data: amenity },
-    state.amenitys.Fetched =  true,
+    state.amenitys.Fetched = true,
     state.amenitys.Fetching = false,
-    state.msg = "Request is successfull."
+    state.msg = 'Request is successfull.'
   },
   getCurrentSuccess (state, amenity) {
-    state.current = { data:amenity },
+    state.current = { data: amenity },
     state.current.Fetched = true,
     state.current.Fetching = false
   },
@@ -90,9 +89,9 @@ const mutations = {
   },
   deleteStaffSuccess (state, id) {
     // remove deleted user from state
-    state.msg = "Room is Deleted.",
+    state.msg = 'Room is Deleted.',
     state.amenitys.data = state.amenitys.data.filter(amenity => amenity._id !== id)
-  },
+  }
 
 }
 
