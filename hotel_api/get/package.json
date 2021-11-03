@@ -8,7 +8,7 @@
     "dotenv": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^4.9.6",
-    "validator": "^7.0.0"
+    "validator": "^13.7.0"
   },
   "author": "Aman Adhikari <amanadhikari2@gmail.com>",
   "license": "MIT"
